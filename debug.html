@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>Testing players.json</h1>
+    <div id="output"></div>
+    <script>
+        fetch('players.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data loaded:', data.length, 'players');
+                console.log('First player:', data[0]);
+                
+                const draftCounts = [...new Set(data.map(p => p.total_drafts))].sort((a, b) => a - b);
+                const ownerCounts = [...new Set(data.map(p => p.unique_owners))].sort((a, b) => a - b);
+                const allOwners = [...new Set(data.flatMap(p => Object.keys(p.owners)))].sort();
+                const allTeams = [...new Set(data.map(p => p.team).filter(t => t && t !== 'Unknown'))].sort();
+                
+                document.getElementById('output').innerHTML = `
+                    <h2>Stats:</h2>
+                    <p>Total players: ${data.length}</p>
+                    <p>Draft counts: ${draftCounts.join(', ')}</p>
+                    <p>Owner counts: ${ownerCounts.join(', ')}</p>
+                    <p>Owners: ${allOwners.join(', ')}</p>
+                    <p>Teams: ${allTeams.join(', ')}</p>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('output').innerHTML = 'Error: ' + error;
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
