@@ -838,13 +838,15 @@
 
         // Handle filter clicks
         function handleFilterClick(e) {
-            const type = e.target.dataset.type;
-            const value = e.target.dataset.value;
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+            const type = btn.dataset.type;
+            const value = btn.dataset.value;
 
             // Update active state for this filter type
-            const container = e.target.parentElement;
+            const container = btn.parentElement;
             container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
+            btn.classList.add('active');
 
             // Update filter state and cache parsed values
             if (type === 'drafts') {
@@ -867,14 +869,6 @@
             else if (type === 'championship-wins') currentChampionshipWinsFilter = value;
             else if (type === 'position') currentPositionFilter = value;
 
-            // Update active button styling for championship wins filter
-            if (type === 'championship-wins') {
-                document.querySelectorAll('#championshipWinsFilter .filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                e.target.classList.add('active');
-            }
-
             renderPlayers();
         }
 
@@ -887,6 +881,7 @@
                 container.innerHTML = '<button class="filter-btn active" data-type="owner-draft-count" data-value="all">All</button>';
                 container.innerHTML += '<div style="color: #888; padding: 8px; font-size: 0.9em;">Select an owner to filter by draft count</div>';
                 currentOwnerDraftCountFilter = 'all';
+                cachedOwnerDraftCountValue = null;
             } else {
                 // Get all draft counts for this owner
                 const draftCounts = new Set();
@@ -905,6 +900,7 @@
                 });
                 
                 currentOwnerDraftCountFilter = 'all';
+                cachedOwnerDraftCountValue = null;
             }
             
             // Re-attach event listeners
@@ -1140,6 +1136,7 @@
         // Card flip functionality
         function flipCard(event, triangleElement) {
             event.stopPropagation();
+            if (!triangleElement) return;
             const card = triangleElement.closest('.player-card');
             if (card) {
                 const cardInner = card.querySelector('.player-card-inner');
