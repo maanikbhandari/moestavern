@@ -906,6 +906,14 @@
                         <div class="filters" id="seasonFilters"></div>
                     </div>
                 </div>
+                <div class="filter-section">
+                    <div class="filter-header collapsed" onclick="toggleFilter(this)">
+                        📈 By Trend
+                    </div>
+                    <div class="filter-content collapsed">
+                        <div class="filters" id="trendFilters"></div>
+                    </div>
+                </div>
         </div>
 
         <div class="sort-bar" id="sortBar">
@@ -969,6 +977,7 @@
     let cachedOwnersValue = null;
     let cachedOwnerDraftCountValue = null;
     let currentSeasonFilter = 'all';
+    let currentTrendFilter = 'all';
     let currentSort = 'drafts';
 
         // Normalize team abbreviations for NHL logo API
@@ -1145,6 +1154,21 @@
                 seasonContainer.innerHTML += `<button class="filter-btn" data-type="season" data-value="${season}">${label}</button>`;
             });
 
+            // Trend filters
+            const trendContainer = document.getElementById('trendFilters');
+            const trendOptions = [
+                { value: 'all',      label: 'All' },
+                { value: 'popping',  label: '↑↑ Popping Off' },
+                { value: 'rising',   label: '↑ Rising' },
+                { value: 'even',     label: '→ Even' },
+                { value: 'falling',  label: '↓ Falling' },
+                { value: 'dropping', label: '↓↓ Dropping Off' },
+                { value: 'na',       label: 'N/A' },
+            ];
+            trendContainer.innerHTML = trendOptions.map((o, i) =>
+                `<button class="filter-btn${i === 0 ? ' active' : ''}" data-type="trend" data-value="${o.value}">${o.label}</button>`
+            ).join('');
+
             // Re-attach event listeners for all filter buttons (not just championship wins)
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.removeEventListener('click', handleFilterClick);
@@ -1185,6 +1209,7 @@
             else if (type === 'championship-wins') currentChampionshipWinsFilter = value;
             else if (type === 'position') currentPositionFilter = value;
             else if (type === 'season') currentSeasonFilter = value;
+            else if (type === 'trend') currentTrendFilter = value;
 
             renderPlayers();
         }
@@ -1245,6 +1270,20 @@
                 renderPlayers();
             }, 300);
         });
+
+        // Pick trend utility (shared by filter + card template)
+        function getPickTrend(player) {
+            const seasons = Object.keys(player.draft_history || {}).sort();
+            if (seasons.length < 2) return 'na';
+            const last3 = seasons.slice(-3);
+            const picks = last3.map(s => player.draft_history[s].draft_number);
+            const diff = picks[picks.length - 1] - picks[0];
+            if (diff <= -20) return 'popping';
+            if (diff <= -7)  return 'rising';
+            if (diff < 7)    return 'even';
+            if (diff < 20)   return 'falling';
+            return 'dropping';
+        }
 
         // Render players based on filters
         function renderPlayers() {
@@ -1311,6 +1350,11 @@
                     if (!player.draft_history || !player.draft_history[currentSeasonFilter]) {
                         return false;
                     }
+                }
+
+                // Trend filter
+                if (currentTrendFilter !== 'all') {
+                    if (getPickTrend(player) !== currentTrendFilter) return false;
                 }
 
                 return true;
@@ -1407,17 +1451,17 @@
                 const firstOwner = firstSeason
                     ? (Object.entries(player.owner_years || {}).find(([, yrs]) => yrs.includes(firstSeason))?.[0] || '—')
                     : '—';
-                let trendLabel = 'N/A', trendClass = 'trend-even';
-                if (draftSeasons.length >= 2) {
-                    const last3 = draftSeasons.slice(-3);
-                    const picks = last3.map(s => player.draft_history[s].draft_number);
-                    const diff = picks[picks.length - 1] - picks[0];
-                    if (diff <= -20)     { trendLabel = '↑↑ Popping Off';   trendClass = 'trend-up'; }
-                    else if (diff <= -7) { trendLabel = '↑ Rising';          trendClass = 'trend-up'; }
-                    else if (diff < 7)   { trendLabel = '→ Even';            trendClass = 'trend-even'; }
-                    else if (diff < 20)  { trendLabel = '↓ Falling';         trendClass = 'trend-down'; }
-                    else                 { trendLabel = '↓↓ Dropping Off';  trendClass = 'trend-down'; }
-                }
+                const trendKey = getPickTrend(player);
+                const trendMap = {
+                    popping:  { label: '↑↑ Popping Off',  cls: 'trend-up' },
+                    rising:   { label: '↑ Rising',          cls: 'trend-up' },
+                    even:     { label: '→ Even',            cls: 'trend-even' },
+                    falling:  { label: '↓ Falling',         cls: 'trend-down' },
+                    dropping: { label: '↓↓ Dropping Off', cls: 'trend-down' },
+                    na:       { label: 'N/A',               cls: 'trend-even' },
+                };
+                const trendLabel = trendMap[trendKey].label;
+                const trendClass = trendMap[trendKey].cls;
 
                 const headshot = getPlayerHeadshot(player);
                 const teamLogo = getTeamLogo(player.team);
