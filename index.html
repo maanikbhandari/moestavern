@@ -640,34 +640,55 @@
             letter-spacing: 0.3px;
         }
 
-        .owner-highlights {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .owner-top-lists {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-bottom: 14px;
         }
 
-        .owner-highlight {
+        .owner-top-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .owner-top-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .owner-top-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 13px;
-            gap: 8px;
+            padding: 3px 0;
+            font-size: 12px;
+            border-bottom: 1px solid #e5e7eb;
         }
 
-        .highlight-label {
-            color: #64748b;
+        .owner-top-item:last-child {
+            border-bottom: none;
+        }
+
+        .owner-top-name {
+            color: #1e293b;
             font-weight: 600;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 80%;
         }
 
-        .highlight-value {
-            color: #1e293b;
+        .owner-top-count {
+            color: #7c3aed;
             font-weight: 700;
-            text-align: right;
+            font-size: 11px;
+            flex-shrink: 0;
         }
 
         .owner-seasons {
@@ -737,6 +758,10 @@
 
             .owner-stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .owner-top-lists {
+                grid-template-columns: 1fr;
             }
 
             .owner-grid {
@@ -1454,26 +1479,29 @@
                     if (p.owner_years && p.owner_years[owner]) p.owner_years[owner].forEach(s => seasons.add(s));
                 });
 
-                // Most-drafted player
-                let mostDraftedPlayer = null, maxDrafts = 0;
-                ownedPlayers.forEach(p => {
-                    if ((p.owners[owner] || 0) > maxDrafts) { maxDrafts = p.owners[owner]; mostDraftedPlayer = p; }
-                });
+                // Top 5 most-drafted players
+                const topPlayers = [...ownedPlayers]
+                    .sort((a, b) => (b.owners[owner] || 0) - (a.owners[owner] || 0))
+                    .slice(0, 5)
+                    .map(p => ({ name: p.name, count: p.owners[owner] || 0 }));
 
-                // Favourite position (weighted by picks)
-                const posCount = {};
+                // Top 5 teams by draft picks (team at time of each draft)
+                const teamCount = {};
                 ownedPlayers.forEach(p => {
-                    if (p.position) {
-                        const w = p.owners[owner] || 1;
-                        p.position.forEach(pos => { posCount[pos] = (posCount[pos] || 0) + w; });
-                    }
+                    const draftedSeasons = (p.owner_years && p.owner_years[owner]) || [];
+                    draftedSeasons.forEach(season => {
+                        const team = p.draft_history && p.draft_history[season] && p.draft_history[season].team;
+                        if (team) teamCount[team] = (teamCount[team] || 0) + 1;
+                    });
                 });
-                const favPos = Object.entries(posCount).sort((a, b) => b[1] - a[1])[0];
+                const topTeams = Object.entries(teamCount)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5);
 
                 return {
                     owner, totalPicks, uniquePlayers: ownedPlayers.length,
                     champWins: champSeasons.size, seasons: [...seasons].sort(),
-                    mostDraftedPlayer, maxDrafts, favPos: favPos ? favPos[0] : '—'
+                    topPlayers, topTeams
                 };
             });
 
@@ -1509,14 +1537,22 @@
                             <div class="owner-stat-label">Seasons</div>
                         </div>
                     </div>
-                    <div class="owner-highlights">
-                        <div class="owner-highlight">
-                            <span class="highlight-label">Fav Position</span>
-                            <span class="highlight-value">${s.favPos}</span>
+                    <div class="owner-top-lists">
+                        <div class="owner-top-section">
+                            <div class="owner-top-label">Top Players</div>
+                            ${s.topPlayers.map(p => `
+                            <div class="owner-top-item">
+                                <span class="owner-top-name">${p.name}</span>
+                                <span class="owner-top-count">${p.count}×</span>
+                            </div>`).join('')}
                         </div>
-                        <div class="owner-highlight">
-                            <span class="highlight-label">Most Drafted Player</span>
-                            <span class="highlight-value">${s.mostDraftedPlayer ? `${s.mostDraftedPlayer.name} (${s.maxDrafts}×)` : '—'}</span>
+                        <div class="owner-top-section">
+                            <div class="owner-top-label">Top Teams Drafted</div>
+                            ${s.topTeams.map(([team, count]) => `
+                            <div class="owner-top-item">
+                                <span class="owner-top-name">${team}</span>
+                                <span class="owner-top-count">${count}×</span>
+                            </div>`).join('')}
                         </div>
                     </div>
                     <div class="owner-seasons">${seasonBubbles}</div>
