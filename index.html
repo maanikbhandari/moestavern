@@ -184,24 +184,10 @@
             border-radius: 12px;
             cursor: pointer;
             position: relative;
-            perspective: 1000px;
         }
 
-        .player-card-inner {
-            position: relative;
+        .player-card-body {
             width: 100%;
-            transition: transform 0.6s, height 0.3s ease;
-            transform-style: preserve-3d;
-        }
-
-        .player-card.flipped .player-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .player-card-front,
-        .player-card-back {
-            width: 100%;
-            backface-visibility: hidden;
             border-radius: 12px;
             padding: 20px;
             background: white;
@@ -212,21 +198,20 @@
             min-height: 180px;
         }
 
-        .player-card-front {
-            padding-bottom: 25px;
-        }
-
-        .player-card:hover .player-card-front,
-        .player-card:hover .player-card-back {
+        .player-card:hover .player-card-body {
             box-shadow: 0 12px 24px rgba(0,0,0,0.2);
         }
 
-        .player-card-back {
-            transform: rotateY(180deg);
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+        .championship-section {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, max-height 0.4s ease;
+        }
+
+        .player-card.expanded .championship-section {
+            max-height: 800px;
+            opacity: 1;
         }
 
         .championship-triangle {
@@ -327,14 +312,16 @@
             font-size: 16px;
             font-weight: 700;
             color: #1e293b;
+            margin-top: 12px;
             margin-bottom: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .championship-list {
-            flex: 1;
             overflow-y: auto;
         }
 
@@ -357,15 +344,6 @@
             font-size: 12px;
             color: #64748b;
             margin-bottom: 2px;
-        }
-
-        .flip-instruction {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            font-size: 10px;
-            color: #94a3b8;
-            font-style: italic;
         }
 
         .modal {
@@ -1055,69 +1033,52 @@
                     `).join('');
                 }
 
+                const headshot = getPlayerHeadshot(player);
+                const teamLogo = getTeamLogo(player.team);
                 return `
                 <div class="player-card" data-index="${index}">
-                    ${player.championship_wins ? '<div class="championship-triangle" onclick="flipCard(event, this)"></div>' : ''}
-                    <div class="player-card-inner">
-                        <div class="player-card-front" onclick="showModalByIndex(${index})">
-                            <div class="player-header">
-                                ${player.player_id || player.name === 'Will Smith' ? 
-                                    `<img src="${getPlayerHeadshot(player)}" 
-                                         class="player-headshot" 
-                                         alt="${player.name}"
-                                         loading="lazy"
-                                         onerror="this.style.display='none'">` 
-                                    : ''}
-                                <div class="player-info">
-                                    <div class="player-name">${player.name}</div>
-                                    <div class="player-team">
-                                        ${getTeamLogo(player.team) ? 
-                                            `<img src="${getTeamLogo(player.team)}" class="team-logo" alt="${player.team}" loading="lazy">` 
-                                            : ''}
-                                        ${player.team || 'Unknown'}
-                                        ${player.position && player.position.length > 0 ? `<span style="margin-left:8px;color:#7c3aed;font-weight:600;font-size:12px;">(${player.position.join(', ')})</span>` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="player-stats">
-                                <div class="stat-item">
-                                    <span class="stat-label">Drafts</span>
-                                    <span class="stat-value">${player.total_drafts}</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">Owners</span>
-                                    <span class="stat-value">${player.unique_owners}</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">Wins</span>
-                                    <span class="stat-value">${player.championship_wins ? player.championship_wins : 0}</span>
+                    ${player.championship_wins ? '<div class="championship-triangle" onclick="toggleChampionship(event, this)"></div>' : ''}
+                    <div class="player-card-body" onclick="showModalByIndex(${index})">
+                        <div class="player-header">
+                            ${player.player_id || player.name === 'Will Smith' ? 
+                                `<img src="${headshot}" 
+                                     class="player-headshot" 
+                                     alt="${player.name}"
+                                     loading="lazy"
+                                     onerror="this.style.display='none'">` 
+                                : ''}
+                            <div class="player-info">
+                                <div class="player-name">${player.name}</div>
+                                <div class="player-team">
+                                    ${teamLogo ? 
+                                        `<img src="${teamLogo}" class="team-logo" alt="${player.team}" loading="lazy">` 
+                                        : ''}
+                                    ${player.team || 'Unknown'}
+                                    ${player.position && player.position.length > 0 ? `<span style="margin-left:8px;color:#7c3aed;font-weight:600;font-size:12px;">(${player.position.join(', ')})</span>` : ''}
                                 </div>
                             </div>
                         </div>
-                        <div class="player-card-back" onclick="flipCard(event, this.parentElement.parentElement.querySelector('.championship-triangle'))">
-                            <div class="player-header">
-                                ${player.player_id || player.name === 'Will Smith' ? 
-                                    `<img src="${getPlayerHeadshot(player)}" 
-                                         class="player-headshot" 
-                                         alt="${player.name}"
-                                         loading="lazy"
-                                         onerror="this.style.display='none'">` 
-                                    : ''}
-                                <div class="player-info">
-                                    <div class="player-name">${player.name}</div>
-                                    <div class="player-team">
-                                        ${getTeamLogo(player.team) ? 
-                                            `<img src="${getTeamLogo(player.team)}" class="team-logo" alt="${player.team}" loading="lazy">` 
-                                            : ''}
-                                        ${player.team || 'Unknown'}
-                                    </div>
-                                </div>
+                        <div class="player-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Drafts</span>
+                                <span class="stat-value">${player.total_drafts}</span>
                             </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Owners</span>
+                                <span class="stat-value">${player.unique_owners}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Wins</span>
+                                <span class="stat-value">${player.championship_wins || 0}</span>
+                            </div>
+                        </div>
+                        ${player.championship_wins ? `
+                        <div class="championship-section" onclick="event.stopPropagation()">
                             <div class="championship-back-title">🏆 Championship Wins</div>
                             <div class="championship-list">
-                                ${championshipHTML || '<div class="championship-detail">No championships yet</div>'}
+                                ${championshipHTML}
                             </div>
-                        </div>
+                        </div>` : ''}
                     </div>
                 </div>
             `;
@@ -1133,49 +1094,12 @@
             grid.appendChild(fragment);
         }
 
-        // Card flip functionality
-        function flipCard(event, triangleElement) {
+        // Championship section toggle
+        function toggleChampionship(event, triangleElement) {
             event.stopPropagation();
-            if (!triangleElement) return;
             const card = triangleElement.closest('.player-card');
             if (card) {
-                const cardInner = card.querySelector('.player-card-inner');
-                const isFlipping = !card.classList.contains('flipped');
-                
-                if (isFlipping) {
-                    // Flipping to back - get current front height, then switch
-                    const frontSide = card.querySelector('.player-card-front');
-                    const currentHeight = frontSide.offsetHeight;
-                    
-                    // Set the card height to current before flip
-                    cardInner.style.height = currentHeight + 'px';
-                    
-                    card.classList.add('flipped');
-                    
-                    // After flip, measure back and animate to that height
-                    setTimeout(() => {
-                        const backSide = card.querySelector('.player-card-back');
-                        if (backSide) {
-                            const backHeight = backSide.scrollHeight;
-                            cardInner.style.height = backHeight + 'px';
-                        }
-                    }, 300);
-                } else {
-                    // Flipping back to front
-                    card.classList.remove('flipped');
-                    
-                    // After flip, measure front and set height
-                    setTimeout(() => {
-                        const frontSide = card.querySelector('.player-card-front');
-                        if (frontSide) {
-                            cardInner.style.height = frontSide.offsetHeight + 'px';
-                            // Remove inline height after transition to allow natural sizing
-                            setTimeout(() => {
-                                cardInner.style.height = '';
-                            }, 300);
-                        }
-                    }, 300);
-                }
+                card.classList.toggle('expanded');
             }
         }
 
