@@ -1394,6 +1394,10 @@
                                 <span class="stat-label">Wins</span>
                                 <span class="stat-value">${player.championship_wins || 0}</span>
                             </div>
+                            ${currentSort === 'pick' ? `<div class="stat-item">
+                                <span class="stat-label">Avg Pick</span>
+                                <span class="stat-value">${avgPick(player).toFixed(1)}</span>
+                            </div>` : ''}
                         </div>
                         ${player.championship_wins ? `
                         <div class="championship-section" onclick="event.stopPropagation()">
