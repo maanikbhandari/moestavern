@@ -275,6 +275,7 @@
         .trend-up { color: #16a34a; }
         .trend-down { color: #dc2626; }
         .trend-even { color: #64748b; }
+        .trend-inactive { color: #94a3b8; font-style: italic; }
 
         .player-header {
             display: flex;
@@ -1163,6 +1164,7 @@
                 { value: 'even',     label: '→ Even' },
                 { value: 'falling',  label: '↓ Falling' },
                 { value: 'dropping', label: '↓↓ Dropping Off' },
+                { value: 'inactive', label: 'Out of League' },
                 { value: 'na',       label: 'N/A' },
             ];
             trendContainer.innerHTML = trendOptions.map((o, i) =>
@@ -1274,6 +1276,10 @@
         // Pick trend utility (shared by filter + card template)
         function getPickTrend(player) {
             const seasons = Object.keys(player.draft_history || {}).sort();
+            // Inactive: not drafted in any of the last 3 league seasons
+            const allLeagueSeasons = [...new Set(allPlayers.flatMap(p => Object.keys(p.draft_history || {})))].sort();
+            const last3League = allLeagueSeasons.slice(-3);
+            if (!last3League.some(s => player.draft_history?.[s])) return 'inactive';
             if (seasons.length < 2) return 'na';
             const last3 = seasons.slice(-3);
             const picks = last3.map(s => player.draft_history[s].draft_number);
@@ -1459,6 +1465,7 @@
                     falling:  { label: '↓ Falling',         cls: 'trend-down' },
                     dropping: { label: '↓↓ Dropping Off', cls: 'trend-down' },
                     na:       { label: 'N/A',               cls: 'trend-even' },
+                    inactive: { label: 'Out of League',    cls: 'trend-inactive' },
                 };
                 const trendLabel = trendMap[trendKey].label;
                 const trendClass = trendMap[trendKey].cls;
