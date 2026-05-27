@@ -495,6 +495,215 @@
             border-radius: 12px;
         }
 
+        /* Tab navigation */
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #1e3a8a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Sort bar */
+        .sort-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .sort-label {
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 2px;
+        }
+
+        .sort-btn {
+            padding: 7px 14px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            background: transparent;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sort-btn:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.7);
+        }
+
+        .sort-btn.active {
+            background: white;
+            color: #7c3aed;
+            border-color: white;
+        }
+
+        /* Owner dashboard */
+        .owner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .owner-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
+        }
+
+        .owner-card:hover {
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        .owner-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .owner-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .owner-champ-badge {
+            background: linear-gradient(135deg, #ffd700, #f59e0b);
+            color: #7c2d12;
+            font-weight: 800;
+            font-size: 13px;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .owner-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .owner-stat {
+            text-align: center;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 12px 6px;
+        }
+
+        .owner-stat-value {
+            font-size: 22px;
+            font-weight: 800;
+            color: #7c3aed;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .owner-stat-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .owner-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .owner-highlight {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            gap: 8px;
+        }
+
+        .highlight-label {
+            color: #64748b;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .highlight-value {
+            color: #1e293b;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .owner-seasons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+
+        .season-bubble {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        .owner-filter-btn {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #7c3aed;
+            border-radius: 8px;
+            background: transparent;
+            color: #7c3aed;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .owner-filter-btn:hover {
+            background: #7c3aed;
+            color: white;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -511,6 +720,28 @@
             .filter-btn {
                 width: 100%;
             }
+
+            .tab-btn {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+
+            .sort-bar {
+                gap: 6px;
+            }
+
+            .sort-btn {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .owner-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .owner-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -525,6 +756,13 @@
             <h1>Moe's Tavern</h1>
             <div class="subtitle">Welcome to Moe's Tavern.</div>
         </header>
+
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="players" onclick="switchTab('players')">🏒 Players</button>
+            <button class="tab-btn" data-tab="owners" onclick="switchTab('owners')">👤 Owner Stats</button>
+        </div>
+
+        <div id="playersSection">
 
         <div class="controls">
             <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search for a player...">
@@ -594,6 +832,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="filter-section">
+                    <div class="filter-header collapsed" onclick="toggleFilter(this)">
+                        📅 By Season
+                    </div>
+                    <div class="filter-content collapsed">
+                        <div class="filters" id="seasonFilters"></div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="sort-bar" id="sortBar">
+            <span class="sort-label">Sort:</span>
+            <button class="sort-btn active" data-sort="drafts">Most Drafted</button>
+            <button class="sort-btn" data-sort="name">A → Z</button>
+            <button class="sort-btn" data-sort="wins">Most Wins</button>
+            <button class="sort-btn" data-sort="owners">Most Owners</button>
+            <button class="sort-btn" data-sort="pick">Earliest Avg Pick</button>
         </div>
 
         <div class="stats" id="statsDisplay"></div>
@@ -605,7 +860,12 @@
         <div class="no-results" id="noResults" style="display: none;">
             No players found matching your criteria.
         </div>
-    </div>
+        </div><!-- end playersSection -->
+
+        <div id="ownersSection" style="display: none;">
+            <div class="owner-grid" id="ownerDashboard"></div>
+        </div>
+    </div><!-- end container -->
 
     <div class="modal" id="modal">
         <div class="modal-content">
@@ -642,6 +902,8 @@
     let cachedDraftsValue = 2;
     let cachedOwnersValue = null;
     let cachedOwnerDraftCountValue = null;
+    let currentSeasonFilter = 'all';
+    let currentSort = 'drafts';
 
         // Normalize team abbreviations for NHL logo API
         const teamLogoMap = {
@@ -735,6 +997,7 @@
                 document.getElementById('loading').style.display = 'none';
                 generateFilters();
                 renderPlayers();
+                renderOwnerDashboard();
             })
             .catch(error => {
                 document.getElementById('loading').textContent = 'Error loading player data.';
@@ -807,6 +1070,15 @@
                 winsFilterDiv.appendChild(btn);
             });
 
+            // Season filters
+            const allSeasons = [...new Set(allPlayers.flatMap(p => p.draft_history ? Object.keys(p.draft_history) : []))].sort();
+            const seasonContainer = document.getElementById('seasonFilters');
+            seasonContainer.innerHTML = '<button class="filter-btn active" data-type="season" data-value="all">All Seasons</button>';
+            allSeasons.forEach(season => {
+                const label = season.slice(2,4) + '-' + season.slice(6,8);
+                seasonContainer.innerHTML += `<button class="filter-btn" data-type="season" data-value="${season}">${label}</button>`;
+            });
+
             // Re-attach event listeners for all filter buttons (not just championship wins)
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.removeEventListener('click', handleFilterClick);
@@ -846,6 +1118,7 @@
             else if (type === 'team') currentTeamFilter = value;
             else if (type === 'championship-wins') currentChampionshipWinsFilter = value;
             else if (type === 'position') currentPositionFilter = value;
+            else if (type === 'season') currentSeasonFilter = value;
 
             renderPlayers();
         }
@@ -886,6 +1159,16 @@
                 btn.addEventListener('click', handleFilterClick);
             });
         }
+
+        // Sort bar
+        document.getElementById('sortBar').addEventListener('click', e => {
+            const btn = e.target.closest('.sort-btn');
+            if (!btn) return;
+            document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentSort = btn.dataset.sort;
+            renderPlayers();
+        });
 
         // Search box with debouncing
         let searchTimeout;
@@ -957,6 +1240,13 @@
                     }
                 }
 
+                // Season filter
+                if (currentSeasonFilter !== 'all') {
+                    if (!player.draft_history || !player.draft_history[currentSeasonFilter]) {
+                        return false;
+                    }
+                }
+
                 return true;
             });
 
@@ -973,8 +1263,16 @@
             grid.style.display = 'grid';
             noResults.style.display = 'none';
 
-            // Sort by drafts descending
-            filtered.sort((a, b) => b.total_drafts - a.total_drafts);
+            // Dynamic sort
+            const avgPick = p => {
+                const picks = Object.values(p.draft_history || {}).map(d => d.draft_number);
+                return picks.length ? picks.reduce((a, b) => a + b, 0) / picks.length : 999;
+            };
+            if (currentSort === 'drafts') filtered.sort((a, b) => b.total_drafts - a.total_drafts);
+            else if (currentSort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
+            else if (currentSort === 'wins') filtered.sort((a, b) => (b.championship_wins || 0) - (a.championship_wins || 0));
+            else if (currentSort === 'owners') filtered.sort((a, b) => b.unique_owners - a.unique_owners);
+            else if (currentSort === 'pick') filtered.sort((a, b) => avgPick(a) - avgPick(b));
 
             // Store filtered results for modal access
             filteredPlayers = filtered;
@@ -1101,6 +1399,130 @@
             if (card) {
                 card.classList.toggle('expanded');
             }
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tab);
+            });
+            document.getElementById('playersSection').style.display = tab === 'players' ? '' : 'none';
+            document.getElementById('ownersSection').style.display = tab === 'owners' ? '' : 'none';
+        }
+
+        // Filter to a specific owner from the dashboard
+        function filterByOwner(owner) {
+            switchTab('players');
+            currentOwnerFilter = owner;
+            cachedOwnerDraftCountValue = null;
+            updateOwnerDraftCountFilters(owner);
+            document.querySelectorAll('#ownerFilters .filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.value === owner);
+            });
+            // Expand the owner filter section if collapsed
+            const ownerContent = document.getElementById('ownerFilters').closest('.filter-section').querySelector('.filter-content');
+            const ownerHeader = document.getElementById('ownerFilters').closest('.filter-section').querySelector('.filter-header');
+            if (ownerContent.classList.contains('collapsed')) {
+                ownerContent.classList.remove('collapsed');
+                ownerHeader.classList.remove('collapsed');
+            }
+            renderPlayers();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Owner stats dashboard
+        function renderOwnerDashboard() {
+            const allOwners = [...new Set(allPlayers.flatMap(p => Object.keys(p.owners)))].sort();
+
+            const ownerStats = allOwners.map(owner => {
+                const ownedPlayers = allPlayers.filter(p => p.owners[owner]);
+                const totalPicks = ownedPlayers.reduce((sum, p) => sum + (p.owners[owner] || 0), 0);
+
+                // Championship wins = unique seasons this owner won
+                const champSeasons = new Set();
+                allPlayers.forEach(p => {
+                    if (p.championship_owner && p.championship_season) {
+                        p.championship_owner.forEach((o, i) => {
+                            if (o === owner && p.championship_season[i]) champSeasons.add(p.championship_season[i]);
+                        });
+                    }
+                });
+
+                // Active seasons
+                const seasons = new Set();
+                ownedPlayers.forEach(p => {
+                    if (p.owner_years && p.owner_years[owner]) p.owner_years[owner].forEach(s => seasons.add(s));
+                });
+
+                // Most-drafted player
+                let mostDraftedPlayer = null, maxDrafts = 0;
+                ownedPlayers.forEach(p => {
+                    if ((p.owners[owner] || 0) > maxDrafts) { maxDrafts = p.owners[owner]; mostDraftedPlayer = p; }
+                });
+
+                // Favourite position (weighted by picks)
+                const posCount = {};
+                ownedPlayers.forEach(p => {
+                    if (p.position) {
+                        const w = p.owners[owner] || 1;
+                        p.position.forEach(pos => { posCount[pos] = (posCount[pos] || 0) + w; });
+                    }
+                });
+                const favPos = Object.entries(posCount).sort((a, b) => b[1] - a[1])[0];
+
+                return {
+                    owner, totalPicks, uniquePlayers: ownedPlayers.length,
+                    champWins: champSeasons.size, seasons: [...seasons].sort(),
+                    mostDraftedPlayer, maxDrafts, favPos: favPos ? favPos[0] : '—'
+                };
+            });
+
+            // Sort by champ wins desc, then total picks desc
+            ownerStats.sort((a, b) => b.champWins - a.champWins || b.totalPicks - a.totalPicks);
+
+            document.getElementById('ownerDashboard').innerHTML = ownerStats.map(s => {
+                const seasonBubbles = s.seasons.map(season =>
+                    `<span class="season-bubble">${season.slice(2,4)}-${season.slice(6,8)}</span>`
+                ).join('');
+                const firstName = s.owner.split(' ')[0];
+                return `
+                <div class="owner-card">
+                    <div class="owner-card-header">
+                        <div class="owner-name">${s.owner}</div>
+                        ${s.champWins > 0 ? `<div class="owner-champ-badge">🏆 ${s.champWins} Win${s.champWins > 1 ? 's' : ''}</div>` : ''}
+                    </div>
+                    <div class="owner-stats-grid">
+                        <div class="owner-stat">
+                            <div class="owner-stat-value">${s.totalPicks}</div>
+                            <div class="owner-stat-label">Total Picks</div>
+                        </div>
+                        <div class="owner-stat">
+                            <div class="owner-stat-value">${s.uniquePlayers}</div>
+                            <div class="owner-stat-label">Unique Players</div>
+                        </div>
+                        <div class="owner-stat">
+                            <div class="owner-stat-value">${s.champWins}</div>
+                            <div class="owner-stat-label">Champ Wins</div>
+                        </div>
+                        <div class="owner-stat">
+                            <div class="owner-stat-value">${s.seasons.length}</div>
+                            <div class="owner-stat-label">Seasons</div>
+                        </div>
+                    </div>
+                    <div class="owner-highlights">
+                        <div class="owner-highlight">
+                            <span class="highlight-label">Fav Position</span>
+                            <span class="highlight-value">${s.favPos}</span>
+                        </div>
+                        <div class="owner-highlight">
+                            <span class="highlight-label">Most Drafted Player</span>
+                            <span class="highlight-value">${s.mostDraftedPlayer ? `${s.mostDraftedPlayer.name} (${s.maxDrafts}×)` : '—'}</span>
+                        </div>
+                    </div>
+                    <div class="owner-seasons">${seasonBubbles}</div>
+                    <button class="owner-filter-btn" onclick="filterByOwner('${s.owner}')">View ${firstName}'s Players →</button>
+                </div>`;
+            }).join('');
         }
 
         // Modal functionality
