@@ -234,7 +234,13 @@
         }
 
         .expand-triangle:hover {
-            filter: brightness(1.2);
+            filter: brightness(0.85);
+        }
+
+        .expand-divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 10px 0 12px;
         }
 
         .draft-detail-row {
@@ -351,8 +357,6 @@
             color: #1e293b;
             margin-top: 12px;
             margin-bottom: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #e5e7eb;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1339,6 +1343,9 @@
             // Store filtered results for modal access
             filteredPlayers = filtered;
 
+            // All league seasons (for trend calculation)
+            const allLeagueSeasons = [...new Set(allPlayers.flatMap(p => Object.keys(p.draft_history || {})))].sort();
+
             // Use DocumentFragment for better performance
             const fragment = document.createDocumentFragment();
             const tempDiv = document.createElement('div');
@@ -1400,19 +1407,16 @@
                 const firstOwner = firstSeason
                     ? (Object.entries(player.owner_years || {}).find(([, yrs]) => yrs.includes(firstSeason))?.[0] || '—')
                     : '—';
-                let trendLabel = '→ Even', trendClass = 'trend-even';
+                let trendLabel = 'N/A', trendClass = 'trend-even';
                 if (draftSeasons.length >= 2) {
-                    const picks = draftSeasons.map(s => player.draft_history[s].draft_number);
-                    const mid = Math.floor(picks.length / 2);
-                    if (mid > 0) {
-                        const firstAvg = picks.slice(0, mid).reduce((a, b) => a + b, 0) / mid;
-                        const lastAvg = picks.slice(picks.length - mid).reduce((a, b) => a + b, 0) / mid;
-                        const diff = lastAvg - firstAvg;
-                        if (diff < -5) { trendLabel = '↑ Rising'; trendClass = 'trend-up'; }
-                        else if (diff > 5) { trendLabel = '↓ Falling'; trendClass = 'trend-down'; }
-                    }
-                } else {
-                    trendLabel = '—';
+                    const last3 = draftSeasons.slice(-3);
+                    const picks = last3.map(s => player.draft_history[s].draft_number);
+                    const diff = picks[picks.length - 1] - picks[0];
+                    if (diff <= -20)     { trendLabel = '↑↑ Really Rising';  trendClass = 'trend-up'; }
+                    else if (diff <= -7) { trendLabel = '↑ Rising';          trendClass = 'trend-up'; }
+                    else if (diff < 7)   { trendLabel = '→ Even';            trendClass = 'trend-even'; }
+                    else if (diff < 20)  { trendLabel = '↓ Falling';         trendClass = 'trend-down'; }
+                    else                 { trendLabel = '↓↓ Really Falling'; trendClass = 'trend-down'; }
                 }
 
                 const headshot = getPlayerHeadshot(player);
@@ -1459,6 +1463,7 @@
                             </div>` : ''}
                         </div>
                         <div class="championship-section" onclick="event.stopPropagation()">
+                            <div class="expand-divider"></div>
                             <div class="draft-detail-row">
                                 <span class="draft-detail-label">First Drafted</span>
                                 <span class="draft-detail-value">${firstSeasonFmt} · ${firstOwner}</span>
@@ -1567,10 +1572,18 @@
                     .sort((a, b) => b[1] - a[1])
                     .slice(0, 5);
 
+                // Discoveries: players this owner was first to draft in the league
+                let discoveries = 0;
+                ownedPlayers.forEach(p => {
+                    const allDraftSeasons = Object.keys(p.draft_history || {}).sort();
+                    if (allDraftSeasons.length === 0) return;
+                    if ((p.owner_years?.[owner] || []).includes(allDraftSeasons[0])) discoveries++;
+                });
+
                 return {
                     owner, totalPicks, uniquePlayers: ownedPlayers.length,
                     champWins: champSeasons.size, seasons: [...seasons].sort(),
-                    topPlayers, topTeams
+                    topPlayers, topTeams, discoveries
                 };
             });
 
@@ -1598,8 +1611,8 @@
                             <div class="owner-stat-label">Unique Players</div>
                         </div>
                         <div class="owner-stat">
-                            <div class="owner-stat-value">${s.champWins}</div>
-                            <div class="owner-stat-label">Champ Wins</div>
+                            <div class="owner-stat-value">${s.discoveries}</div>
+                            <div class="owner-stat-label">Discoveries</div>
                         </div>
                         <div class="owner-stat">
                             <div class="owner-stat-value">${s.seasons.length}</div>
