@@ -214,7 +214,7 @@
             opacity: 1;
         }
 
-        .championship-triangle {
+        .expand-triangle {
             position: absolute;
             top: 0;
             right: 0;
@@ -223,15 +223,52 @@
             border-top-right-radius: 12px;
             border-style: solid;
             border-width: 0 60px 60px 0;
-            border-color: transparent #ffd700 transparent transparent;
+            border-color: transparent #cbd5e1 transparent transparent;
             z-index: 10;
             cursor: pointer;
             transition: filter 0.3s;
         }
 
-        .championship-triangle:hover {
+        .expand-triangle.champ {
+            border-color: transparent #ffd700 transparent transparent;
+        }
+
+        .expand-triangle:hover {
             filter: brightness(1.2);
         }
+
+        .draft-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 6px 0;
+            border-bottom: 1px solid #e5e7eb;
+            gap: 8px;
+        }
+
+        .draft-detail-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .draft-detail-label {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            flex-shrink: 0;
+        }
+
+        .draft-detail-value {
+            color: #1e293b;
+            font-weight: 700;
+            text-align: right;
+            font-size: 13px;
+        }
+
+        .trend-up { color: #16a34a; }
+        .trend-down { color: #dc2626; }
+        .trend-even { color: #64748b; }
 
         .player-header {
             display: flex;
@@ -1356,11 +1393,33 @@
                     `).join('');
                 }
 
+                // Draft history extras
+                const draftSeasons = Object.keys(player.draft_history || {}).sort();
+                const firstSeason = draftSeasons[0];
+                const firstSeasonFmt = firstSeason ? `${firstSeason.slice(2,4)}-${firstSeason.slice(6,8)}` : '—';
+                const firstOwner = firstSeason
+                    ? (Object.entries(player.owner_years || {}).find(([, yrs]) => yrs.includes(firstSeason))?.[0] || '—')
+                    : '—';
+                let trendLabel = '→ Even', trendClass = 'trend-even';
+                if (draftSeasons.length >= 2) {
+                    const picks = draftSeasons.map(s => player.draft_history[s].draft_number);
+                    const mid = Math.floor(picks.length / 2);
+                    if (mid > 0) {
+                        const firstAvg = picks.slice(0, mid).reduce((a, b) => a + b, 0) / mid;
+                        const lastAvg = picks.slice(picks.length - mid).reduce((a, b) => a + b, 0) / mid;
+                        const diff = lastAvg - firstAvg;
+                        if (diff < -5) { trendLabel = '↑ Rising'; trendClass = 'trend-up'; }
+                        else if (diff > 5) { trendLabel = '↓ Falling'; trendClass = 'trend-down'; }
+                    }
+                } else {
+                    trendLabel = '—';
+                }
+
                 const headshot = getPlayerHeadshot(player);
                 const teamLogo = getTeamLogo(player.team);
                 return `
                 <div class="player-card" data-index="${index}">
-                    ${player.championship_wins ? '<div class="championship-triangle" onclick="toggleChampionship(event, this)"></div>' : ''}
+                    <div class="expand-triangle${player.championship_wins ? ' champ' : ''}" onclick="toggleExpand(event, this)"></div>
                     <div class="player-card-body" onclick="showModalByIndex(${index})">
                         <div class="player-header">
                             ${player.player_id || player.name === 'Will Smith' ? 
@@ -1399,13 +1458,19 @@
                                 <span class="stat-value">${avgPick(player).toFixed(1)}</span>
                             </div>` : ''}
                         </div>
-                        ${player.championship_wins ? `
                         <div class="championship-section" onclick="event.stopPropagation()">
-                            <div class="championship-back-title">🏆 Championship Wins</div>
-                            <div class="championship-list">
-                                ${championshipHTML}
+                            <div class="draft-detail-row">
+                                <span class="draft-detail-label">First Drafted</span>
+                                <span class="draft-detail-value">${firstSeasonFmt} · ${firstOwner}</span>
                             </div>
-                        </div>` : ''}
+                            <div class="draft-detail-row">
+                                <span class="draft-detail-label">Pick Trend</span>
+                                <span class="draft-detail-value ${trendClass}">${trendLabel}</span>
+                            </div>
+                            ${player.championship_wins ? `
+                            <div class="championship-back-title">🏆 Championship Wins</div>
+                            <div class="championship-list">${championshipHTML}</div>` : ''}
+                        </div>
                     </div>
                 </div>
             `;
@@ -1421,8 +1486,8 @@
             grid.appendChild(fragment);
         }
 
-        // Championship section toggle
-        function toggleChampionship(event, triangleElement) {
+        // Card expand toggle
+        function toggleExpand(event, triangleElement) {
             event.stopPropagation();
             const card = triangleElement.closest('.player-card');
             if (card) {
