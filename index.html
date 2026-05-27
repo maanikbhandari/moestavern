@@ -240,7 +240,7 @@
         .expand-divider {
             height: 1px;
             background: #e5e7eb;
-            margin: 10px 0 12px;
+            margin: 20px 0 18px;
         }
 
         .draft-detail-row {
@@ -355,7 +355,7 @@
             font-size: 16px;
             font-weight: 700;
             color: #1e293b;
-            margin-top: 12px;
+            margin-top: 22px;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -1412,11 +1412,11 @@
                     const last3 = draftSeasons.slice(-3);
                     const picks = last3.map(s => player.draft_history[s].draft_number);
                     const diff = picks[picks.length - 1] - picks[0];
-                    if (diff <= -20)     { trendLabel = '↑↑ Really Rising';  trendClass = 'trend-up'; }
+                    if (diff <= -20)     { trendLabel = '↑↑ Popping Off';   trendClass = 'trend-up'; }
                     else if (diff <= -7) { trendLabel = '↑ Rising';          trendClass = 'trend-up'; }
                     else if (diff < 7)   { trendLabel = '→ Even';            trendClass = 'trend-even'; }
                     else if (diff < 20)  { trendLabel = '↓ Falling';         trendClass = 'trend-down'; }
-                    else                 { trendLabel = '↓↓ Really Falling'; trendClass = 'trend-down'; }
+                    else                 { trendLabel = '↓↓ Dropping Off';  trendClass = 'trend-down'; }
                 }
 
                 const headshot = getPlayerHeadshot(player);
