@@ -1275,14 +1275,13 @@
 
         // Pick trend utility (shared by filter + card template)
         function getPickTrend(player) {
-            const seasons = Object.keys(player.draft_history || {}).sort();
-            // Inactive: not drafted in any of the last 3 league seasons
             const allLeagueSeasons = [...new Set(allPlayers.flatMap(p => Object.keys(p.draft_history || {})))].sort();
             const last3League = allLeagueSeasons.slice(-3);
+            // Inactive: not drafted in any of the last 3 league seasons
             if (!last3League.some(s => player.draft_history?.[s])) return 'inactive';
-            if (seasons.length < 2) return 'na';
-            const last3 = seasons.slice(-3);
-            const picks = last3.map(s => player.draft_history[s].draft_number);
+            if (last3League.length < 2) return 'na';
+            // Map last 3 league seasons to picks; treat undrafted seasons as pick 200
+            const picks = last3League.map(s => player.draft_history?.[s]?.draft_number ?? 200);
             const diff = picks[picks.length - 1] - picks[0];
             if (diff <= -20) return 'popping';
             if (diff <= -7)  return 'rising';
