@@ -1164,7 +1164,7 @@
                 { value: 'even',     label: '→ Even' },
                 { value: 'falling',  label: '↓ Falling' },
                 { value: 'dropping', label: '↓↓ Dropping Off' },
-                { value: 'inactive', label: 'Out of League' },
+                { value: 'inactive', label: 'Inactive' },
                 { value: 'na',       label: 'N/A' },
             ];
             trendContainer.innerHTML = trendOptions.map((o, i) =>
@@ -1464,7 +1464,7 @@
                     falling:  { label: '↓ Falling',         cls: 'trend-down' },
                     dropping: { label: '↓↓ Dropping Off', cls: 'trend-down' },
                     na:       { label: 'N/A',               cls: 'trend-even' },
-                    inactive: { label: 'Out of League',    cls: 'trend-inactive' },
+                    inactive: { label: 'Inactive',         cls: 'trend-inactive' },
                 };
                 const trendLabel = trendMap[trendKey].label;
                 const trendClass = trendMap[trendKey].cls;
