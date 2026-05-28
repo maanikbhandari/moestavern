@@ -1288,11 +1288,11 @@
             const undraftedPick = Math.max(...allPlayers.flatMap(p => Object.values(p.draft_history || {}).map(d => d.draft_number))) + 1;
             // Map last 3 league seasons to picks; treat undrafted seasons as undraftedPick
             const picks = last3League.map(s => player.draft_history?.[s]?.draft_number ?? undraftedPick);
-            const diff = picks[picks.length - 1] - picks[0];
-            if (diff <= -30) return 'popping';
+            const diff = picks[2] - (picks[0] + picks[1]) / 2;
+            if (diff <= -28) return 'popping';
             if (diff <= -7)  return 'rising';
             if (diff < 7)    return 'even';
-            if (diff < 30)   return 'falling';
+            if (diff < 28)   return 'falling';
             return 'dropping';
         }
 
