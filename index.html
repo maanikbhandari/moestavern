@@ -1279,6 +1279,10 @@
             const last3League = allLeagueSeasons.slice(-3);
             // Inactive: not drafted in any of the last 3 league seasons
             if (!last3League.some(s => player.draft_history?.[s])) return 'inactive';
+            // N/A: first-ever draft was this season (no prior history to trend against)
+            const playerDraftSeasons = Object.keys(player.draft_history || {});
+            const mostRecentLeagueSeason = allLeagueSeasons[allLeagueSeasons.length - 1];
+            if (playerDraftSeasons.length === 1 && playerDraftSeasons[0] === mostRecentLeagueSeason) return 'na';
             if (last3League.length < 2) return 'na';
             // Undrafted placeholder = total picks in league + 1 (dynamic)
             const undraftedPick = Math.max(...allPlayers.flatMap(p => Object.values(p.draft_history || {}).map(d => d.draft_number))) + 1;
