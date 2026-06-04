@@ -281,7 +281,7 @@
         .tier-starter { color: #16a34a; }
         .tier-roster  { color: #2563eb; }
         .tier-depth   { color: #ea580c; }
-        .tier-lottery { color: #94a3b8; font-style: italic; }
+        .tier-lottery { color: #be185d; }
 
         .draft-history-header {
             color: #94a3b8;
@@ -289,13 +289,12 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.4px;
-            padding: 10px 0 6px;
+            padding: 10px 0 4px;
         }
 
         .draft-history-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
+            display: flex;
+            flex-direction: column;
             padding-bottom: 10px;
             border-bottom: 1px solid #e5e7eb;
         }
@@ -304,7 +303,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 3px 8px 3px 0;
+            padding: 4px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .draft-history-entry:last-child {
+            border-bottom: none;
         }
 
         .draft-history-season {
