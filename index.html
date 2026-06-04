@@ -277,11 +277,11 @@
         .trend-even { color: #64748b; }
         .trend-inactive { color: #94a3b8; font-style: italic; }
 
-        .tier-elite   { color: #b45309; font-weight: 800; }
-        .tier-starter { color: #16a34a; }
-        .tier-roster  { color: #2563eb; }
+        .tier-elite   { color: #16a34a; }
+        .tier-starter { color: #65a30d; }
+        .tier-roster  { color: #ca8a04; }
         .tier-depth   { color: #ea580c; }
-        .tier-lottery { color: #be185d; }
+        .tier-lottery { color: #dc2626; }
 
         .draft-history-header {
             color: #94a3b8;
@@ -1355,10 +1355,10 @@
             if (picks.length === 0) return { label: '—', cls: '' };
             const avg = picks.reduce((a, b) => a + b, 0) / picks.length;
             if (avg <= 21)  return { label: 'Elite',   cls: 'tier-elite' };
-            if (avg <= 56)  return { label: 'Starter', cls: 'tier-starter' };
-            if (avg <= 105) return { label: 'Roster',  cls: 'tier-roster' };
+            if (avg <= 56)  return { label: 'Great', cls: 'tier-starter' };
+            if (avg <= 105) return { label: 'Average',  cls: 'tier-roster' };
             if (avg <= 140) return { label: 'Depth',   cls: 'tier-depth' };
-            return              { label: 'Lottery', cls: 'tier-lottery' };
+            return              { label: 'Fringe', cls: 'tier-lottery' };
         }
 
         // Render players based on filters
