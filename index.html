@@ -1284,6 +1284,10 @@
             const mostRecentLeagueSeason = allLeagueSeasons[allLeagueSeasons.length - 1];
             if (playerDraftSeasons.length === 1 && playerDraftSeasons[0] === mostRecentLeagueSeason) return 'na';
             if (last3League.length < 2) return 'na';
+            // N/A: player's first-ever draft was within the last 2 league seasons
+            // (they were not eligible to be drafted in last3League[0], so the 162 placeholder is misleading)
+            const earliestPlayerSeason = playerDraftSeasons.slice().sort()[0];
+            if (earliestPlayerSeason >= last3League[1]) return 'na';
             // Undrafted placeholder = total picks in league + 1 (dynamic)
             const undraftedPick = Math.max(...allPlayers.flatMap(p => Object.values(p.draft_history || {}).map(d => d.draft_number))) + 1;
             // Map last 3 league seasons to picks; treat undrafted seasons as undraftedPick
