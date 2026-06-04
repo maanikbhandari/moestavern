@@ -210,7 +210,7 @@
         }
 
         .player-card.expanded .championship-section {
-            max-height: 800px;
+            max-height: 1400px;
             opacity: 1;
         }
 
@@ -276,6 +276,53 @@
         .trend-down { color: #dc2626; }
         .trend-even { color: #64748b; }
         .trend-inactive { color: #94a3b8; font-style: italic; }
+
+        .tier-elite   { color: #b45309; font-weight: 800; }
+        .tier-starter { color: #16a34a; }
+        .tier-roster  { color: #2563eb; }
+        .tier-depth   { color: #ea580c; }
+        .tier-lottery { color: #94a3b8; font-style: italic; }
+
+        .draft-history-header {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            padding: 10px 0 6px;
+        }
+
+        .draft-history-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .draft-history-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 8px 3px 0;
+        }
+
+        .draft-history-season {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .draft-history-pick {
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .draft-history-none {
+            color: #cbd5e1;
+            font-size: 12px;
+        }
 
         .player-header {
             display: flex;
@@ -1299,6 +1346,17 @@
             return 'dropping';
         }
 
+        function getAdpTier(player) {
+            const picks = Object.values(player.draft_history || {}).map(d => d.draft_number).filter(n => n != null);
+            if (picks.length === 0) return { label: '—', cls: '' };
+            const avg = picks.reduce((a, b) => a + b, 0) / picks.length;
+            if (avg <= 21)  return { label: 'Elite',   cls: 'tier-elite' };
+            if (avg <= 56)  return { label: 'Starter', cls: 'tier-starter' };
+            if (avg <= 105) return { label: 'Roster',  cls: 'tier-roster' };
+            if (avg <= 140) return { label: 'Depth',   cls: 'tier-depth' };
+            return              { label: 'Lottery', cls: 'tier-lottery' };
+        }
+
         // Render players based on filters
         function renderPlayers() {
             const grid = document.getElementById('playerGrid');
@@ -1466,6 +1524,15 @@
                     ? (Object.entries(player.owner_years || {}).find(([, yrs]) => yrs.includes(firstSeason))?.[0] || '—')
                     : '—';
                 const trendKey = getPickTrend(player);
+                const adpTier = getAdpTier(player);
+                const draftHistoryHTML = allLeagueSeasons.map(s => {
+                    const pick = player.draft_history?.[s]?.draft_number;
+                    const seasonFmt = `${s.slice(2,4)}-${s.slice(6,8)}`;
+                    return `<div class="draft-history-entry">
+                        <span class="draft-history-season">${seasonFmt}</span>
+                        <span class="${pick ? 'draft-history-pick' : 'draft-history-none'}">${pick ? '#' + pick : '—'}</span>
+                    </div>`;
+                }).join('');
                 const trendMap = {
                     popping:  { label: '↑↑ Popping Off',  cls: 'trend-up' },
                     rising:   { label: '↑ Rising',          cls: 'trend-up' },
@@ -1528,9 +1595,15 @@
                                 <span class="draft-detail-value">${firstSeasonFmt} · ${firstOwner}</span>
                             </div>
                             <div class="draft-detail-row">
+                                <span class="draft-detail-label">ADP Tier</span>
+                                <span class="draft-detail-value ${adpTier.cls}">${adpTier.label}</span>
+                            </div>
+                            <div class="draft-detail-row">
                                 <span class="draft-detail-label">Pick Trend</span>
                                 <span class="draft-detail-value ${trendClass}">${trendLabel}</span>
                             </div>
+                            <div class="draft-history-header">Draft History</div>
+                            <div class="draft-history-grid">${draftHistoryHTML}</div>
                             ${player.championship_wins ? `
                             <div class="championship-back-title">🏆 Championship Wins</div>
                             <div class="championship-list">${championshipHTML}</div>` : ''}
