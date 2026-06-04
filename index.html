@@ -966,6 +966,24 @@
                         <div class="filters" id="trendFilters"></div>
                     </div>
                 </div>
+                <div class="filter-section">
+                    <div class="filter-header collapsed" onclick="toggleFilter(this)">
+                        🎯 By ADP Tier
+                    </div>
+                    <div class="filter-content collapsed">
+                        <div class="filters" id="adpTierFilters"></div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-header collapsed" onclick="toggleFilter(this)">
+                        🔢 By Draft Position
+                    </div>
+                    <div class="filter-content collapsed">
+                        <div style="padding: 15px;">
+                            <input type="number" id="pickFilterInput" min="1" max="161" placeholder="Enter pick # (e.g. 2)" style="width: 100%; padding: 10px; font-size: 15px; border: 2px solid #e5e7eb; border-radius: 8px; transition: border-color 0.3s;" onfocus="this.style.borderColor='#7c3aed'" onblur="this.style.borderColor='#e5e7eb'">
+                        </div>
+                    </div>
+                </div>
         </div>
 
         <div class="sort-bar" id="sortBar">
@@ -1030,6 +1048,8 @@
     let cachedOwnerDraftCountValue = null;
     let currentSeasonFilter = 'all';
     let currentTrendFilter = 'all';
+    let currentAdpTierFilter = 'all';
+    let currentPickFilter = '';
     let currentSort = 'drafts';
 
         // Normalize team abbreviations for NHL logo API
@@ -1222,6 +1242,20 @@
                 `<button class="filter-btn${i === 0 ? ' active' : ''}" data-type="trend" data-value="${o.value}">${o.label}</button>`
             ).join('');
 
+            // ADP Tier filters
+            const adpTierContainer = document.getElementById('adpTierFilters');
+            const adpTierOptions = [
+                { value: 'all',     label: 'All' },
+                { value: 'elite',   label: 'Elite' },
+                { value: 'starter', label: 'Great' },
+                { value: 'roster',  label: 'Average' },
+                { value: 'depth',   label: 'Depth' },
+                { value: 'lottery', label: 'Fringe' },
+            ];
+            adpTierContainer.innerHTML = adpTierOptions.map((o, i) =>
+                `<button class="filter-btn${i === 0 ? ' active' : ''}" data-type="adp-tier" data-value="${o.value}">${o.label}</button>`
+            ).join('');
+
             // Re-attach event listeners for all filter buttons (not just championship wins)
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.removeEventListener('click', handleFilterClick);
@@ -1263,6 +1297,7 @@
             else if (type === 'position') currentPositionFilter = value;
             else if (type === 'season') currentSeasonFilter = value;
             else if (type === 'trend') currentTrendFilter = value;
+            else if (type === 'adp-tier') currentAdpTierFilter = value;
 
             renderPlayers();
         }
@@ -1324,6 +1359,16 @@
             }, 300);
         });
 
+        // Draft position filter with debouncing
+        let pickFilterTimeout;
+        document.getElementById('pickFilterInput').addEventListener('input', (e) => {
+            clearTimeout(pickFilterTimeout);
+            pickFilterTimeout = setTimeout(() => {
+                currentPickFilter = e.target.value.trim();
+                renderPlayers();
+            }, 300);
+        });
+
         // Pick trend utility (shared by filter + card template)
         function getPickTrend(player) {
             const allLeagueSeasons = [...new Set(allPlayers.flatMap(p => Object.keys(p.draft_history || {})))].sort();
@@ -1352,13 +1397,13 @@
 
         function getAdpTier(player) {
             const picks = Object.values(player.draft_history || {}).map(d => d.draft_number).filter(n => n != null);
-            if (picks.length === 0) return { label: '—', cls: '' };
+            if (picks.length === 0) return { key: '',        label: '—',       cls: '' };
             const avg = picks.reduce((a, b) => a + b, 0) / picks.length;
-            if (avg <= 21)  return { label: 'Elite',   cls: 'tier-elite' };
-            if (avg <= 56)  return { label: 'Great', cls: 'tier-starter' };
-            if (avg <= 105) return { label: 'Average',  cls: 'tier-roster' };
-            if (avg <= 140) return { label: 'Depth',   cls: 'tier-depth' };
-            return              { label: 'Fringe', cls: 'tier-lottery' };
+            if (avg <= 21)  return { key: 'elite',   label: 'Elite',   cls: 'tier-elite' };
+            if (avg <= 56)  return { key: 'starter', label: 'Great',   cls: 'tier-starter' };
+            if (avg <= 105) return { key: 'roster',  label: 'Average', cls: 'tier-roster' };
+            if (avg <= 140) return { key: 'depth',   label: 'Depth',   cls: 'tier-depth' };
+            return              { key: 'lottery', label: 'Fringe',  cls: 'tier-lottery' };
         }
 
         // Render players based on filters
@@ -1431,6 +1476,22 @@
                 // Trend filter
                 if (currentTrendFilter !== 'all') {
                     if (getPickTrend(player) !== currentTrendFilter) return false;
+                }
+
+                // ADP tier filter
+                if (currentAdpTierFilter !== 'all') {
+                    if (getAdpTier(player).key !== currentAdpTierFilter) return false;
+                }
+
+                // Draft position filter
+                if (currentPickFilter !== '') {
+                    const pickNum = parseInt(currentPickFilter);
+                    if (!isNaN(pickNum)) {
+                        const seasonsToSearch = currentSeasonFilter !== 'all'
+                            ? [currentSeasonFilter]
+                            : Object.keys(player.draft_history || {});
+                        if (!seasonsToSearch.some(s => player.draft_history?.[s]?.draft_number === pickNum)) return false;
+                    }
                 }
 
                 return true;
@@ -1587,10 +1648,10 @@
                                 <span class="stat-label">Wins</span>
                                 <span class="stat-value">${player.championship_wins || 0}</span>
                             </div>
-                            ${currentSort === 'pick' ? `<div class="stat-item">
+                            <div class="stat-item">
                                 <span class="stat-label">Avg Pick</span>
                                 <span class="stat-value">${avgPick(player).toFixed(1)}</span>
-                            </div>` : ''}
+                            </div>
                         </div>
                         <div class="championship-section" onclick="event.stopPropagation()">
                             <div class="expand-divider"></div>
