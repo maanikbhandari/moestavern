@@ -818,6 +818,108 @@
             color: white;
         }
 
+        /* Tiers & Trends tab */
+        .tiers-dashboard {
+            padding: 8px 0 40px;
+        }
+
+        .tiers-section-header {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .tiers-section-desc {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .tier-breakdown-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: box-shadow 0.3s;
+        }
+
+        .tier-breakdown-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.14);
+        }
+
+        .tier-bd-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+
+        .tier-bd-label {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .tier-bd-count {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .tier-bd-meta {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .tier-bd-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tier-bd-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            padding: 4px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .tier-bd-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .tier-bd-name {
+            color: #1e293b;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 75%;
+        }
+
+        .tier-bd-avg, .tier-bd-drafts {
+            color: #7c3aed;
+            font-weight: 700;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .tier-bd-more {
+            font-size: 11px;
+            color: #94a3b8;
+            text-align: center;
+            padding-top: 4px;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -878,6 +980,7 @@
         <div class="tab-nav">
             <button class="tab-btn active" data-tab="players" onclick="switchTab('players')">🏒 Players</button>
             <button class="tab-btn" data-tab="owners" onclick="switchTab('owners')">👤 Owner Stats</button>
+            <button class="tab-btn" data-tab="tiers" onclick="switchTab('tiers')">📊 Tiers & Trends</button>
         </div>
 
         <div id="playersSection">
@@ -1008,6 +1111,10 @@
 
         <div id="ownersSection" style="display: none;">
             <div class="owner-grid" id="ownerDashboard"></div>
+        </div>
+
+        <div id="tiersSection" style="display: none;">
+            <div class="tiers-dashboard" id="tiersDashboard"></div>
         </div>
     </div><!-- end container -->
 
@@ -1145,6 +1252,7 @@
                 generateFilters();
                 renderPlayers();
                 renderOwnerDashboard();
+                renderTiersDashboard();
             })
             .catch(error => {
                 document.getElementById('loading').textContent = 'Error loading player data.';
@@ -1704,6 +1812,7 @@
             });
             document.getElementById('playersSection').style.display = tab === 'players' ? '' : 'none';
             document.getElementById('ownersSection').style.display = tab === 'owners' ? '' : 'none';
+            document.getElementById('tiersSection').style.display = tab === 'tiers' ? '' : 'none';
         }
 
         // Filter to a specific owner from the dashboard
@@ -1838,6 +1947,115 @@
                     <button class="owner-filter-btn" onclick="filterByOwner('${s.owner}')">View ${firstName}'s Players →</button>
                 </div>`;
             }).join('');
+        }
+
+        // Tiers & Trends dashboard
+        function renderTiersDashboard() {
+            const tiersConfig = [
+                { key: 'elite',   label: 'Elite',   cls: 'tier-elite',   color: '#16a34a', rounds: 'Rounds 1–4',   desc: 'Avg pick ≤ 28' },
+                { key: 'starter', label: 'Great',   cls: 'tier-starter', color: '#65a30d', rounds: 'Rounds 5–9',   desc: 'Avg pick 29–63' },
+                { key: 'roster',  label: 'Average', cls: 'tier-roster',  color: '#ca8a04', rounds: 'Rounds 10–14', desc: 'Avg pick 64–98' },
+                { key: 'depth',   label: 'Depth',   cls: 'tier-depth',   color: '#ea580c', rounds: 'Rounds 15–19', desc: 'Avg pick 99–133' },
+                { key: 'lottery', label: 'Fringe',  cls: 'tier-lottery', color: '#dc2626', rounds: 'Rounds 20–23', desc: 'Avg pick > 133' },
+            ];
+
+            const trendsConfig = [
+                { key: 'popping',  label: '↑↑ Popping Off',  color: '#16a34a', desc: 'Draft position improved 28+ spots' },
+                { key: 'rising',   label: '↑ Rising',         color: '#4ade80', desc: 'Draft position improved 7–27 spots' },
+                { key: 'even',     label: '→ Even',           color: '#64748b', desc: 'Pick within 6 spots of prior season' },
+                { key: 'falling',  label: '↓ Falling',        color: '#ea580c', desc: 'Draft position dropped 7–27 spots' },
+                { key: 'dropping', label: '↓↓ Dropping Off',  color: '#dc2626', desc: 'Draft position dropped 28+ spots' },
+                { key: 'na',       label: 'N/A',              color: '#94a3b8', desc: 'Only drafted in current season' },
+                { key: 'inactive', label: 'Inactive',         color: '#cbd5e1', desc: 'Not drafted in last 3 league seasons' },
+            ];
+
+            // Bucket players by tier
+            const tierPlayers = {};
+            tiersConfig.forEach(t => tierPlayers[t.key] = []);
+            allPlayers.forEach(p => {
+                const tier = getAdpTier(p);
+                if (tier.key && tierPlayers[tier.key] !== undefined) tierPlayers[tier.key].push(p);
+            });
+
+            // Bucket players by trend
+            const trendPlayers = {};
+            trendsConfig.forEach(t => trendPlayers[t.key] = []);
+            allPlayers.forEach(p => {
+                const trend = getPickTrend(p);
+                if (trendPlayers[trend] !== undefined) trendPlayers[trend].push(p);
+            });
+
+            // Sort tier lists by avg pick ascending
+            tiersConfig.forEach(t => {
+                tierPlayers[t.key].sort((a, b) => {
+                    const avg = p => {
+                        const picks = Object.values(p.draft_history || {}).map(d => d.draft_number).filter(n => n != null);
+                        return picks.length ? picks.reduce((s, v) => s + v, 0) / picks.length : 999;
+                    };
+                    return avg(a) - avg(b);
+                });
+            });
+
+            // Sort trend lists by total drafts descending
+            trendsConfig.forEach(t => {
+                trendPlayers[t.key].sort((a, b) => b.total_drafts - a.total_drafts);
+            });
+
+            const avgPick = p => {
+                const picks = Object.values(p.draft_history || {}).map(d => d.draft_number).filter(n => n != null);
+                return picks.length ? (picks.reduce((s, v) => s + v, 0) / picks.length).toFixed(1) : '—';
+            };
+
+            const tierHTML = tiersConfig.map(t => {
+                const players = tierPlayers[t.key];
+                const top = players.slice(0, 5);
+                return `
+                <div class="tier-breakdown-card" style="border-top: 4px solid ${t.color}">
+                    <div class="tier-bd-header">
+                        <span class="tier-bd-label ${t.cls}">${t.label}</span>
+                        <span class="tier-bd-count">${players.length} players</span>
+                    </div>
+                    <div class="tier-bd-meta">${t.desc} · ${t.rounds}</div>
+                    <div class="tier-bd-list">
+                        ${top.map(p => `
+                        <div class="tier-bd-item">
+                            <span class="tier-bd-name">${p.name}</span>
+                            <span class="tier-bd-avg">avg #${avgPick(p)}</span>
+                        </div>`).join('')}
+                        ${players.length > 5 ? `<div class="tier-bd-more">+${players.length - 5} more</div>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+
+            const trendHTML = trendsConfig.map(t => {
+                const players = trendPlayers[t.key];
+                const top = players.slice(0, 5);
+                return `
+                <div class="tier-breakdown-card" style="border-top: 4px solid ${t.color}">
+                    <div class="tier-bd-header">
+                        <span class="tier-bd-label" style="color: ${t.color}">${t.label}</span>
+                        <span class="tier-bd-count">${players.length} players</span>
+                    </div>
+                    <div class="tier-bd-meta">${t.desc}</div>
+                    <div class="tier-bd-list">
+                        ${top.map(p => `
+                        <div class="tier-bd-item">
+                            <span class="tier-bd-name">${p.name}</span>
+                            <span class="tier-bd-drafts">${p.total_drafts}×</span>
+                        </div>`).join('')}
+                        ${players.length > 5 ? `<div class="tier-bd-more">+${players.length - 5} more</div>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+
+            document.getElementById('tiersDashboard').innerHTML = `
+                <div class="tiers-section-header">🎯 ADP Tiers</div>
+                <div class="tiers-section-desc">Each player's average draft pick across all their drafted seasons determines their tier.</div>
+                <div class="tier-grid">${tierHTML}</div>
+                <div class="tiers-section-header" style="margin-top: 32px">📈 Pick Trends</div>
+                <div class="tiers-section-desc">Based on pick number change from the earliest to the most recent of the last 3 league seasons (players drafted only in the last 2 seasons use a 2-point comparison).</div>
+                <div class="tier-grid">${trendHTML}</div>
+            `;
         }
 
         // Modal functionality
