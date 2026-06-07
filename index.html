@@ -2062,7 +2062,7 @@
                 <div class="tiers-section-desc">Each player's average draft pick across all their drafted seasons determines their tier.</div>
                 <div class="tier-grid">${tierHTML}</div>
                 <div class="tiers-section-header" style="margin-top: 32px">📈 Pick Trends</div>
-                <div class="tiers-section-desc">Score = this season's pick# minus a reference pick#. For veterans the reference is the oldest of the last 3 seasons; for players first drafted within the last 2 seasons the reference is last season. If the player wasn't drafted in the reference season, pick #162 (one past the end of the draft) is used. Negative score = drafted earlier = rising.</div>
+                <div class="tiers-section-desc">Measures how much a player's draft position moved across the last 3 seasons — from the start of the window to this season. Players only around for the last 2 seasons use a shorter window. Not being drafted in the opening season counts as pick #162. Higher pick number = drafted later = falling.</div>
                 <div class="tier-grid">${trendHTML}</div>
             `;
         }
