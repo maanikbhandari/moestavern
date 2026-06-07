@@ -1960,13 +1960,13 @@
             ];
 
             const trendsConfig = [
-                { key: 'popping',  label: '↑↑ Popping Off',  color: '#16a34a', desc: 'Picked 28+ spots earlier this season vs. 2 seasons ago' },
-                { key: 'rising',   label: '↑ Rising',         color: '#4ade80', desc: 'Picked 7–27 spots earlier this season vs. 2 seasons ago' },
-                { key: 'even',     label: '→ Even',           color: '#64748b', desc: 'Within 6 spots of their pick from 2 seasons ago' },
-                { key: 'falling',  label: '↓ Falling',        color: '#ea580c', desc: 'Picked 7–27 spots later this season vs. 2 seasons ago' },
-                { key: 'dropping', label: '↓↓ Dropping Off',  color: '#dc2626', desc: 'Picked 28+ spots later this season vs. 2 seasons ago' },
-                { key: 'na',       label: 'N/A',              color: '#94a3b8', desc: 'Only drafted in the most recent season — no prior season to compare' },
-                { key: 'inactive', label: 'Inactive',         color: '#cbd5e1', desc: 'Not drafted in any of the last 3 league seasons' },
+                { key: 'popping',  label: '↑↑ Popping Off',  color: '#16a34a', desc: '≥28 spots earlier' },
+                { key: 'rising',   label: '↑ Rising',         color: '#4ade80', desc: '7–27 spots earlier' },
+                { key: 'even',     label: '→ Even',           color: '#64748b', desc: 'Within ±6 spots' },
+                { key: 'falling',  label: '↓ Falling',        color: '#ea580c', desc: '7–27 spots later' },
+                { key: 'dropping', label: '↓↓ Dropping Off',  color: '#dc2626', desc: '≥28 spots later' },
+                { key: 'na',       label: 'N/A',              color: '#94a3b8', desc: 'Only drafted this season' },
+                { key: 'inactive', label: 'Inactive',         color: '#cbd5e1', desc: 'Not drafted in last 3 seasons' },
             ];
 
             // Bucket players by tier
@@ -2001,6 +2001,16 @@
                 trendPlayers[t.key].sort((a, b) => b.total_drafts - a.total_drafts);
             });
 
+            // Fisher-Yates shuffle for display variety
+            const shuffle = arr => {
+                const a = [...arr];
+                for (let i = a.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [a[i], a[j]] = [a[j], a[i]];
+                }
+                return a;
+            };
+
             const avgPick = p => {
                 const picks = Object.values(p.draft_history || {}).map(d => d.draft_number).filter(n => n != null);
                 return picks.length ? (picks.reduce((s, v) => s + v, 0) / picks.length).toFixed(1) : '—';
@@ -2008,7 +2018,7 @@
 
             const tierHTML = tiersConfig.map(t => {
                 const players = tierPlayers[t.key];
-                const top = players.slice(0, 5);
+                const top = shuffle(players).slice(0, 5);
                 return `
                 <div class="tier-breakdown-card" style="border-top: 4px solid ${t.color}">
                     <div class="tier-bd-header">
@@ -2029,7 +2039,7 @@
 
             const trendHTML = trendsConfig.map(t => {
                 const players = trendPlayers[t.key];
-                const top = players.slice(0, 5);
+                const top = shuffle(players).slice(0, 5);
                 return `
                 <div class="tier-breakdown-card" style="border-top: 4px solid ${t.color}">
                     <div class="tier-bd-header">
@@ -2052,7 +2062,7 @@
                 <div class="tiers-section-desc">Each player's average draft pick across all their drafted seasons determines their tier.</div>
                 <div class="tier-grid">${tierHTML}</div>
                 <div class="tiers-section-header" style="margin-top: 32px">📈 Pick Trends</div>
-                <div class="tiers-section-desc">Compares each player's current-season pick number to their pick from 2 seasons ago. Players first drafted last season are compared to that season instead. A lower pick number means drafted earlier = rising.</div>
+                <div class="tiers-section-desc">Score = this season's pick# minus a reference pick#. For veterans the reference is the oldest of the last 3 seasons; for players first drafted within the last 2 seasons the reference is last season. If the player wasn't drafted in the reference season, pick #162 (one past the end of the draft) is used. Negative score = drafted earlier = rising.</div>
                 <div class="tier-grid">${trendHTML}</div>
             `;
         }
