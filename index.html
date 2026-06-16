@@ -2066,7 +2066,7 @@
 
         // Risers/Fallers expand toggle
         function toggleRfList(btn) {
-            const list = btn.previousElementSibling;
+            const list = btn.parentElement;
             list.classList.toggle('rf-expanded');
             const total = list.querySelectorAll('.rf-item').length;
             btn.textContent = list.classList.contains('rf-expanded')
@@ -2191,14 +2191,19 @@
                 const fmtS = s => s.slice(2,4) + '-' + s.slice(6,8);
 
                 const movers = allPlayers
-                    .filter(p => p.draft_history?.[prevSeason]?.draft_number != null &&
+                    .filter(p => p.draft_history?.[prevSeason]?.draft_number != null ||
                                  p.draft_history?.[curSeason]?.draft_number  != null)
-                    .map(p => ({
-                        name:   p.name,
-                        prev:   p.draft_history[prevSeason].draft_number,
-                        cur:    p.draft_history[curSeason].draft_number,
-                        change: p.draft_history[prevSeason].draft_number - p.draft_history[curSeason].draft_number
-                    }));
+                    .map(p => {
+                        const prev = p.draft_history?.[prevSeason]?.draft_number ?? null;
+                        const cur  = p.draft_history?.[curSeason]?.draft_number  ?? null;
+                        return {
+                            name: p.name,
+                            prev,
+                            cur,
+                            change: (prev ?? 162) - (cur ?? 162)
+                        };
+                    })
+                    .filter(p => p.change !== 0);
 
                 movers.sort((a, b) => b.change - a.change);
 
@@ -2206,13 +2211,17 @@
                 const fallers = movers.filter(p => p.change < 0).reverse();
 
                 const mkRows = (players, cls) => {
-                    const rows = players.map((p, i) => `
+                    const rows = players.map((p, i) => {
+                        const prevLabel = p.prev != null ? `#${p.prev}` : '—';
+                        const curLabel  = p.cur  != null ? `#${p.cur}`  : '—';
+                        return `
                         <div class="rf-item${i >= 10 ? ' rf-extra' : ''}">
                             <span class="rf-rank">${i + 1}</span>
                             <span class="rf-name">${p.name}</span>
-                            <span class="rf-picks">#${p.prev} → #${p.cur}</span>
+                            <span class="rf-picks">${prevLabel} → ${curLabel}</span>
                             <span class="rf-score ${cls}">${p.change > 0 ? '+' : ''}${p.change}</span>
-                        </div>`).join('');
+                        </div>`;
+                    }).join('');
                     const btn = players.length > 10
                         ? `<button class="rf-expand-btn" onclick="toggleRfList(this)">Show all (${players.length})</button>`
                         : '';
@@ -2221,7 +2230,7 @@
 
                 rfHTML = `
                     <div class="tiers-section-header" style="margin-top: 32px">↕️ Last 2 Seasons Movement</div>
-                    <div class="tiers-section-desc">Players drafted in both seasons, ranked by how much their pick number changed.</div>
+                    <div class="tiers-section-desc">Drafted in at least one of the two seasons, ranked by pick number change. Undrafted seasons count as pick #162.</div>
                     <div class="risers-fallers-grid">
                         <div class="risers-fallers-card">
                             <div class="rf-card-header rf-card-up">📈 Biggest Risers</div>
