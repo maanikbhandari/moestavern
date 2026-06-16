@@ -1028,6 +1028,7 @@
 
         .rf-up   { color: #16a34a; }
         .rf-down { color: #dc2626; }
+        .rf-even { color: #94a3b8; }
 
         @media (max-width: 768px) {
             h1 {
@@ -2196,24 +2197,20 @@
                     .map(p => {
                         const prev = p.draft_history?.[prevSeason]?.draft_number ?? null;
                         const cur  = p.draft_history?.[curSeason]?.draft_number  ?? null;
-                        return {
-                            name: p.name,
-                            prev,
-                            cur,
-                            change: (prev ?? 162) - (cur ?? 162)
-                        };
-                    })
-                    .filter(p => p.change !== 0);
+                        return { name: p.name, prev, cur, change: (prev ?? 162) - (cur ?? 162) };
+                    });
 
                 movers.sort((a, b) => b.change - a.change);
 
                 const risers  = movers.filter(p => p.change > 0);
+                const evens   = movers.filter(p => p.change === 0);
                 const fallers = movers.filter(p => p.change < 0).reverse();
 
-                const mkRows = (players, cls) => {
+                const mkRows = (players) => {
                     const rows = players.map((p, i) => {
                         const prevLabel = p.prev != null ? `#${p.prev}` : '—';
                         const curLabel  = p.cur  != null ? `#${p.cur}`  : '—';
+                        const cls = p.change > 0 ? 'rf-up' : p.change < 0 ? 'rf-down' : 'rf-even';
                         return `
                         <div class="rf-item${i >= 10 ? ' rf-extra' : ''}">
                             <span class="rf-rank">${i + 1}</span>
@@ -2234,11 +2231,11 @@
                     <div class="risers-fallers-grid">
                         <div class="risers-fallers-card">
                             <div class="rf-card-header rf-card-up">📈 Biggest Risers</div>
-                            <div class="rf-list">${mkRows(risers, 'rf-up')}</div>
+                            <div class="rf-list">${mkRows([...risers, ...evens])}</div>
                         </div>
                         <div class="risers-fallers-card">
                             <div class="rf-card-header rf-card-down">📉 Biggest Fallers</div>
-                            <div class="rf-list">${mkRows(fallers, 'rf-down')}</div>
+                            <div class="rf-list">${mkRows(fallers)}</div>
                         </div>
                     </div>`;
             }
