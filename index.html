@@ -1495,7 +1495,9 @@
             // 2-point trend: player's first-ever draft was in the second-to-last season
             // (not eligible in last3League[0], so use picks[1] vs picks[2] instead of picks[0] vs picks[2])
             const earliestPlayerSeason = playerDraftSeasons.slice().sort()[0];
-            const diff = earliestPlayerSeason >= last3League[1] ? picks[2] - picks[1] : picks[2] - picks[0];
+            const diff = earliestPlayerSeason >= last3League[1]
+                ? picks[2] - picks[1]
+                : (0.25 * picks[1] + 0.75 * picks[2]) - picks[0];
             if (diff <= -28) return 'popping';
             if (diff <= -7)  return 'rising';
             if (diff < 7)    return 'even';
@@ -1960,13 +1962,13 @@
             ];
 
             const trendsConfig = [
-                { key: 'popping',  label: '↑↑ Popping Off',  color: '#16a34a', desc: '≥28 spots earlier' },
-                { key: 'rising',   label: '↑ Rising',         color: '#4ade80', desc: '7–27 spots earlier' },
-                { key: 'even',     label: '→ Even',           color: '#64748b', desc: 'Within ±6 spots' },
-                { key: 'falling',  label: '↓ Falling',        color: '#ea580c', desc: '7–27 spots later' },
-                { key: 'dropping', label: '↓↓ Dropping Off',  color: '#dc2626', desc: '≥28 spots later' },
+                { key: 'popping',  label: '↑↑ Popping Off',  color: '#16a34a', desc: 'Score ≤ −28' },
+                { key: 'rising',   label: '↑ Rising',         color: '#4ade80', desc: 'Score −28 to −8' },
+                { key: 'even',     label: '→ Even',           color: '#64748b', desc: 'Score −7 to +6' },
+                { key: 'falling',  label: '↓ Falling',        color: '#ea580c', desc: 'Score +7 to +27' },
+                { key: 'dropping', label: '↓↓ Dropping Off',  color: '#dc2626', desc: 'Score ≥28' },
                 { key: 'na',       label: 'N/A',              color: '#94a3b8', desc: 'Only drafted this season' },
-                { key: 'inactive', label: 'Inactive',         color: '#cbd5e1', desc: 'Not drafted in last 3 seasons' },
+                { key: 'inactive', label: 'Inactive',         color: '#cbd5e1', desc: 'Not in any of the last 3 seasons' },
             ];
 
             // Bucket players by tier
@@ -2062,7 +2064,7 @@
                 <div class="tiers-section-desc">Each player's average draft pick across all their drafted seasons determines their tier.</div>
                 <div class="tier-grid">${tierHTML}</div>
                 <div class="tiers-section-header" style="margin-top: 32px">📈 Pick Trends</div>
-                <div class="tiers-section-desc">Measures how much a player's draft position moved across the last 3 seasons — from the start of the window to this season. Players only around for the last 2 seasons use a shorter window. Not being drafted in the opening season counts as pick #162. Higher pick number = drafted later = falling.</div>
+                <div class="tiers-section-desc">Measures how much a player's draft position moved across the last 3 seasons. Score = (75% this season + 25% last season) minus 2 seasons ago. Players first drafted last season use a 1-season window; undrafted seasons count as pick #162.</div>
                 <div class="tier-grid">${trendHTML}</div>
             `;
         }
