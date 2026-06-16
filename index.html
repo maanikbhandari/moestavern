@@ -920,6 +920,27 @@
             padding-top: 4px;
         }
 
+        .tier-filter-btn {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            border: 2px solid #7c3aed;
+            border-radius: 8px;
+            background: transparent;
+            color: #7c3aed;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .tier-filter-btn:hover {
+            background: #7c3aed;
+            color: white;
+        }
+
         /* Risers & Fallers */
         .risers-fallers-grid {
             display: grid;
@@ -1253,7 +1274,7 @@
     <script>
         let allPlayers = [];
     let filteredPlayers = [];  // Store current filtered results
-    let currentDraftsFilter = '2';  // Default to 2+ drafts
+    let currentDraftsFilter = 'all';
     let currentOwnersFilter = 'all';
     let currentOwnerFilter = 'all';
     let currentOwnerDraftCountFilter = 'all';  // New filter
@@ -1264,7 +1285,7 @@
     let searchTerm = '';
     
     // Cache parsed values (initialize drafts to 2 to match default filter)
-    let cachedDraftsValue = 2;
+    let cachedDraftsValue = null;
     let cachedOwnersValue = null;
     let cachedOwnerDraftCountValue = null;
     let currentSeasonFilter = 'all';
@@ -1383,10 +1404,9 @@
 
             // Drafts filters
             const draftsContainer = document.getElementById('draftsFilters');
-            draftsContainer.innerHTML = '<button class="filter-btn" data-type="drafts" data-value="all">All</button>';
+            draftsContainer.innerHTML = '<button class="filter-btn active" data-type="drafts" data-value="all">All</button>';
             draftCounts.forEach(count => {
-                const isActive = count === 2 ? ' active' : '';
-                draftsContainer.innerHTML += `<button class="filter-btn${isActive}" data-type="drafts" data-value="${count}">${count}+ Drafts</button>`;
+                draftsContainer.innerHTML += `<button class="filter-btn" data-type="drafts" data-value="${count}">${count}+ Drafts</button>`;
             });
 
             // Owners count filters
@@ -1951,6 +1971,40 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function filterByAdpTier(tierKey) {
+            switchTab('players');
+            currentAdpTierFilter = tierKey;
+            document.querySelectorAll('#adpTierFilters .filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.value === tierKey);
+            });
+            const el = document.getElementById('adpTierFilters').closest('.filter-section');
+            const content = el.querySelector('.filter-content');
+            const header  = el.querySelector('.filter-header');
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                header.classList.remove('collapsed');
+            }
+            renderPlayers();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function filterByTrend(trendKey) {
+            switchTab('players');
+            currentTrendFilter = trendKey;
+            document.querySelectorAll('#trendFilters .filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.value === trendKey);
+            });
+            const el = document.getElementById('trendFilters').closest('.filter-section');
+            const content = el.querySelector('.filter-content');
+            const header  = el.querySelector('.filter-header');
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                header.classList.remove('collapsed');
+            }
+            renderPlayers();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // Owner stats dashboard
         function renderOwnerDashboard() {
             const allOwners = [...new Set(allPlayers.flatMap(p => Object.keys(p.owners)))].sort();
@@ -2158,8 +2212,8 @@
                             <span class="tier-bd-name">${p.name}</span>
                             <span class="tier-bd-avg">${avgPick(p)}</span>
                         </div>`).join('')}
-                        ${players.length > 5 ? `<div class="tier-bd-more">+${players.length - 5} more</div>` : ''}
                     </div>
+                    <button class="tier-filter-btn" onclick="filterByAdpTier('${t.key}')">See all ${players.length} ${t.label} players →</button>
                 </div>`;
             }).join('');
 
@@ -2178,8 +2232,8 @@
                         <div class="tier-bd-item">
                             <span class="tier-bd-name">${p.name}</span>
                         </div>`).join('')}
-                        ${players.length > 5 ? `<div class="tier-bd-more">+${players.length - 5} more</div>` : ''}
                     </div>
+                    <button class="tier-filter-btn" onclick="filterByTrend('${t.key}')">See all ${players.length} ${t.label} players →</button>
                 </div>`;
             }).join('');
 
