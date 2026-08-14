@@ -659,6 +659,25 @@
             border-color: white;
         }
 
+        .reset-btn {
+            padding: 7px 14px;
+            border: 2px solid rgba(239, 68, 68, 0.6);
+            border-radius: 20px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+
+        .reset-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+
         /* Owner dashboard */
         .owner-grid {
             display: grid;
@@ -1231,6 +1250,7 @@
             <button class="sort-btn" data-sort="wins">Most Wins</button>
             <button class="sort-btn" data-sort="owners">Most Owners</button>
             <button class="sort-btn" data-sort="pick">Earliest Avg Pick</button>
+            <button class="reset-btn" onclick="resetAllFilters()">✕ Reset Filters</button>
         </div>
 
         <div class="stats" id="statsDisplay"></div>
@@ -1278,9 +1298,9 @@
     let currentOwnersFilter = 'all';
     let currentOwnerFilter = 'all';
     let currentOwnerDraftCountFilter = 'all';  // New filter
-    let currentTeamFilter = 'all';
-    let currentChampionshipWinsFilter = 'all';
-    let currentPositionFilter = 'all';
+    let currentTeamFilters = new Set(['all']);
+    let currentChampionshipWinsFilters = new Set(['all']);
+    let currentPositionFilters = new Set(['all']);
     let championshipWinsOptions = [];
     let searchTerm = '';
     
@@ -1288,9 +1308,9 @@
     let cachedDraftsValue = null;
     let cachedOwnersValue = null;
     let cachedOwnerDraftCountValue = null;
-    let currentSeasonFilter = 'all';
-    let currentTrendFilter = 'all';
-    let currentAdpTierFilter = 'all';
+    let currentSeasonFilters = new Set(['all']);
+    let currentTrendFilters = new Set(['all']);
+    let currentAdpTierFilters = new Set(['all']);
     let currentPickFilter = '';
     let currentSort = 'drafts';
 
@@ -1505,41 +1525,70 @@
             });
         }
 
+        // Filter types that support multi-select
+        const MULTI_SELECT_TYPES = new Set(['trend', 'adp-tier', 'position', 'season', 'team', 'championship-wins']);
+
+        // Helper: update a multi-select Set from button state
+        function applyMultiSelect(container, value) {
+            const allBtn = container.querySelector('.filter-btn[data-value="all"]');
+            if (value === 'all') {
+                container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                if (allBtn) allBtn.classList.add('active');
+            } else {
+                const btn = container.querySelector(`.filter-btn[data-value="${CSS.escape(value)}"]`);
+                if (!btn) return;
+                if (btn.classList.contains('active')) {
+                    btn.classList.remove('active');
+                    const anySpecific = [...container.querySelectorAll('.filter-btn')].some(
+                        b => b.classList.contains('active') && b.dataset.value !== 'all'
+                    );
+                    if (!anySpecific && allBtn) allBtn.classList.add('active');
+                } else {
+                    if (allBtn) allBtn.classList.remove('active');
+                    btn.classList.add('active');
+                }
+            }
+            return new Set([...container.querySelectorAll('.filter-btn.active')].map(b => b.dataset.value));
+        }
+
         // Handle filter clicks
         function handleFilterClick(e) {
             const btn = e.target.closest('.filter-btn');
             if (!btn) return;
             const type = btn.dataset.type;
             const value = btn.dataset.value;
-
-            // Update active state for this filter type
             const container = btn.parentElement;
-            container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
 
-            // Update filter state and cache parsed values
-            if (type === 'drafts') {
-                currentDraftsFilter = value;
-                cachedDraftsValue = value === 'all' ? null : parseInt(value);
+            if (MULTI_SELECT_TYPES.has(type)) {
+                const newSet = applyMultiSelect(container, value);
+                if (type === 'trend')              currentTrendFilters = newSet;
+                else if (type === 'adp-tier')      currentAdpTierFilters = newSet;
+                else if (type === 'position')      currentPositionFilters = newSet;
+                else if (type === 'season')        currentSeasonFilters = newSet;
+                else if (type === 'team')          currentTeamFilters = newSet;
+                else if (type === 'championship-wins') currentChampionshipWinsFilters = newSet;
+            } else {
+                // Single-select behavior
+                container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                if (type === 'drafts') {
+                    currentDraftsFilter = value;
+                    cachedDraftsValue = value === 'all' ? null : parseInt(value);
+                }
+                else if (type === 'owners-count') {
+                    currentOwnersFilter = value;
+                    cachedOwnersValue = value === 'all' ? null : parseInt(value);
+                }
+                else if (type === 'owner') {
+                    currentOwnerFilter = value;
+                    updateOwnerDraftCountFilters(value);
+                }
+                else if (type === 'owner-draft-count') {
+                    currentOwnerDraftCountFilter = value;
+                    cachedOwnerDraftCountValue = value === 'all' ? null : parseInt(value);
+                }
             }
-            else if (type === 'owners-count') {
-                currentOwnersFilter = value;
-                cachedOwnersValue = value === 'all' ? null : parseInt(value);
-            }
-            else if (type === 'owner') {
-                currentOwnerFilter = value;
-                updateOwnerDraftCountFilters(value);
-            }
-            else if (type === 'owner-draft-count') {
-                currentOwnerDraftCountFilter = value;
-                cachedOwnerDraftCountValue = value === 'all' ? null : parseInt(value);
-            }
-            else if (type === 'team') currentTeamFilter = value;
-            else if (type === 'championship-wins') currentChampionshipWinsFilter = value;
-            else if (type === 'position') currentPositionFilter = value;
-            else if (type === 'season') currentSeasonFilter = value;
-            else if (type === 'trend') currentTrendFilter = value;
-            else if (type === 'adp-tier') currentAdpTierFilter = value;
 
             renderPlayers();
         }
@@ -1685,46 +1734,41 @@
                 }
 
                 // Team filter
-                if (currentTeamFilter !== 'all' && player.team !== currentTeamFilter) {
+                if (!currentTeamFilters.has('all') && !currentTeamFilters.has(player.team)) {
                     return false;
                 }
 
                 // Championship wins filter
-                if (currentChampionshipWinsFilter !== 'all' && (player.championship_wins || 0).toString() !== currentChampionshipWinsFilter) {
+                if (!currentChampionshipWinsFilters.has('all') && !currentChampionshipWinsFilters.has((player.championship_wins || 0).toString())) {
                     return false;
                 }
 
                 // Position filter
-                if (currentPositionFilter !== 'all') {
+                if (!currentPositionFilters.has('all')) {
                     const positions = player.position || [];
-                    if (currentPositionFilter === 'F') {
-                        // Forwards: C, RW, LW
-                        const hasForwardPosition = positions.some(pos => ['C', 'RW', 'LW'].includes(pos));
-                        if (!hasForwardPosition) return false;
-                    } else if (currentPositionFilter === 'D') {
-                        // Defense
-                        if (!positions.includes('D')) return false;
-                    } else if (currentPositionFilter === 'G') {
-                        // Goalie
-                        if (!positions.includes('G')) return false;
-                    }
+                    const hasMatch = [...currentPositionFilters].some(posFilter => {
+                        if (posFilter === 'F') return positions.some(pos => ['C', 'RW', 'LW'].includes(pos));
+                        if (posFilter === 'D') return positions.includes('D');
+                        if (posFilter === 'G') return positions.includes('G');
+                        return false;
+                    });
+                    if (!hasMatch) return false;
                 }
 
                 // Season filter
-                if (currentSeasonFilter !== 'all') {
-                    if (!player.draft_history || !player.draft_history[currentSeasonFilter]) {
-                        return false;
-                    }
+                if (!currentSeasonFilters.has('all')) {
+                    if (!player.draft_history) return false;
+                    if (![...currentSeasonFilters].some(s => player.draft_history[s])) return false;
                 }
 
                 // Trend filter
-                if (currentTrendFilter !== 'all') {
-                    if (getPickTrend(player) !== currentTrendFilter) return false;
+                if (!currentTrendFilters.has('all')) {
+                    if (!currentTrendFilters.has(getPickTrend(player))) return false;
                 }
 
                 // ADP tier filter
-                if (currentAdpTierFilter !== 'all') {
-                    if (getAdpTier(player).key !== currentAdpTierFilter) return false;
+                if (!currentAdpTierFilters.has('all')) {
+                    if (!currentAdpTierFilters.has(getAdpTier(player).key)) return false;
                 }
 
                 // Draft position filter
@@ -1973,7 +2017,7 @@
 
         function filterByAdpTier(tierKey) {
             switchTab('players');
-            currentAdpTierFilter = tierKey;
+            currentAdpTierFilters = new Set([tierKey]);
             document.querySelectorAll('#adpTierFilters .filter-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.value === tierKey);
             });
@@ -1990,7 +2034,7 @@
 
         function filterByTrend(trendKey) {
             switchTab('players');
-            currentTrendFilter = trendKey;
+            currentTrendFilters = new Set([trendKey]);
             document.querySelectorAll('#trendFilters .filter-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.value === trendKey);
             });
@@ -2003,6 +2047,43 @@
             }
             renderPlayers();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetAllFilters() {
+            // Reset search
+            searchTerm = '';
+            document.getElementById('searchBox').value = '';
+
+            // Reset single-select filters
+            currentDraftsFilter = 'all';
+            cachedDraftsValue = null;
+            currentOwnersFilter = 'all';
+            cachedOwnersValue = null;
+            currentOwnerFilter = 'all';
+            currentOwnerDraftCountFilter = 'all';
+            cachedOwnerDraftCountValue = null;
+
+            // Reset multi-select filters
+            currentTeamFilters = new Set(['all']);
+            currentChampionshipWinsFilters = new Set(['all']);
+            currentPositionFilters = new Set(['all']);
+            currentSeasonFilters = new Set(['all']);
+            currentTrendFilters = new Set(['all']);
+            currentAdpTierFilters = new Set(['all']);
+
+            // Reset pick filter
+            currentPickFilter = '';
+            document.getElementById('pickFilterInput').value = '';
+
+            // Reset owner draft count UI
+            updateOwnerDraftCountFilters('all');
+
+            // Re-sync all filter button active states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.value === 'all');
+            });
+
+            renderPlayers();
         }
 
         // Owner stats dashboard
