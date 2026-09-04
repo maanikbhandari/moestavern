@@ -3034,59 +3034,74 @@
         // ---------- Chart 3: draft position over time (inline SVG) ----------
         function draftPositionChart(player) {
             const hist = player.draft_history || {};
-            const seasons = Object.keys(hist).filter(s => hist[s] && hist[s].draft_number != null).sort();
-            if (!seasons.length) return emptyChart('This player was never drafted.');
+            // Plot against every league season, not just the drafted ones, so a season he
+            // went undrafted leaves a real gap instead of being collapsed out of the axis.
+            const axis = leagueSeasons();
+            const drafted = axis
+                .map((s, i) => ({ s, i, d: hist[s] }))
+                .filter(o => o.d && o.d.draft_number != null);
+            if (!drafted.length) return emptyChart('This player was never drafted.');
 
             const W = 720, H = 320;
             const pad = { t: 24, r: 24, b: 44, l: 54 };
             const iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
-            const x = i => pad.l + (seasons.length === 1 ? iw / 2 : i * iw / (seasons.length - 1));
+            const x = i => pad.l + (axis.length === 1 ? iw / 2 : i * iw / (axis.length - 1));
             const y = p => pad.t + (p - 1) / (UNDRAFTED_PICK - 1) * ih;
+            const cx = o => x(o.i).toFixed(1);
+            const cy = o => y(o.d.draft_number).toFixed(1);
 
             const grid = [1, 40, 80, 120, UNDRAFTED_PICK].map(t => `
                 <line class="grid-line" x1="${pad.l}" y1="${y(t).toFixed(1)}" x2="${W - pad.r}" y2="${y(t).toFixed(1)}"/>
                 <text class="axis-label" x="${pad.l - 10}" y="${(y(t) + 4).toFixed(1)}" text-anchor="end">#${t}</text>`).join('');
 
-            const pts = seasons.map((s, i) => [x(i), y(hist[s].draft_number)]);
-            const line = pts.map(([px, py], i) => `${i ? 'L' : 'M'}${px.toFixed(1)} ${py.toFixed(1)}`).join(' ');
+            // Break the line into runs of back-to-back seasons; a gap starts a new run.
+            const runs = [];
+            drafted.forEach(o => {
+                const run = runs[runs.length - 1];
+                if (run && o.i === run[run.length - 1].i + 1) run.push(o);
+                else runs.push([o]);
+            });
+
+            const line = runs.map(run =>
+                run.map((o, i) => `${i ? 'L' : 'M'}${cx(o)} ${cy(o)}`).join(' ')).join(' ');
+
             const baseY = (pad.t + ih).toFixed(1);
-            const area = `M${pts[0][0].toFixed(1)} ${baseY} ` +
-                pts.map(([px, py]) => `L${px.toFixed(1)} ${py.toFixed(1)}`).join(' ') +
-                ` L${pts[pts.length - 1][0].toFixed(1)} ${baseY} Z`;
+            const area = runs.filter(run => run.length > 1).map(run =>
+                `M${cx(run[0])} ${baseY} `
+                + run.map(o => `L${cx(o)} ${cy(o)}`).join(' ')
+                + ` L${cx(run[run.length - 1])} ${baseY} Z`).join(' ');
 
             const champs = playerChampInfo(player);
-            const champMarks = seasons.map((s, i) => {
-                const wins = champs.bySeason[s];
+            const champMarks = drafted.map(o => {
+                const wins = champs.bySeason[o.s];
                 if (!wins) return '';
-                const [px, py] = pts[i];
                 const who = wins.map(w => escHtml(w.owner)).join(', ');
-                return `<circle class="champ-ring" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="10"/>
-                        <text class="champ-trophy" x="${px.toFixed(1)}" y="${(py - 18).toFixed(1)}" text-anchor="middle"><title>${fmtSeason(s)} championship — ${who}</title>🏆</text>`;
+                return `<circle class="champ-ring" cx="${cx(o)}" cy="${cy(o)}" r="10"/>
+                        <text class="champ-trophy" x="${cx(o)}" y="${(y(o.d.draft_number) - 18).toFixed(1)}" text-anchor="middle"><title>${fmtSeason(o.s)} championship — ${who}</title>🏆</text>`;
             }).join('');
 
-            const dots = pts.map(([px, py], i) => {
-                const d = hist[seasons[i]];
-                const round = d.round_number ? ` (round ${d.round_number})` : '';
-                const won = champs.bySeason[seasons[i]] ? ' — 🏆 championship season' : '';
-                return `<circle class="pt" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" tabindex="0"><title>${fmtSeason(seasons[i])} — pick #${d.draft_number}${round}${won}</title></circle>`;
+            const dots = drafted.map(o => {
+                const round = o.d.round_number ? ` (round ${o.d.round_number})` : '';
+                const won = champs.bySeason[o.s] ? ' — 🏆 championship season' : '';
+                return `<circle class="pt" cx="${cx(o)}" cy="${cy(o)}" r="5" tabindex="0"><title>${fmtSeason(o.s)} — pick #${o.d.draft_number}${round}${won}</title></circle>`;
             }).join('');
 
-            const xLabels = seasons.map((s, i) =>
+            const xLabels = axis.map((s, i) =>
                 `<text class="axis-label" x="${x(i).toFixed(1)}" y="${H - 16}" text-anchor="middle">${fmtSeason(s)}</text>`).join('');
 
-            const picks = seasons.map(s => hist[s].draft_number);
+            const picks = drafted.map(o => o.d.draft_number);
             const best = Math.min(...picks);
             const avg = Math.round(picks.reduce((a, b) => a + b, 0) / picks.length);
             const stroke = teamLineColor(player.team);
 
             // A title can be won in a season the player wasn't drafted in (picked up mid-season),
             // so those have no point on this line.
-            const markedSeasons = seasons.filter(s => champs.bySeason[s]).length;
+            const markedSeasons = drafted.filter(o => champs.bySeason[o.s]).length;
             const unmarked = champs.total - markedSeasons;
 
             return `
                 ${chartHeader(player, 'Draft Position',
-                    `Best #${best} · Average #${avg} · ${seasons.length} season${seasons.length === 1 ? '' : 's'} drafted`
+                    `Best #${best} · Average #${avg} · ${drafted.length} season${drafted.length === 1 ? '' : 's'} drafted`
                     + (markedSeasons ? ' · 🏆 marks a championship season' : ''))}
                 <svg class="chart-svg" viewBox="0 0 ${W} ${H}" style="--team:${stroke}" role="img" aria-label="Draft position by season for ${escHtml(player.name)}">
                     <defs>
