@@ -675,11 +675,51 @@
         }
 
         /* Gantt (ownership timeline) */
+        /* A 12-season grid can't shrink below ~390px and still keep the season
+           labels legible, so on a phone it scrolls sideways instead of clipping. */
+        .gantt-viewport {
+            position: relative;
+        }
+
+        .gantt-viewport::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 34px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff 78%);
+        }
+
+        .gantt-viewport.more-right::after { opacity: 1; }
+
+        .gantt-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            overscroll-behavior-x: contain;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            padding-bottom: 4px;
+        }
+
         .gantt {
             display: grid;
             gap: 8px 2px;
             width: 100%;
         }
+
+        .gantt-hint {
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .gantt-viewport.more-right .gantt-hint { display: block; }
 
         .gantt-season-label {
             font-size: 10px;
@@ -697,6 +737,11 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            /* Keep the names readable while the seasons scroll underneath. */
+            position: sticky;
+            left: 0;
+            z-index: 2;
+            background: #fff;
         }
 
         .gantt-owner-label.champ-only {
@@ -3098,7 +3143,12 @@
 
             return `
                 ${chartHeader(player, 'Ownership Timeline', subtitle)}
-                <div class="gantt" style="--team-tint:${teamTint(player.team, 0.9)}; grid-template-columns: minmax(80px, max-content) repeat(${seasons.length}, minmax(24px, 1fr))">${cells.join('')}</div>
+                <div class="gantt-viewport">
+                    <div class="gantt-scroll">
+                        <div class="gantt" style="--team-tint:${teamTint(player.team, 0.9)}; min-width:${80 + seasons.length * 26}px; grid-template-columns: minmax(80px, max-content) repeat(${seasons.length}, minmax(24px, 1fr))">${cells.join('')}</div>
+                    </div>
+                    <div class="gantt-hint">Swipe to see every season →</div>
+                </div>
                 ${champOnly.length ? '<div class="chart-footnote">Greyed owners won with this player without drafting him.</div>' : ''}`;
         }
 
@@ -3216,12 +3266,27 @@
             }
         }
 
+        // The gantt overflows on narrow screens. Flag it so the edge fade and the
+        // swipe hint only appear when there is actually something more to reach.
+        function syncGanttOverflow() {
+            const viewport = document.querySelector('.gantt-viewport');
+            if (!viewport) return;
+            const scroller = viewport.querySelector('.gantt-scroll');
+            const update = () => viewport.classList.toggle(
+                'more-right',
+                scroller.scrollWidth - scroller.clientWidth - scroller.scrollLeft > 4
+            );
+            scroller.addEventListener('scroll', update, { passive: true });
+            update();
+        }
+
         function renderModalChart() {
             if (!currentModalPlayer) return;
             const el = document.getElementById('modalChart');
             el.innerHTML = MODAL_CHARTS[currentImageIndex](currentModalPlayer);
             el.style.opacity = '1';
             updateIndicators();
+            syncGanttOverflow();
         }
 
         function showModalImage() {
@@ -3287,7 +3352,11 @@
                 if (el) highlight(el.dataset.oi);
             });
             chartEl.addEventListener('mouseleave', () => { highlight(null); hideTip(); });
-            document.getElementById('modal').addEventListener('click', hideTip);
+            // On touch, a tap fires mousemove then click. Only dismiss when the tap
+            // landed somewhere other than a tooltip target, or it would just flash.
+            document.getElementById('modal').addEventListener('click', e => {
+                if (!e.target.closest('[data-tip]')) hideTip();
+            });
             window.addEventListener('keydown', hideTip);
         })();
 
