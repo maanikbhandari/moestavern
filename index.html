@@ -482,16 +482,341 @@
             position: relative;
         }
 
-        .modal-image {
-            max-width: 100%;
-            max-height: calc(95vh - 200px);
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            border-radius: 10px;
-            user-select: none;
-            -webkit-user-select: none;
+        /* ---------- Modal charts (pure CSS + inline SVG) ---------- */
+        .modal-chart {
+            width: min(760px, 86vw);
+            max-height: calc(95vh - 210px);
+            overflow-x: hidden;
+            overflow-y: auto;
             transition: opacity 0.15s ease;
+        }
+
+        .chart-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: #1f2937;
+            text-align: center;
+        }
+
+        .chart-title-logo {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .chart-accent {
+            width: 56px;
+            height: 4px;
+            border-radius: 999px;
+            margin: 9px auto 0;
+        }
+
+        .chart-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            text-align: center;
+            margin: 8px 0 20px;
+        }
+
+        .chart-empty {
+            padding: 60px 20px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 16px;
+        }
+
+        /* Donut (ownership) */
+        .donut-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 36px;
+        }
+
+        .donut {
+            width: 240px;
+            height: 240px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .donut-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .slice {
+            stroke: #fff;
+            stroke-width: 3;
+            stroke-linejoin: round;
+            cursor: pointer;
+            transition: opacity 0.15s ease, transform 0.15s ease,
+                        stroke 0.15s ease, stroke-width 0.15s ease;
+        }
+
+        .donut-edge {
+            fill: none;
+            stroke: #d1d5db;
+            stroke-width: 1.25;
+            pointer-events: none;
+        }
+
+        .donut-hole {
+            position: absolute;
+            inset: 28%;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 0 4px #fff;
+            pointer-events: none;
+        }
+
+        .donut-photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .donut-fallback {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            color: #1f2937;
+        }
+
+        /* Hover linking between slices, legend rows and gantt bars */
+        .dimmed { opacity: 0.22; }
+        .focused { filter: brightness(1.08); }
+
+        /* A pale slice has no room to get brighter, so single it out with a dark
+           outline and a nudge outward rather than a brightness bump. */
+        .slice.focused {
+            filter: none;
+            stroke: #111827;
+            stroke-width: 2.5;
+            transform: scale(1.04);
+            transform-box: view-box;
+            transform-origin: 150px 150px;
+        }
+
+        /* The boundary ring would otherwise cut across a popped-out slice. */
+        .donut-svg:has(.slice.focused) .donut-edge { opacity: 0; }
+        .legend-item.focused { background: #f3f4f6; }
+
+        .chart-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 210px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            padding: 4px 8px;
+            margin: -4px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.15s ease, background 0.15s ease;
+        }
+
+        .legend-item.champ-only {
+            cursor: default;
+            opacity: 0.85;
+        }
+
+        .legend-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .legend-swatch.hollow {
+            background: none !important;
+            border: 2px dashed #b6a06a;
+        }
+
+        .legend-initials {
+            font-size: 11px;
+            font-weight: 800;
+            color: #6b7280;
+            width: 22px;
+            flex-shrink: 0;
+        }
+
+        .legend-name {
+            flex: 1;
+            font-weight: 600;
+            color: #374151;
+            white-space: nowrap;
+        }
+
+        .legend-champs {
+            color: #a67c00;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .legend-value {
+            color: #6b7280;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        /* Gantt (ownership timeline) */
+        .gantt {
+            display: grid;
+            gap: 8px 2px;
+            width: 100%;
+        }
+
+        .gantt-season-label {
+            font-size: 10px;
+            color: #6b7280;
+            text-align: center;
+            padding-bottom: 6px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .gantt-owner-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            padding-right: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .gantt-owner-label.champ-only {
+            font-weight: 500;
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .gantt-champ {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            line-height: 1;
+            pointer-events: none;
+            align-self: center;
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.45));
+        }
+
+        .gantt-track {
+            background: var(--team-tint, #f3f4f6);
+            border-radius: 6px;
+            height: 26px;
+            align-self: center;
+        }
+
+        .gantt-bar {
+            height: 26px;
+            border-radius: 6px;
+            align-self: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+            transform-origin: left center;
+            animation: ganttIn 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) backwards;
+        }
+
+        @keyframes ganttIn {
+            from { transform: scaleX(0); opacity: 0; }
+            to   { transform: scaleX(1); opacity: 1; }
+        }
+
+        /* Draft position line chart */
+        .chart-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .chart-svg .grid-line {
+            stroke: #e5e7eb;
+            stroke-width: 1;
+        }
+
+        .chart-svg .axis-label {
+            fill: #6b7280;
+            font-size: 11px;
+            font-family: inherit;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .chart-svg .line-draw {
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+            animation: drawLine 0.9s ease forwards;
+        }
+
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .chart-svg .pt {
+            fill: #fff;
+            stroke: var(--team, #7c3aed);
+            stroke-width: 2.5;
+            cursor: pointer;
+            transition: r 0.15s ease;
+        }
+
+        .chart-svg .pt:hover,
+        .chart-svg .pt:focus {
+            r: 7;
+            outline: none;
+        }
+
+        .chart-svg .champ-ring {
+            fill: none;
+            stroke: #e0a800;
+            stroke-width: 2.5;
+        }
+
+        .chart-svg .champ-trophy {
+            font-size: 15px;
+            pointer-events: none;
+        }
+
+        .chart-footnote {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .gantt-bar, .chart-svg .line-draw { animation: none; }
+            .chart-svg .line-draw { stroke-dashoffset: 0; }
+            .slice { transition: none; }
+            .slice.focused { transform: none; }
         }
 
         .modal-nav-controls {
@@ -1277,7 +1602,7 @@
         <div class="modal-content">
             <button class="close-btn" id="closeModal">&times;</button>
             <div class="modal-image-container">
-                <img id="modalImage" class="modal-image" src="" alt="">
+                <div id="modalChart" class="modal-chart"></div>
             </div>
             <div class="modal-nav-controls">
                 <button class="nav-btn prev" id="prevImage">&#8249;</button>
@@ -2386,86 +2711,457 @@
             `;
         }
 
+        // ---------- Chart helpers ----------
+        const UNDRAFTED_PICK = 162;
+
+        // Official NHL brand colours, keyed by normalized abbreviation. Two or three per
+        // team: these are used as-is, never blended together, so no off-brand hues appear.
+        const TEAM_COLORS = {
+            ANA: ['#F47A38', '#B9975B', '#111111'], ARI: ['#8C2633', '#E2D6B5', '#111111'],
+            BOS: ['#FFB81C', '#000000'],           BUF: ['#003087', '#FFB81C', '#C8102E'],
+            CGY: ['#D2001C', '#FAAF19', '#111111'], CAR: ['#CC0000', '#000000', '#A2AAAD'],
+            CHI: ['#CF0A2C', '#000000', '#FF671F'], COL: ['#6F263D', '#236192', '#A2AAAD'],
+            CBJ: ['#002654', '#CE1126', '#A4A9AD'], DAL: ['#006847', '#8F8F8C', '#111111'],
+            DET: ['#CE1126', '#FFFFFF'],           EDM: ['#041E42', '#FF4C00'],
+            FLA: ['#041E42', '#C8102E', '#B9975B'], LAK: ['#111111', '#A2AAAD'],
+            MIN: ['#154734', '#A6192E', '#EAAA00'], MTL: ['#AF1E2D', '#192168'],
+            NSH: ['#FFB81C', '#041E42'],           NJD: ['#CE1126', '#000000'],
+            NYI: ['#00539B', '#F47D30'],           NYR: ['#0038A8', '#CE1126'],
+            OTT: ['#DA1A32', '#B79257', '#111111'], PHI: ['#F74902', '#000000'],
+            PIT: ['#FCB514', '#000000', '#CFC493'], SJS: ['#006D75', '#EA7200', '#111111'],
+            SEA: ['#001628', '#99D9D9', '#E9072B'], STL: ['#002F87', '#FCB514'],
+            TBL: ['#002868', '#FFFFFF'],           TOR: ['#00205B', '#FFFFFF'],
+            UTA: ['#71AFE5', '#090909'],           VAN: ['#00205B', '#00843D'],
+            VGK: ['#B4975A', '#333F42', '#C8102E'], WPG: ['#041E42', '#AC162C', '#55565A'],
+            WSH: ['#041E42', '#C8102E', '#A2AAAD']
+        };
+        const DEFAULT_TEAM_COLORS = ['#7c3aed', '#f59e0b', '#0ea5e9'];
+
+        function teamColors(teamAbbr) {
+            if (!teamAbbr || teamAbbr === 'Unknown') return DEFAULT_TEAM_COLORS;
+            const code = teamLogoMap[teamAbbr] || teamAbbr.toUpperCase();
+            return TEAM_COLORS[code] || DEFAULT_TEAM_COLORS;
+        }
+
+        const hexToRgb = h => {
+            const v = parseInt(h.slice(1), 16);
+            return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+        };
+        const rgbToHex = rgb => '#' + rgb.map(c =>
+            Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, '0')).join('');
+        const mixHex = (a, b, t) => {
+            const [ar, ag, ab] = hexToRgb(a), [br, bg, bb] = hexToRgb(b);
+            return rgbToHex([ar + (br - ar) * t, ag + (bg - ag) * t, ab + (bb - ab) * t]);
+        };
+        // sRGB relative luminance, used to keep text and strokes readable.
+        const relLum = hex => {
+            const [r, g, b] = hexToRgb(hex).map(c => {
+                c /= 255;
+                return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+            });
+            return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        };
+        const contrastRatio = (a, b) => {
+            const la = relLum(a), lb = relLum(b);
+            return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+        };
+        const textOn = hex =>
+            contrastRatio(hex, '#ffffff') >= contrastRatio(hex, '#111827') ? '#ffffff' : '#111827';
+
+        // Nudge true blacks / near-whites into a usable swatch range. Deep navies
+        // (FLA, TOR, WSH...) sit above the floor and keep their real brand colour.
+        const usableSwatch = hex => {
+            const L = relLum(hex);
+            if (L < 0.004) return mixHex(hex, '#ffffff', 0.28);
+            if (L > 0.80) return mixHex(hex, '#000000', 0.22);
+            return hex;
+        };
+
+        // Cycle through the team's real brand colours, shifting a step on each pass.
+        // Neighbouring slices are always different brand colours, and a colour only ever
+        // moves lighter or darker within its own hue - it is never blended with another
+        // colour, so Montreal stays red-and-blue instead of drifting through purple.
+        function teamRamp(teamAbbr, n) {
+            const brand = teamColors(teamAbbr).map(usableSwatch);
+            if (n <= 1) return [brand[0]];
+            const cycles = Math.ceil(n / brand.length);
+
+            return Array.from({ length: n }, (_, i) => {
+                const c = brand[i % brand.length];
+                // Move toward whichever end has room. Dark colours lighten; ones that are
+                // already pale (NSH gold, DET silver) deepen instead of washing into the page.
+                const light = contrastRatio(c, '#ffffff') >= 2.2;
+                const span = light ? 0.38 : 0.30;
+                const step = Math.min(0.26, span / Math.max(1, cycles - 1));
+                return mixHex(c, light ? '#ffffff' : '#000000',
+                              Math.floor(i / brand.length) * step);
+            });
+        }
+
+        // Always the team's primary, darkened only as far as it must be to read on white.
+        function teamLineColor(teamAbbr) {
+            let c = teamColors(teamAbbr)[0];
+            for (let i = 0; i < 12 && contrastRatio(c, '#ffffff') < 3.2; i++) {
+                c = mixHex(c, '#000000', 0.12);
+            }
+            return c;
+        }
+
+        const teamTint = (teamAbbr, amount) => mixHex(teamColors(teamAbbr)[0], '#ffffff', amount);
+
+        // Same owner -> same colour across every chart for a given player.
+        function playerOwnerColors(player) {
+            const names = Object.entries(player.owners || {})
+                .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+                .map(([o]) => o);
+            const add = o => { if (o && !names.includes(o)) names.push(o); };
+            Object.keys(player.owner_years || {}).forEach(add);
+            (player.championship_owner || []).forEach(add);
+            const ramp = teamRamp(player.team, names.length);
+            const map = {};
+            names.forEach((o, i) => { map[o] = ramp[i]; });
+            return map;
+        }
+
+        // Owner initials, used to label slices directly instead of relying on the legend.
+        const initialsOf = name => String(name).trim().split(/\s+/)
+            .map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+        // championship_* are parallel arrays: season[i] was won by owner[i].
+        function playerChampInfo(player) {
+            const seasons = player.championship_season || [];
+            const owners = player.championship_owner || [];
+            const picks = player.championship_draft_pick || [];
+            const byOwner = {}, bySeason = {};
+            seasons.forEach((s, i) => {
+                const o = owners[i] || 'Unknown';
+                byOwner[o] = (byOwner[o] || 0) + 1;
+                (bySeason[s] = bySeason[s] || []).push({ owner: o, pick: picks[i] });
+            });
+            return { byOwner, bySeason, total: seasons.length };
+        }
+
+        const trophies = n => '\u{1F3C6}'.repeat(Math.min(n, 3)) + (n > 3 ? `\u00d7${n}` : '');
+
+        let _leagueSeasons = null;
+        function leagueSeasons() {
+            if (!_leagueSeasons) {
+                const s = new Set();
+                allPlayers.forEach(p => {
+                    Object.keys(p.draft_history || {}).forEach(x => s.add(x));
+                    Object.values(p.owner_years || {}).forEach(arr => arr.forEach(x => s.add(x)));
+                });
+                _leagueSeasons = [...s].sort();
+            }
+            return _leagueSeasons;
+        }
+
+        const fmtSeason = s => s.slice(2, 4) + '-' + s.slice(6, 8);
+        const escHtml = str => String(str).replace(/[&<>"]/g,
+            c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const emptyChart = msg => `<div class="chart-empty">${escHtml(msg)}</div>`;
+
+        function chartHeader(player, title, subtitle) {
+            const logo = getTeamLogo(player.team);
+            return `
+                <div class="chart-title">
+                    ${logo ? `<img class="chart-title-logo" src="${logo}" alt="" onerror="this.style.display='none'">` : ''}
+                    <span>${escHtml(player.name)} &mdash; ${title}</span>
+                </div>
+                <div class="chart-accent" style="background:${teamLineColor(player.team)}"></div>
+                <div class="chart-subtitle">${subtitle}</div>`;
+        }
+
+        // ---------- Chart 1: ownership donut (inline SVG) ----------
+        const DONUT = { cx: 150, cy: 150, rOut: 134, rIn: 66 };
+
+        function annulusPath(a0, a1) {
+            const { cx, cy, rOut, rIn } = DONUT;
+            const pt = (r, a) => [(cx + r * Math.cos(a)).toFixed(2), (cy + r * Math.sin(a)).toFixed(2)];
+            const large = (a1 - a0) > Math.PI ? 1 : 0;
+            const [x0, y0] = pt(rOut, a0), [x1, y1] = pt(rOut, a1);
+            const [x2, y2] = pt(rIn, a1), [x3, y3] = pt(rIn, a0);
+            return `M${x0} ${y0} A${rOut} ${rOut} 0 ${large} 1 ${x1} ${y1} `
+                 + `L${x2} ${y2} A${rIn} ${rIn} 0 ${large} 0 ${x3} ${y3} Z`;
+        }
+
+        // A lone owner covers the whole ring, which no single arc can express (its start
+        // and end points coincide). Two full circles with even-odd fill punch the hole out.
+        function fullRingPath() {
+            const { cx, cy, rOut, rIn } = DONUT;
+            const circle = r => `M${cx - r} ${cy} A${r} ${r} 0 1 1 ${cx + r} ${cy} `
+                              + `A${r} ${r} 0 1 1 ${cx - r} ${cy} Z`;
+            return `${circle(rOut)} ${circle(rIn)}`;
+        }
+
+        function ownershipChart(player) {
+            const entries = Object.entries(player.owners || {})
+                .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+            const total = entries.reduce((sum, [, n]) => sum + n, 0);
+            if (!total) return emptyChart('No ownership history for this player.');
+
+            const colors = playerOwnerColors(player);
+            const champs = playerChampInfo(player);
+            const { cx, cy, rOut } = DONUT;
+
+            let ring;
+            if (entries.length === 1) {
+                const [owner] = entries[0];
+                ring = `<path class="slice" data-oi="0" d="${fullRingPath()}" fill-rule="evenodd"
+                            fill="${colors[owner]}"
+                        ><title>${escHtml(owner)} — all ${total} draft${total === 1 ? '' : 's'} (100%)</title></path>`;
+            } else {
+                let a = -Math.PI / 2;
+                ring = entries.map(([owner, n], i) => {
+                    const a0 = a, a1 = a + n / total * Math.PI * 2;
+                    a = a1;
+                    return `<path class="slice" data-oi="${i}" d="${annulusPath(a0, a1)}" fill="${colors[owner]}"
+                            ><title>${escHtml(owner)} — ${n} draft${n === 1 ? '' : 's'} (${Math.round(n / total * 100)}%)</title></path>`;
+                }).join('');
+            }
+
+            const legend = entries.map(([owner, n], i) => {
+                const won = champs.byOwner[owner] || 0;
+                return `
+                <div class="legend-item" data-oi="${i}">
+                    <span class="legend-swatch" style="background:${colors[owner]}"></span>
+                    <span class="legend-initials">${initialsOf(owner)}</span>
+                    <span class="legend-name">${escHtml(owner)}</span>
+                    ${won ? `<span class="legend-champs">${trophies(won)}</span>` : ''}
+                    <span class="legend-value">${n} · ${Math.round(n / total * 100)}%</span>
+                </div>`;
+            }).join('');
+
+            // Owners who won with this player but never drafted him have no slice.
+            const drafted = new Set(entries.map(([o]) => o));
+            const champOnly = Object.entries(champs.byOwner).filter(([o]) => !drafted.has(o));
+            const champOnlyRows = champOnly.map(([owner, n]) => `
+                <div class="legend-item champ-only">
+                    <span class="legend-swatch hollow"></span>
+                    <span class="legend-initials">${initialsOf(owner)}</span>
+                    <span class="legend-name">${escHtml(owner)}</span>
+                    <span class="legend-champs">${trophies(n)}</span>
+                    <span class="legend-value">never drafted</span>
+                </div>`).join('');
+
+            const headshot = getPlayerHeadshot(player);
+            const subtitle = `${total} draft${total === 1 ? '' : 's'} across ${entries.length} owner${entries.length === 1 ? '' : 's'}`
+                + (champs.total ? ` · 🏆 ${champs.total} championship${champs.total === 1 ? '' : 's'}` : '');
+
+            return `
+                ${chartHeader(player, 'Ownership', subtitle)}
+                <div class="donut-wrap">
+                    <div class="donut">
+                        <svg class="donut-svg" viewBox="0 0 300 300" role="img"
+                             aria-label="Ownership share for ${escHtml(player.name)}">
+                            ${ring}
+                            <circle class="donut-edge" cx="${cx}" cy="${cy}" r="${rOut}"/>
+                        </svg>
+                        <div class="donut-hole" style="background:${teamTint(player.team, 0.86)}">
+                            <span class="donut-fallback">${total}</span>
+                            ${headshot ? `<img class="donut-photo" src="${headshot}" alt="${escHtml(player.name)}" onerror="this.style.display='none'">` : ''}
+                        </div>
+                    </div>
+                    <div class="chart-legend">${legend}${champOnlyRows}</div>
+                </div>
+                ${champOnly.length ? '<div class="chart-footnote">Dashed entries won with this player as a free-agent pickup or trade.</div>' : ''}`;
+        }
+
+        // ---------- Chart 2: ownership timeline (CSS grid gantt) ----------
+        function tenureChart(player) {
+            const seasons = leagueSeasons();
+            const oy = player.owner_years || {};
+            const champs = playerChampInfo(player);
+            const owners = Object.keys(oy).filter(o => (oy[o] || []).length);
+            if (!owners.length || !seasons.length) return emptyChart('No ownership timeline for this player.');
+
+            const firstIdx = o => Math.min(...oy[o].map(s => seasons.indexOf(s)).filter(i => i >= 0));
+            owners.sort((a, b) => firstIdx(a) - firstIdx(b));
+
+            // An owner can win with a player they never rostered per owner_years
+            // (free-agent pickup / trade). Give them a row so the trophy has a home.
+            const champOnly = Object.keys(champs.byOwner).filter(o => !owners.includes(o));
+            const rows = [...owners, ...champOnly];
+
+            const colors = playerOwnerColors(player);
+            const cells = seasons.map((s, i) =>
+                `<div class="gantt-season-label" style="grid-row:1; grid-column:${i + 2}">${fmtSeason(s)}</div>`);
+
+            rows.forEach((owner, r) => {
+                const row = r + 2;
+                const bg = colors[owner];
+                const isChampOnly = champOnly.includes(owner);
+                cells.push(`<div class="gantt-owner-label${isChampOnly ? ' champ-only' : ''}" style="grid-row:${row}; grid-column:1" title="${escHtml(owner)}">${escHtml(owner)}</div>`);
+                cells.push(`<div class="gantt-track" style="grid-row:${row}; grid-column:2 / -1"></div>`);
+
+                const idx = (oy[owner] || []).map(s => seasons.indexOf(s)).filter(i => i >= 0).sort((a, b) => a - b);
+                let run = [];
+                const flush = () => {
+                    if (!run.length) return;
+                    const start = run[0], end = run[run.length - 1];
+                    const label = start === end
+                        ? fmtSeason(seasons[start])
+                        : `${fmtSeason(seasons[start])} → ${fmtSeason(seasons[end])}`;
+                    cells.push(`<div class="gantt-bar" style="grid-row:${row}; grid-column:${start + 2} / ${end + 3}; background:${bg}; color:${textOn(bg)}; animation-delay:${r * 60}ms" title="${escHtml(owner)}: ${label}">${run.length}</div>`);
+                    run = [];
+                };
+                idx.forEach((i, k) => {
+                    if (k && i !== idx[k - 1] + 1) flush();
+                    run.push(i);
+                });
+                flush();
+
+                // Trophies go last so they paint over the bars.
+                Object.entries(champs.bySeason).forEach(([season, wins]) => {
+                    const col = seasons.indexOf(season);
+                    if (col < 0) return;
+                    wins.filter(w => w.owner === owner).forEach(w => {
+                        const how = w.pick === 'FA' ? 'free agent pickup' : `pick #${w.pick}`;
+                        cells.push(`<div class="gantt-champ" style="grid-row:${row}; grid-column:${col + 2}" title="${escHtml(owner)} won the ${fmtSeason(season)} title with ${escHtml(player.name)} (${how})">🏆</div>`);
+                    });
+                });
+            });
+
+            const subtitle = 'Seasons rostered, by owner'
+                + (champs.total ? ' · 🏆 marks a championship season' : '');
+
+            return `
+                ${chartHeader(player, 'Ownership Timeline', subtitle)}
+                <div class="gantt" style="--team-tint:${teamTint(player.team, 0.9)}; grid-template-columns: minmax(80px, max-content) repeat(${seasons.length}, minmax(24px, 1fr))">${cells.join('')}</div>
+                ${champOnly.length ? '<div class="chart-footnote">Greyed owners won with this player without drafting him.</div>' : ''}`;
+        }
+
+        // ---------- Chart 3: draft position over time (inline SVG) ----------
+        function draftPositionChart(player) {
+            const hist = player.draft_history || {};
+            const seasons = Object.keys(hist).filter(s => hist[s] && hist[s].draft_number != null).sort();
+            if (!seasons.length) return emptyChart('This player was never drafted.');
+
+            const W = 720, H = 320;
+            const pad = { t: 24, r: 24, b: 44, l: 54 };
+            const iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+            const x = i => pad.l + (seasons.length === 1 ? iw / 2 : i * iw / (seasons.length - 1));
+            const y = p => pad.t + (p - 1) / (UNDRAFTED_PICK - 1) * ih;
+
+            const grid = [1, 40, 80, 120, UNDRAFTED_PICK].map(t => `
+                <line class="grid-line" x1="${pad.l}" y1="${y(t).toFixed(1)}" x2="${W - pad.r}" y2="${y(t).toFixed(1)}"/>
+                <text class="axis-label" x="${pad.l - 10}" y="${(y(t) + 4).toFixed(1)}" text-anchor="end">#${t}</text>`).join('');
+
+            const pts = seasons.map((s, i) => [x(i), y(hist[s].draft_number)]);
+            const line = pts.map(([px, py], i) => `${i ? 'L' : 'M'}${px.toFixed(1)} ${py.toFixed(1)}`).join(' ');
+            const baseY = (pad.t + ih).toFixed(1);
+            const area = `M${pts[0][0].toFixed(1)} ${baseY} ` +
+                pts.map(([px, py]) => `L${px.toFixed(1)} ${py.toFixed(1)}`).join(' ') +
+                ` L${pts[pts.length - 1][0].toFixed(1)} ${baseY} Z`;
+
+            const champs = playerChampInfo(player);
+            const champMarks = seasons.map((s, i) => {
+                const wins = champs.bySeason[s];
+                if (!wins) return '';
+                const [px, py] = pts[i];
+                const who = wins.map(w => escHtml(w.owner)).join(', ');
+                return `<circle class="champ-ring" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="10"/>
+                        <text class="champ-trophy" x="${px.toFixed(1)}" y="${(py - 18).toFixed(1)}" text-anchor="middle"><title>${fmtSeason(s)} championship — ${who}</title>🏆</text>`;
+            }).join('');
+
+            const dots = pts.map(([px, py], i) => {
+                const d = hist[seasons[i]];
+                const round = d.round_number ? ` (round ${d.round_number})` : '';
+                const won = champs.bySeason[seasons[i]] ? ' — 🏆 championship season' : '';
+                return `<circle class="pt" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" tabindex="0"><title>${fmtSeason(seasons[i])} — pick #${d.draft_number}${round}${won}</title></circle>`;
+            }).join('');
+
+            const xLabels = seasons.map((s, i) =>
+                `<text class="axis-label" x="${x(i).toFixed(1)}" y="${H - 16}" text-anchor="middle">${fmtSeason(s)}</text>`).join('');
+
+            const picks = seasons.map(s => hist[s].draft_number);
+            const best = Math.min(...picks);
+            const avg = Math.round(picks.reduce((a, b) => a + b, 0) / picks.length);
+            const stroke = teamLineColor(player.team);
+
+            // A title can be won in a season the player wasn't drafted in (picked up mid-season),
+            // so those have no point on this line.
+            const markedSeasons = seasons.filter(s => champs.bySeason[s]).length;
+            const unmarked = champs.total - markedSeasons;
+
+            return `
+                ${chartHeader(player, 'Draft Position',
+                    `Best #${best} · Average #${avg} · ${seasons.length} season${seasons.length === 1 ? '' : 's'} drafted`
+                    + (markedSeasons ? ' · 🏆 marks a championship season' : ''))}
+                <svg class="chart-svg" viewBox="0 0 ${W} ${H}" style="--team:${stroke}" role="img" aria-label="Draft position by season for ${escHtml(player.name)}">
+                    <defs>
+                        <linearGradient id="draftFade" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="${stroke}" stop-opacity="0.30"/>
+                            <stop offset="100%" stop-color="${stroke}" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    ${grid}
+                    <path d="${area}" fill="url(#draftFade)"/>
+                    <path class="line-draw" d="${line}" fill="none" stroke="${stroke}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/>
+                    ${champMarks}
+                    ${dots}
+                    ${xLabels}
+                </svg>
+                ${unmarked > 0 ? `<div class="chart-footnote">${unmarked} other championship${unmarked === 1 ? '' : 's'} came in season${unmarked === 1 ? '' : 's'} he wasn't drafted in.</div>` : ''}`;
+        }
+
         // Modal functionality
+        const MODAL_CHARTS = [ownershipChart, tenureChart, draftPositionChart];
         let currentModalPlayer = null;
         let currentImageIndex = 0;
-        let modalImages = [];
-
-        function getPlayerImagePaths(playerName) {
-            // Convert player name to match pie, gantt, and draft filename formats
-            const pieFormat = playerName.toLowerCase().replace(/ /g, '_');
-            const ganttFormat = playerName.replace(/ /g, '_');
-            const draftFormat = playerName.replace(/ /g, '_');
-            
-            return [
-                `images/pie/${pieFormat}_ownership.png`,
-                `images/gantt/${ganttFormat}_gantt.png`,
-                `images/draft-line/${draftFormat}_draft_position.png`
-            ];
-        }
 
         function showModalByIndex(index) {
             const player = filteredPlayers[index];
             if (player) {
                 currentModalPlayer = player;
-                modalImages = getPlayerImagePaths(player.name);
                 currentImageIndex = 0;
                 showModalImage();
             }
         }
 
-        function showModalImage() {
-            const modal = document.getElementById('modal');
-            const modalImage = document.getElementById('modalImage');
-            
-            // Show modal immediately
-            modal.classList.add('active');
-            
-            // Set initial image path immediately
-            modalImage.src = modalImages[currentImageIndex];
-            modalImage.alt = currentModalPlayer.name;
+        function renderModalChart() {
+            if (!currentModalPlayer) return;
+            const el = document.getElementById('modalChart');
+            el.innerHTML = MODAL_CHARTS[currentImageIndex](currentModalPlayer);
+            el.style.opacity = '1';
             updateIndicators();
-            
-            // Check if image fails to load and fallback to placeholder
-            modalImage.onerror = function() {
-                if (currentImageIndex === 0) {
-                    modalImage.src = 'images/pie/placeholder.png';
-                }
-            };
+        }
+
+        function showModalImage() {
+            document.getElementById('modal').classList.add('active');
+            renderModalChart();
         }
 
         function updateIndicators() {
             const dots = document.querySelectorAll('.indicator-dot');
             dots.forEach((dot, index) => {
-                if (index === currentImageIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+                dot.classList.toggle('active', index === currentImageIndex);
             });
         }
 
         function navigateImage(direction) {
-            currentImageIndex += direction;
-            if (currentImageIndex < 0) currentImageIndex = modalImages.length - 1;
-            if (currentImageIndex >= modalImages.length) currentImageIndex = 0;
-            
-            const modalImage = document.getElementById('modalImage');
-            modalImage.style.opacity = '0';
-            setTimeout(() => {
-                modalImage.src = modalImages[currentImageIndex];
-                modalImage.style.opacity = '1';
-                updateIndicators();
-                
-                // Fallback to placeholder if pie chart fails
-                modalImage.onerror = function() {
-                    if (currentImageIndex === 0) {
-                        modalImage.src = 'images/pie/placeholder.png';
-                        modalImage.style.opacity = '1';
-                    }
-                };
-            }, 150);
+            const n = MODAL_CHARTS.length;
+            currentImageIndex = (currentImageIndex + direction + n) % n;
+            const el = document.getElementById('modalChart');
+            el.style.opacity = '0';
+            setTimeout(renderModalChart, 150);
         }
+
+        // Hovering a slice or a legend row highlights that owner and fades the rest.
+        (function () {
+            const chartEl = document.getElementById('modalChart');
+            const highlight = oi => {
+                chartEl.querySelectorAll('[data-oi]').forEach(el => {
+                    el.classList.toggle('dimmed', oi !== null && el.dataset.oi !== oi);
+                    el.classList.toggle('focused', oi !== null && el.dataset.oi === oi);
+                });
+            };
+            chartEl.addEventListener('mouseover', e => {
+                const el = e.target.closest('[data-oi]');
+                if (el) highlight(el.dataset.oi);
+            });
+            chartEl.addEventListener('mouseleave', () => highlight(null));
+        })();
 
         // Navigation button event listeners
         document.getElementById('prevImage').addEventListener('click', (e) => {
@@ -2482,22 +3178,11 @@
         document.getElementById('imageIndicator').addEventListener('click', (e) => {
             if (e.target.classList.contains('indicator-dot')) {
                 const index = parseInt(e.target.dataset.index);
+                if (index === currentImageIndex) return;
                 currentImageIndex = index;
-                const modalImage = document.getElementById('modalImage');
-                modalImage.style.opacity = '0';
-                setTimeout(() => {
-                    modalImage.src = modalImages[currentImageIndex];
-                    modalImage.style.opacity = '1';
-                    updateIndicators();
-                    
-                    // Fallback to placeholder if pie chart fails
-                    modalImage.onerror = function() {
-                        if (currentImageIndex === 0) {
-                            modalImage.src = 'images/pie/placeholder.png';
-                            modalImage.style.opacity = '1';
-                        }
-                    };
-                }, 150);
+                const el = document.getElementById('modalChart');
+                el.style.opacity = '0';
+                setTimeout(renderModalChart, 150);
             }
         });
 
