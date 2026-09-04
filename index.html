@@ -654,14 +654,6 @@
             border: 2px dashed #b6a06a;
         }
 
-        .legend-initials {
-            font-size: 11px;
-            font-weight: 800;
-            color: #6b7280;
-            width: 22px;
-            flex-shrink: 0;
-        }
-
         .legend-name {
             flex: 1;
             font-weight: 600;
@@ -2823,10 +2815,6 @@
             return map;
         }
 
-        // Owner initials, used to label slices directly instead of relying on the legend.
-        const initialsOf = name => String(name).trim().split(/\s+/)
-            .map(w => w[0]).join('').slice(0, 2).toUpperCase();
-
         // championship_* are parallel arrays: season[i] was won by owner[i].
         function playerChampInfo(player) {
             const seasons = player.championship_season || [];
@@ -2925,7 +2913,6 @@
                 return `
                 <div class="legend-item" data-oi="${i}">
                     <span class="legend-swatch" style="background:${colors[owner]}"></span>
-                    <span class="legend-initials">${initialsOf(owner)}</span>
                     <span class="legend-name">${escHtml(owner)}</span>
                     ${won ? `<span class="legend-champs">${trophies(won)}</span>` : ''}
                     <span class="legend-value">${n} · ${Math.round(n / total * 100)}%</span>
@@ -2938,7 +2925,6 @@
             const champOnlyRows = champOnly.map(([owner, n]) => `
                 <div class="legend-item champ-only">
                     <span class="legend-swatch hollow"></span>
-                    <span class="legend-initials">${initialsOf(owner)}</span>
                     <span class="legend-name">${escHtml(owner)}</span>
                     <span class="legend-champs">${trophies(n)}</span>
                     <span class="legend-value">never drafted</span>
@@ -3076,8 +3062,12 @@
                 const wins = champs.bySeason[o.s];
                 if (!wins) return '';
                 const who = wins.map(w => escHtml(w.owner)).join(', ');
+                // A top-of-the-chart pick leaves no headroom, and the glyph would be
+                // clipped by the viewBox, so drop the trophy below the point instead.
+                const ty = y(o.d.draft_number);
+                const trophyY = (ty - 18 >= 17 ? ty - 18 : ty + 27).toFixed(1);
                 return `<circle class="champ-ring" cx="${cx(o)}" cy="${cy(o)}" r="10"/>
-                        <text class="champ-trophy" x="${cx(o)}" y="${(y(o.d.draft_number) - 18).toFixed(1)}" text-anchor="middle"><title>${fmtSeason(o.s)} championship — ${who}</title>🏆</text>`;
+                        <text class="champ-trophy" x="${cx(o)}" y="${trophyY}" text-anchor="middle"><title>${fmtSeason(o.s)} championship — ${who}</title>🏆</text>`;
             }).join('');
 
             const dots = drafted.map(o => {
