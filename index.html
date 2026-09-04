@@ -1003,6 +1003,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -1026,6 +1027,18 @@
             background: white;
             color: #1e3a8a;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        a.tab-btn {
+            text-decoration: none;
+            display: inline-block;
+            margin-left: auto;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.35);
+        }
+
+        a.tab-btn:hover {
+            background: rgba(255,255,255,0.35);
         }
 
         /* Sort bar */
@@ -1502,6 +1515,10 @@
                 font-size: 14px;
             }
 
+            a.tab-btn {
+                margin-left: 0;
+            }
+
             .sort-bar {
                 gap: 6px;
             }
@@ -1545,6 +1562,7 @@
             <button class="tab-btn active" data-tab="players" onclick="switchTab('players')">🏒 Players</button>
             <button class="tab-btn" data-tab="owners" onclick="switchTab('owners')">👤 Owner Stats</button>
             <button class="tab-btn" data-tab="tiers" onclick="switchTab('tiers')">📊 Tiers & Trends</button>
+            <a class="tab-btn" href="extra.html">🧮 Extra</a>
         </div>
 
         <div id="playersSection">

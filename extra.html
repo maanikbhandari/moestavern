@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moe's Tavern — League Builder</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: #f1f5f9;
+        color: #1e293b;
+        line-height: 1.5;
+    }
+
+    .header {
+        background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+        color: white;
+        padding: 40px 20px 90px;
+        text-align: center;
+    }
+    .header h1 { font-size: 2.4rem; margin-bottom: 6px; }
+    .header-image {
+        max-width: 400px; width: 100%; height: auto; margin: 0 auto 20px; display: block;
+        border-radius: 10px; transition: transform 0.3s;
+    }
+    .header-image:hover { transform: scale(1.05); }
+    .header a {
+        color: white; opacity: 0.8; text-decoration: none;
+        font-size: 0.85rem; display: inline-block; margin-top: 14px;
+        border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 2px;
+    }
+    .header a:hover { opacity: 1; }
+
+    .wrap { max-width: 1500px; margin: -70px auto 60px; padding: 0 20px; }
+
+    .card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        padding: 25px;
+        margin-bottom: 24px;
+    }
+    .card h2 {
+        font-size: 1.15rem; color: #1e293b; margin-bottom: 4px;
+        display: flex; align-items: center; gap: 10px;
+    }
+    .card .sub { color: #64748b; font-size: 0.85rem; margin-bottom: 18px; }
+
+    .btn {
+        border: 1px solid #e5e7eb; background: white; color: #374151;
+        padding: 8px 14px; border-radius: 10px; cursor: pointer;
+        font-size: 0.85rem; font-weight: 500; transition: all 0.15s;
+        font-family: inherit;
+    }
+    .btn:hover { background: #f3f4f6; border-color: #cbd5e1; }
+    .btn-primary { background: #7c3aed; color: white; border-color: #7c3aed; }
+    .btn-primary:hover { background: #6d28d9; border-color: #6d28d9; }
+    .btn-danger:hover { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
+    .row-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* ---------- scoring ---------- */
+    .scoring-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 900px) { .scoring-groups { grid-template-columns: 1fr; } }
+    .scoring-group h3 {
+        font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em;
+        color: #64748b; margin-bottom: 12px; padding-bottom: 8px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    .scoring-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .scoring-item { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px 12px; }
+    .scoring-item label { display: block; font-size: 0.72rem; color: #64748b; margin-bottom: 5px; }
+    .scoring-item .abbr { font-weight: 700; color: #374151; font-size: 0.8rem; }
+    .scoring-item input {
+        width: 100%; border: 1px solid #e5e7eb; border-radius: 8px;
+        padding: 6px 8px; font-size: 0.95rem; font-weight: 600; color: #7c3aed;
+        font-family: inherit; background: white;
+    }
+    .scoring-item input:focus { outline: 2px solid #c4b5fd; border-color: #7c3aed; }
+    .scoring-item.changed { border-color: #7c3aed; background: #faf5ff; }
+
+    /* ---------- leaderboard ---------- */
+    .lb-row {
+        display: grid; grid-template-columns: 34px 1fr auto; gap: 14px;
+        align-items: center; padding: 10px 0;
+    }
+    .lb-rank {
+        width: 30px; height: 30px; border-radius: 8px; display: flex;
+        align-items: center; justify-content: center; font-weight: 700;
+        font-size: 0.85rem; background: #f1f5f9; color: #64748b;
+    }
+    .lb-row.top .lb-rank { background: #ffd700; color: #78350f; }
+    .lb-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 5px; }
+    .lb-name .count { color: #94a3b8; font-weight: 400; font-size: 0.8rem; margin-left: 6px; }
+    .lb-bar-track { height: 9px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+    .lb-bar { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+    .lb-total { font-weight: 700; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+    .lb-empty { color: #94a3b8; font-size: 0.9rem; text-align: center; padding: 20px; }
+
+    /* ---------- team tabs ---------- */
+    .team-tabs {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+        gap: 12px; align-items: start;
+    }
+    .team-tab {
+        border: 2px solid #e5e7eb; border-radius: 12px; padding: 12px;
+        cursor: pointer; background: white; transition: all 0.15s; text-align: left;
+        border-top-width: 4px;
+    }
+    .team-tab:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+    .team-tab.active { border-color: #7c3aed; background: #faf5ff; box-shadow: 0 4px 12px rgba(124,58,237,0.15); }
+    .team-tab input {
+        border: none; background: transparent; font-family: inherit; font-weight: 600;
+        font-size: 0.9rem; width: 100%; color: #1e293b; padding: 0; margin-bottom: 4px;
+    }
+    .team-tab input:focus { outline: none; border-bottom: 1px dashed #7c3aed; }
+    .team-tab .meta { font-size: 0.75rem; color: #64748b; }
+    .team-tab .pts { font-weight: 700; color: #1e293b; font-size: 1.05rem; }
+
+    .team-roster {
+        margin-top: 10px; padding-top: 8px; border-top: 1px solid #e5e7eb;
+        display: flex; flex-direction: column; gap: 5px;
+    }
+    .mini {
+        display: grid; grid-template-columns: 20px 1fr auto 14px;
+        gap: 6px; align-items: center; font-size: 0.72rem;
+    }
+    .mini-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #374151; }
+    .mini-pts { font-variant-numeric: tabular-nums; color: #64748b; font-weight: 600; }
+    .mini-x {
+        border: none; background: transparent; color: #cbd5e1; cursor: pointer;
+        font-size: 0.9rem; line-height: 1; padding: 0; font-family: inherit;
+    }
+    .mini-x:hover { color: #dc2626; }
+    .team-empty { font-size: 0.72rem; color: #cbd5e1; font-style: italic; padding: 4px 0; }
+
+    /* ---------- builder ---------- */
+    .builder { display: grid; grid-template-columns: 1.35fr 1fr; gap: 24px; align-items: start; }
+    @media (max-width: 1050px) { .builder { grid-template-columns: 1fr; } }
+
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .controls input[type=text], .controls select {
+        border: 1px solid #e5e7eb; border-radius: 10px; padding: 9px 12px;
+        font-family: inherit; font-size: 0.88rem; background: white; color: #374151;
+    }
+    .controls input[type=text] { flex: 1; min-width: 180px; }
+    .controls input[type=text]:focus, .controls select:focus { outline: 2px solid #c4b5fd; border-color: #7c3aed; }
+
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    .chip {
+        border: 1px solid #e5e7eb; background: white; border-radius: 99px;
+        padding: 5px 13px; font-size: 0.78rem; cursor: pointer; color: #64748b;
+        font-family: inherit; font-weight: 500;
+    }
+    .chip:hover { background: #f3f4f6; }
+    .chip.on { background: #7c3aed; border-color: #7c3aed; color: white; }
+
+    .plist { max-height: 620px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 12px; }
+    .prow {
+        display: grid; grid-template-columns: 48px 1fr 46px 62px 96px;
+        gap: 10px; align-items: center; padding: 8px 12px 8px 0;
+        border-bottom: 1px solid #f1f5f9; border-left: 4px solid transparent;
+    }
+    .acell { padding-left: 18px; }
+    .prow:last-child { border-bottom: none; }
+    .prow:hover { background: #f8fafc; }
+    .prow.taken { opacity: 0.5; }
+    .mug-wrap {
+        position: relative; width: 40px; height: 40px; border-radius: 50%;
+        margin-left: 8px; overflow: hidden; display: flex;
+        align-items: center; justify-content: center;
+        font-size: 0.72rem; font-weight: 700; color: white; letter-spacing: -0.02em;
+    }
+    .mug-wrap img {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover; background: #e2e8f0;
+    }
+    .mug-wrap.sm { width: 20px; height: 20px; margin-left: 0; font-size: 0.5rem; }
+    .pname { font-weight: 600; font-size: 0.88rem; }
+    .pmeta { font-size: 0.74rem; color: #64748b; display: flex; align-items: center; gap: 5px; margin-top: 1px; }
+    .tlogo { width: 15px; height: 15px; object-fit: contain; vertical-align: middle; }
+    .posbadge {
+        display: inline-block; font-size: 0.66rem; font-weight: 700; padding: 2px 6px;
+        border-radius: 5px; background: #f1f5f9; color: #475569; letter-spacing: 0.02em;
+    }
+    .posbadge.G { background: #fef3c7; color: #92400e; }
+    .posbadge.D { background: #dbeafe; color: #1e40af; }
+    .posbadge.F { background: #dcfce7; color: #166534; }
+    .ppts { text-align: right; font-weight: 700; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+    .ppts.zero { color: #cbd5e1; font-weight: 500; }
+    .draftbtn {
+        width: 100%; padding: 7px 10px; border-radius: 8px;
+        border: 1px solid #7c3aed; background: #7c3aed; color: white;
+        cursor: pointer; font-size: 0.78rem; font-weight: 700;
+        font-family: inherit; letter-spacing: 0.02em; transition: all 0.15s;
+    }
+    .draftbtn:hover { background: #6d28d9; border-color: #6d28d9; }
+    .iconbtn {
+        width: 28px; height: 28px; border-radius: 8px; border: 1px solid #e5e7eb;
+        background: white; cursor: pointer; font-size: 1rem; line-height: 1;
+        color: #7c3aed; font-weight: 700; font-family: inherit; margin-left: auto;
+        display: block;
+    }
+    .iconbtn:hover { background: #7c3aed; color: white; border-color: #7c3aed; }
+    .iconbtn.rm { color: #dc2626; }
+    .iconbtn.rm:hover { background: #dc2626; color: white; border-color: #dc2626; }
+    .iconbtn:disabled { opacity: 0.35; cursor: not-allowed; background: white; color: #94a3b8; border-color: #e5e7eb; }
+    .takenby {
+        font-size: 0.68rem; text-align: center; font-weight: 700;
+        line-height: 1.2; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .roster-head {
+        display: flex; align-items: center; justify-content: space-between;
+        padding-bottom: 12px; margin-bottom: 4px; border-bottom: 2px solid #f1f5f9;
+    }
+    .roster-title { font-weight: 700; font-size: 1rem; }
+    .roster-total { font-weight: 700; font-size: 1.3rem; }
+    .empty-note {
+        text-align: center; color: #94a3b8; font-size: 0.88rem;
+        padding: 40px 20px; border: 2px dashed #e5e7eb; border-radius: 12px; margin-top: 14px;
+    }
+    .loading { text-align: center; padding: 60px; color: #64748b; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <img src="img/moe_header.jpg" alt="Moe's Tavern" class="header-image" width="800" height="450">
+    <h1>League Builder</h1>
+    <a href="index.html">&larr; Back to Moe's Tavern</a>
+</div>
+
+<div class="wrap">
+    <div id="loading" class="card loading">Loading player data&hellip;</div>
+
+    <div id="app" style="display:none;">
+
+        <!-- Scoring -->
+        <div class="card">
+            <h2>Scoring Settings</h2>
+            <div class="sub">Every projected total below recalculates the moment you change a value.</div>
+            <div class="scoring-groups">
+                <div class="scoring-group">
+                    <h3>Skater</h3>
+                    <div class="scoring-grid" id="skaterScoring"></div>
+                </div>
+                <div class="scoring-group">
+                    <h3>Goaltender</h3>
+                    <div class="scoring-grid" id="goalieScoring"></div>
+                </div>
+            </div>
+            <div class="row-actions" style="margin-top:18px;">
+                <button class="btn" onclick="resetScoring()">Reset to league defaults</button>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="card">
+            <h2>Leaderboard</h2>
+            <div class="sub">Ranked by total projected points across each roster.</div>
+            <div id="leaderboard"></div>
+        </div>
+
+        <!-- Teams -->
+        <div class="card">
+            <h2>Teams</h2>
+            <div class="sub">Click a team to make it active, then draft players to it. Rename by typing over the name.</div>
+            <div class="team-tabs" id="teamTabs"></div>
+            <div class="row-actions" style="margin-top:18px;">
+                <button class="btn btn-danger" onclick="clearActive()">Clear active roster</button>
+                <button class="btn btn-danger" onclick="clearAll()">Clear all rosters</button>
+            </div>
+        </div>
+
+        <!-- Builder -->
+        <div class="builder">
+            <div class="card">
+                <h2>Available Players</h2>
+                <div class="sub" id="poolCount"></div>
+                <div class="controls">
+                    <input type="text" id="search" placeholder="Search players&hellip;  (Enter drafts the top result)" autocomplete="off">
+                    <select id="teamFilter"></select>
+                </div>
+                <div class="chips" id="posChips"></div>
+                <div class="chips">
+                    <button class="chip on" id="chipProjected">Only players with projections</button>
+                    <button class="chip on" id="chipHideTaken">Hide drafted</button>
+                </div>
+                <div class="plist" id="pool"></div>
+            </div>
+
+            <div class="card">
+                <div class="roster-head">
+                    <div>
+                        <div class="roster-title" id="rosterName">Team 1</div>
+                        <div class="sub" style="margin:0;" id="rosterCount">0 players</div>
+                    </div>
+                    <div class="roster-total" id="rosterTotal">0.0</div>
+                </div>
+                <div id="roster"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ---------------- constants ---------------- */
+
+const NUM_TEAMS = 7;
+
+const FANTASY_COLORS = ['#7c3aed','#2563eb','#059669','#dc2626','#ea580c','#0891b2','#db2777'];
+
+const NHL_COLORS = {
+    ANA:'#F47A38', BOS:'#FFB81C', BUF:'#003087', CGY:'#D2001C', CAR:'#CE1126',
+    CHI:'#CF0A2C', COL:'#6F263D', CBJ:'#002654', DAL:'#006847', DET:'#CE1126',
+    EDM:'#FF4C00', FLA:'#C8102E', LA:'#A2AAAD',  MIN:'#154734', MTL:'#AF1E2D',
+    NSH:'#FFB81C', NJ:'#CE1126',  NYI:'#00539B', NYR:'#0038A8', OTT:'#C8102E',
+    PHI:'#F74902', PIT:'#FCB514', SJ:'#006D75',  SEA:'#99D9D9', STL:'#002F87',
+    TB:'#002868',  TOR:'#00205B', UTA:'#71AFE5', VAN:'#00205B', VGK:'#B4975A',
+    WSH:'#C8102E', WPG:'#041E42', FA:'#94a3b8'
+};
+
+// ESPN logo slugs match our abbreviations except Utah.
+const LOGO_SLUG = { UTA: 'utah' };
+
+const STORE_SCORING = 'moe_extra_scoring';
+const STORE_TEAMS   = 'moe_extra_teams';
+
+/* ---------------- state ---------------- */
+
+let players = [];          // all rows
+let defaults = null;       // scoring_settings.json
+let scoring = null;        // live, editable
+let labels = {};
+let points = new Map();    // PLAYER_ID -> projected points
+let owner = new Map();     // PLAYER_ID -> team index
+let byId = new Map();      // PLAYER_ID -> player row
+let teams = [];
+let active = 0;
+
+let filters = { q: '', pos: 'ALL', team: 'ALL', projectedOnly: true, hideTaken: true };
+
+/* ---------------- helpers ---------------- */
+
+function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
+function num(v) {
+    if (v === null || v === undefined || v === '' || v === '--') return 0;
+    const n = parseFloat(v);
+    return isNaN(n) ? 0 : n;
+}
+
+function hasStats(p) {
+    const keys = p.POS === 'G' ? ['GS','W','SV','SO','OTL'] : ['GP','G','A','PPP','SHP','GWG','HAT','BLK'];
+    return keys.some(k => p[k] !== null && p[k] !== undefined && p[k] !== '' && p[k] !== '--');
+}
+
+function isGoalie(p) { return p.POS === 'G'; }
+
+function logoUrl(team) {
+    if (!team || team === 'FA') return null;
+    const slug = LOGO_SLUG[team] || team.toLowerCase();
+    return `https://a.espncdn.com/i/teamlogos/nhl/500/${encodeURIComponent(slug)}.png`;
+}
+
+function mugUrl(id) {
+    return `https://a.espncdn.com/i/headshots/nhl/players/full/${encodeURIComponent(id)}.png`;
+}
+
+function initials(name) {
+    return String(name || '').split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
+}
+
+function shortName(name) {
+    const parts = String(name || '').trim().split(/\s+/);
+    if (parts.length < 2) return name || '';
+    return `${parts[0][0]}. ${parts.slice(1).join(' ')}`;
+}
+
+function fmt(n) { return n.toFixed(1); }
+
+function posClass(p) {
+    if (p.POS === 'G') return 'G';
+    if (p.POS === 'D') return 'D';
+    return 'F';
+}
+
+function posLabel(p) {
+    return p.POS_DETAIL || p.POS || '';
+}
+
+function save() {
+    try {
+        localStorage.setItem(STORE_SCORING, JSON.stringify(scoring));
+        localStorage.setItem(STORE_TEAMS, JSON.stringify(teams));
+    } catch (e) { /* storage unavailable — the page still works, just won't persist */ }
+}
+
+/* ---------------- scoring ---------------- */
+
+function computePoints() {
+    points.clear();
+    for (const p of players) {
+        const cats = isGoalie(p) ? scoring.goalie : scoring.skater;
+        let total = 0;
+        for (const k in cats) total += num(p[k]) * cats[k];
+        points.set(p.PLAYER_ID, total);
+    }
+}
+
+function renderScoring() {
+    for (const group of ['skater', 'goalie']) {
+        const host = document.getElementById(group === 'skater' ? 'skaterScoring' : 'goalieScoring');
+        host.innerHTML = Object.keys(defaults[group]).map(k => {
+            const changed = scoring[group][k] !== defaults[group][k];
+            return `
+            <div class="scoring-item ${changed ? 'changed' : ''}">
+                <label><span class="abbr">${esc(k)}</span> &middot; ${esc(labels[k] || k)}</label>
+                <input type="number" step="0.01" value="${scoring[group][k]}"
+                       data-group="${group}" data-cat="${esc(k)}">
+            </div>`;
+        }).join('');
+    }
+    bindScoringInputs();
+}
+
+function bindScoringInputs() {
+    document.querySelectorAll('.scoring-item input').forEach(input => {
+        input.addEventListener('input', () => {
+            const v = parseFloat(input.value);
+            scoring[input.dataset.group][input.dataset.cat] = isNaN(v) ? 0 : v;
+            input.closest('.scoring-item').classList.toggle(
+                'changed',
+                scoring[input.dataset.group][input.dataset.cat] !== defaults[input.dataset.group][input.dataset.cat]
+            );
+            recalc();
+            save();
+        });
+    });
+}
+
+function resetScoring() {
+    scoring = JSON.parse(JSON.stringify(defaults));
+    renderScoring();
+    recalc();
+    save();
+}
+
+/* ---------------- teams ---------------- */
+
+function rosterPoints(t) {
+    return t.players.reduce((sum, id) => sum + (points.get(id) || 0), 0);
+}
+
+function rebuildOwners() {
+    owner.clear();
+    teams.forEach((t, i) => t.players.forEach(id => owner.set(id, i)));
+}
+
+function rosterOf(t) {
+    return t.players
+        .map(id => byId.get(id))
+        .filter(Boolean)
+        .sort((a, b) => (points.get(b.PLAYER_ID) || 0) - (points.get(a.PLAYER_ID) || 0));
+}
+
+function miniRow(p) {
+    const accent = NHL_COLORS[p.TEAM] || '#cbd5e1';
+    return `
+        <div class="mini">
+            <div class="mug-wrap sm" style="background:${accent}">${esc(initials(p.PLAYER))}<img
+                src="${mugUrl(p.PLAYER_ID)}" alt="" loading="lazy" onerror="this.remove()"></div>
+            <div class="mini-name" title="${esc(p.PLAYER)}">${esc(shortName(p.PLAYER))}</div>
+            <div class="mini-pts">${fmt(points.get(p.PLAYER_ID) || 0)}</div>
+            <button class="mini-x" title="Remove ${esc(p.PLAYER)}"
+                    onclick="event.stopPropagation();removePlayer(${p.PLAYER_ID})">&times;</button>
+        </div>`;
+}
+
+function renderTeams() {
+    document.getElementById('teamTabs').innerHTML = teams.map((t, i) => {
+        const roster = rosterOf(t);
+        return `
+        <div class="team-tab ${i === active ? 'active' : ''}" style="border-top-color:${FANTASY_COLORS[i]}"
+             onclick="setActive(${i})">
+            <input value="${esc(t.name)}" data-team="${i}"
+                   onclick="event.stopPropagation()" maxlength="28">
+            <div class="meta">
+                <span class="pts">${fmt(rosterPoints(t))}</span>
+                &middot; ${t.players.length} player${t.players.length === 1 ? '' : 's'}
+            </div>
+            <div class="team-roster">
+                ${roster.length
+                    ? roster.map(miniRow).join('')
+                    : '<div class="team-empty">No players yet</div>'}
+            </div>
+        </div>`;
+    }).join('');
+
+    document.querySelectorAll('.team-tab input').forEach(input => {
+        input.addEventListener('input', () => {
+            teams[+input.dataset.team].name = input.value;
+            renderLeaderboard();
+            renderRoster();
+            save();
+        });
+    });
+}
+
+function setActive(i) {
+    active = i;
+    renderTeams();
+    renderRoster();
+    renderPool();
+}
+
+function addPlayer(id) {
+    if (owner.has(id)) return;
+    teams[active].players.push(id);
+    rebuildOwners();
+    renderAll();
+    save();
+}
+
+function removePlayer(id) {
+    const t = teams[owner.get(id)];
+    if (!t) return;
+    t.players = t.players.filter(x => x !== id);
+    rebuildOwners();
+    renderAll();
+    save();
+}
+
+function clearActive() {
+    teams[active].players = [];
+    rebuildOwners();
+    renderAll();
+    save();
+}
+
+function clearAll() {
+    if (!confirm('Clear every roster? This cannot be undone.')) return;
+    teams.forEach(t => t.players = []);
+    rebuildOwners();
+    renderAll();
+    save();
+}
+
+/* ---------------- leaderboard ---------------- */
+
+function renderLeaderboard() {
+    const host = document.getElementById('leaderboard');
+    const ranked = teams
+        .map((t, i) => ({ t, i, total: rosterPoints(t) }))
+        .sort((a, b) => b.total - a.total);
+
+    if (ranked.every(r => r.t.players.length === 0)) {
+        host.innerHTML = '<div class="lb-empty">No players drafted yet — draft some below and the standings will fill in.</div>';
+        return;
+    }
+
+    const max = Math.max(...ranked.map(r => r.total), 1);
+    host.innerHTML = ranked.map((r, idx) => `
+        <div class="lb-row ${idx === 0 && r.total > 0 ? 'top' : ''}">
+            <div class="lb-rank">${idx + 1}</div>
+            <div>
+                <div class="lb-name">${esc(r.t.name)}<span class="count">${r.t.players.length} player${r.t.players.length === 1 ? '' : 's'}</span></div>
+                <div class="lb-bar-track">
+                    <div class="lb-bar" style="width:${(r.total / max * 100).toFixed(1)}%;background:${FANTASY_COLORS[r.i]}"></div>
+                </div>
+            </div>
+            <div class="lb-total" style="color:${FANTASY_COLORS[r.i]}">${fmt(r.total)}</div>
+        </div>`).join('');
+}
+
+/* ---------------- player rows ---------------- */
+
+function playerRow(p, mode) {
+    const pts = points.get(p.PLAYER_ID) || 0;
+    const takenBy = owner.get(p.PLAYER_ID);
+    const logo = logoUrl(p.TEAM);
+    const accent = NHL_COLORS[p.TEAM] || '#cbd5e1';
+
+    const mug = `<div class="mug-wrap" style="background:${accent}">${esc(initials(p.PLAYER))}<img
+        src="${mugUrl(p.PLAYER_ID)}" alt="" loading="lazy" onerror="this.remove()"></div>`;
+
+    const teamBit = logo
+        ? `<img class="tlogo" src="${logo}" alt="" loading="lazy" onerror="this.style.display='none'"> ${esc(p.TEAM)}`
+        : esc(p.TEAM || '');
+
+    let action;
+    if (mode === 'roster') {
+        action = `<button class="iconbtn rm" title="Remove" onclick="removePlayer(${p.PLAYER_ID})">&minus;</button>`;
+    } else if (takenBy === undefined) {
+        action = `<button class="draftbtn" title="Draft to ${esc(teams[active].name)}"
+                     onclick="addPlayer(${p.PLAYER_ID})">Draft</button>`;
+    } else {
+        action = `<div class="takenby" style="color:${FANTASY_COLORS[takenBy]}">${esc(teams[takenBy].name)}</div>`;
+    }
+    return `
+    <div class="prow ${takenBy !== undefined && mode !== 'roster' ? 'taken' : ''}" style="border-left-color:${accent}">
+        ${mug}
+        <div>
+            <div class="pname">${esc(p.PLAYER)}</div>
+            <div class="pmeta">${teamBit}</div>
+        </div>
+        <div><span class="posbadge ${posClass(p)}">${esc(posLabel(p))}</span></div>
+        <div class="ppts ${pts === 0 ? 'zero' : ''}">${fmt(pts)}</div>
+        <div class="acell">${action}</div>
+    </div>`;
+}
+
+/* ---------------- pool ---------------- */
+
+const POS_OPTIONS = ['ALL', 'F', 'C', 'LW', 'RW', 'D', 'G'];
+
+function matchesPos(p) {
+    if (filters.pos === 'ALL') return true;
+    if (filters.pos === 'F' || filters.pos === 'D' || filters.pos === 'G') {
+        return String(p.POS).split(',').map(s => s.trim()).includes(filters.pos);
+    }
+    return p.POS_DETAIL === filters.pos;
+}
+
+function filteredPool() {
+    const q = filters.q.toLowerCase();
+    return players.filter(p => {
+        if (filters.projectedOnly && !hasStats(p)) return false;
+        if (filters.hideTaken && owner.has(p.PLAYER_ID)) return false;
+        if (filters.team !== 'ALL' && p.TEAM !== filters.team) return false;
+        if (!matchesPos(p)) return false;
+        if (q && !String(p.PLAYER).toLowerCase().includes(q)) return false;
+        return true;
+    }).sort((a, b) => (points.get(b.PLAYER_ID) || 0) - (points.get(a.PLAYER_ID) || 0));
+}
+
+const POOL_LIMIT = 150;
+
+function renderPool() {
+    const list = filteredPool();
+    const shown = list.slice(0, POOL_LIMIT);
+    document.getElementById('pool').innerHTML = shown.length
+        ? shown.map(p => playerRow(p, 'pool')).join('')
+        : '<div class="empty-note" style="margin:0;border:none;">No players match those filters.</div>';
+    document.getElementById('poolCount').textContent =
+        `${list.length} player${list.length === 1 ? '' : 's'}` +
+        (list.length > POOL_LIMIT ? ` — showing the top ${POOL_LIMIT}, keep typing to narrow it down.` : '');
+}
+
+function renderPosChips() {
+    document.getElementById('posChips').innerHTML = POS_OPTIONS.map(o =>
+        `<button class="chip ${filters.pos === o ? 'on' : ''}" data-pos="${o}">${o === 'ALL' ? 'All positions' : o}</button>`
+    ).join('');
+    document.querySelectorAll('#posChips .chip').forEach(c => {
+        c.addEventListener('click', () => { filters.pos = c.dataset.pos; renderPosChips(); renderPool(); });
+    });
+}
+
+function renderTeamFilter() {
+    const list = [...new Set(players.map(p => p.TEAM).filter(Boolean))].sort();
+    document.getElementById('teamFilter').innerHTML =
+        `<option value="ALL">All NHL teams</option>` +
+        list.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
+}
+
+/* ---------------- roster ---------------- */
+
+function renderRoster() {
+    const t = teams[active];
+    document.getElementById('rosterName').textContent = t.name;
+    document.getElementById('rosterName').style.color = FANTASY_COLORS[active];
+    document.getElementById('rosterCount').textContent =
+        `${t.players.length} player${t.players.length === 1 ? '' : 's'} — no position limits`;
+    document.getElementById('rosterTotal').textContent = fmt(rosterPoints(t));
+    document.getElementById('rosterTotal').style.color = FANTASY_COLORS[active];
+
+    const rows = rosterOf(t);
+
+    document.getElementById('roster').innerHTML = rows.length
+        ? `<div class="plist" style="border:none;max-height:620px;">${rows.map(p => playerRow(p, 'roster')).join('')}</div>`
+        : '<div class="empty-note">Nothing here yet.<br>Draft players from the list on the left.</div>';
+}
+
+/* ---------------- orchestration ---------------- */
+
+function recalc() {
+    computePoints();
+    renderAll();
+}
+
+function renderAll() {
+    renderTeams();
+    renderLeaderboard();
+    renderRoster();
+    renderPool();
+}
+
+/* ---------------- boot ---------------- */
+
+function bindControls() {
+    const search = document.getElementById('search');
+    search.addEventListener('input', () => { filters.q = search.value; renderPool(); });
+    search.addEventListener('keydown', e => {
+        if (e.key !== 'Enter') return;
+        const top = filteredPool()[0];
+        if (top && !owner.has(top.PLAYER_ID)) {
+            addPlayer(top.PLAYER_ID);
+            search.value = '';
+            filters.q = '';
+            renderPool();
+        }
+    });
+
+    const tf = document.getElementById('teamFilter');
+    tf.addEventListener('change', () => { filters.team = tf.value; renderPool(); });
+
+    const cp = document.getElementById('chipProjected');
+    cp.addEventListener('click', () => {
+        filters.projectedOnly = !filters.projectedOnly;
+        cp.classList.toggle('on', filters.projectedOnly);
+        renderPool();
+    });
+
+    const ch = document.getElementById('chipHideTaken');
+    ch.addEventListener('click', () => {
+        filters.hideTaken = !filters.hideTaken;
+        ch.classList.toggle('on', filters.hideTaken);
+        renderPool();
+    });
+}
+
+function loadState() {
+    try {
+        const s = JSON.parse(localStorage.getItem(STORE_SCORING) || 'null');
+        if (s && s.skater && s.goalie) {
+            // only accept categories we know about, so a stale cache can't inject junk
+            for (const g of ['skater', 'goalie'])
+                for (const k in defaults[g])
+                    if (typeof s[g][k] === 'number') scoring[g][k] = s[g][k];
+        }
+    } catch (e) { /* ignore malformed cache */ }
+
+    try {
+        const t = JSON.parse(localStorage.getItem(STORE_TEAMS) || 'null');
+        if (Array.isArray(t) && t.length === NUM_TEAMS) {
+            const valid = new Set(players.map(p => p.PLAYER_ID));
+            teams = t.map((x, i) => ({
+                name: typeof x.name === 'string' ? x.name.slice(0, 28) : `Team ${i + 1}`,
+                players: Array.isArray(x.players) ? x.players.filter(id => valid.has(id)) : []
+            }));
+        }
+    } catch (e) { /* ignore malformed cache */ }
+}
+
+Promise.all([
+    fetch('extra/all_players_data.json').then(r => r.json()),
+    fetch('extra/scoring_settings.json').then(r => r.json())
+]).then(([data, settings]) => {
+    players = data;
+    byId = new Map(players.map(p => [p.PLAYER_ID, p]));
+    defaults = { skater: settings.skater, goalie: settings.goalie };
+    labels = settings.labels || {};
+    scoring = JSON.parse(JSON.stringify(defaults));
+    teams = Array.from({ length: NUM_TEAMS }, (_, i) => ({ name: `Team ${i + 1}`, players: [] }));
+
+    loadState();
+    rebuildOwners();
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    renderScoring();
+    renderTeamFilter();
+    renderPosChips();
+    bindControls();
+    recalc();
+}).catch(err => {
+    document.getElementById('loading').textContent =
+        'Could not load the data files. If you opened this page directly from disk, serve the folder over HTTP instead.';
+    console.error(err);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "description": "League scoring values. TOT = sum of (stat x points) over the categories below.",
+  "skater": {
+    "G": 3,
+    "A": 3,
+    "PPP": 1,
+    "SHP": 1,
+    "GWG": 1,
+    "HAT": 6,
+    "BLK": 0.5
+  },
+  "goalie": {
+    "W": 6,
+    "SV": 0.03,
+    "SO": 3,
+    "OTL": 3
+  },
+  "labels": {
+    "G": "Goals",
+    "A": "Assists",
+    "PPP": "Power Play Points",
+    "SHP": "Short Handed Points",
+    "GWG": "Game-Winning Goals",
+    "HAT": "Hat Tricks",
+    "BLK": "Blocked Shots",
+    "W": "Wins",
+    "SV": "Saves",
+    "SO": "Shutouts",
+    "OTL": "Overtime Losses"
+  },
+  "notes": {
+    "TOT": "Verified against all 371 players carrying stats in all_players_data.json.",
+    "AVG_skaters": "AVG = TOT / GP. Verified for all 326 skaters with games played.",
+    "AVG_goalies": "AVG is TOT divided by games played, which is not a column in this dataset (GS is starts, not appearances). Only 11 of 49 goalies match TOT / GS."
+  }
+}
