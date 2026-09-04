@@ -3149,7 +3149,27 @@
                 });
             });
 
-            const subtitle = 'Seasons rostered, by owner';
+            // The bars already show who held him and when, but never say it. Pull
+            // out how much of league history he spent on a roster at all, and the
+            // longest anyone hung on to him without letting go.
+            const held = new Set();
+            Object.values(oy).forEach(arr => (arr || []).forEach(s => held.add(s)));
+
+            let longest = { owner: '', run: 0 };
+            owners.forEach(o => {
+                const idx = (oy[o] || []).map(s => seasons.indexOf(s))
+                    .filter(i => i >= 0).sort((a, b) => a - b);
+                let run = 0;
+                idx.forEach((i, k) => {
+                    run = k && i === idx[k - 1] + 1 ? run + 1 : 1;
+                    if (run > longest.run) longest = { owner: o, run };
+                });
+            });
+
+            const subtitle = `Rostered in ${held.size} of ${seasons.length} seasons`
+                + (longest.run > 1
+                    ? ` · ${longest.run} straight with ${escHtml(longest.owner)}`
+                    : held.size > 1 ? ' · never two seasons running' : '');
 
             return `
                 ${chartHeader(player, subtitle)}
