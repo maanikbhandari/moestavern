@@ -511,6 +511,10 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            /* The close button is 40px square inset 15px, so it reaches 25px into
+               the chart once the modal's 30px padding is accounted for. Keeping
+               this padding symmetric means the title stays centred as it wraps. */
+            padding: 0 28px;
             font-size: clamp(20px, 2vw, 30px);
             font-weight: 800;
             color: #1f2937;
