@@ -251,6 +251,11 @@
                     <div class="scoring-grid" id="goalieScoring"></div>
                 </div>
             </div>
+            <div class="scoring-group" style="margin-top:24px;">
+                <h3>Bonus</h3>
+                <div class="sub">Extra points on top of the categories above, for every goal and assist recorded by a defenceman.</div>
+                <div class="scoring-grid" id="bonusScoring"></div>
+            </div>
             <div class="row-actions" style="margin-top:18px;">
                 <button class="btn" onclick="resetScoring()">Reset to league defaults</button>
             </div>
@@ -299,6 +304,10 @@
                     </div>
                     <div class="roster-total" id="rosterTotal">0.0</div>
                 </div>
+                <div class="chips">
+                    <button class="chip on" id="sortPts">Sort by points</button>
+                    <button class="chip" id="sortPos">Sort by position</button>
+                </div>
                 <div id="roster"></div>
             </div>
         </div>
@@ -327,6 +336,7 @@ const LOGO_SLUG = { UTA: 'utah' };
 
 const STORE_SCORING = 'moe_extra_scoring';
 const STORE_TEAMS   = 'moe_extra_teams';
+const STORE_SORT    = 'moe_extra_roster_sort';
 
 /* ---------------- state ---------------- */
 
@@ -339,6 +349,7 @@ let owner = new Map();     // PLAYER_ID -> team index
 let byId = new Map();      // PLAYER_ID -> player row
 let teams = [];
 let active = 0;
+let rosterSort = 'pts';   // 'pts' or 'pos'
 
 let filters = { q: '', pos: 'ALL', team: 'ALL', projectedOnly: true, hideTaken: true };
 
@@ -398,6 +409,7 @@ function save() {
     try {
         localStorage.setItem(STORE_SCORING, JSON.stringify(scoring));
         localStorage.setItem(STORE_TEAMS, JSON.stringify(teams));
+        localStorage.setItem(STORE_SORT, rosterSort);
     } catch (e) { /* storage unavailable — the page still works, just won't persist */ }
 }
 
@@ -409,13 +421,16 @@ function computePoints() {
         const cats = isGoalie(p) ? scoring.goalie : scoring.skater;
         let total = 0;
         for (const k in cats) total += num(p[k]) * cats[k];
+        // flat bonus per point (G + A) for defencemen only
+        if (p.POS === 'D') total += (num(p.G) + num(p.A)) * scoring.bonus.D_PTS;
         points.set(p.PLAYER_ID, total);
     }
 }
 
 function renderScoring() {
-    for (const group of ['skater', 'goalie']) {
-        const host = document.getElementById(group === 'skater' ? 'skaterScoring' : 'goalieScoring');
+    const hosts = { skater: 'skaterScoring', goalie: 'goalieScoring', bonus: 'bonusScoring' };
+    for (const group of ['skater', 'goalie', 'bonus']) {
+        const host = document.getElementById(hosts[group]);
         host.innerHTML = Object.keys(defaults[group]).map(k => {
             const changed = scoring[group][k] !== defaults[group][k];
             return `
@@ -462,11 +477,26 @@ function rebuildOwners() {
     teams.forEach((t, i) => t.players.forEach(id => owner.set(id, i)));
 }
 
+const POS_RANK = { F: 0, D: 1, G: 2 };
+
 function rosterOf(t) {
-    return t.players
-        .map(id => byId.get(id))
-        .filter(Boolean)
-        .sort((a, b) => (points.get(b.PLAYER_ID) || 0) - (points.get(a.PLAYER_ID) || 0));
+    const rows = t.players.map(id => byId.get(id)).filter(Boolean);
+    return rows.sort((a, b) => {
+        if (rosterSort === 'pos') {
+            const ra = POS_RANK[posClass(a)], rb = POS_RANK[posClass(b)];
+            if (ra !== rb) return ra - rb;
+        }
+        return (points.get(b.PLAYER_ID) || 0) - (points.get(a.PLAYER_ID) || 0);
+    });
+}
+
+function setRosterSort(mode) {
+    rosterSort = mode;
+    document.getElementById('sortPts').classList.toggle('on', mode === 'pts');
+    document.getElementById('sortPos').classList.toggle('on', mode === 'pos');
+    renderTeams();
+    renderRoster();
+    save();
 }
 
 function miniRow(p) {
@@ -719,6 +749,11 @@ function bindControls() {
     const tf = document.getElementById('teamFilter');
     tf.addEventListener('change', () => { filters.team = tf.value; renderPool(); });
 
+    document.getElementById('sortPts').addEventListener('click', () => setRosterSort('pts'));
+    document.getElementById('sortPos').addEventListener('click', () => setRosterSort('pos'));
+    document.getElementById('sortPts').classList.toggle('on', rosterSort === 'pts');
+    document.getElementById('sortPos').classList.toggle('on', rosterSort === 'pos');
+
     const cp = document.getElementById('chipProjected');
     cp.addEventListener('click', () => {
         filters.projectedOnly = !filters.projectedOnly;
@@ -739,11 +774,17 @@ function loadState() {
         const s = JSON.parse(localStorage.getItem(STORE_SCORING) || 'null');
         if (s && s.skater && s.goalie) {
             // only accept categories we know about, so a stale cache can't inject junk
-            for (const g of ['skater', 'goalie'])
-                for (const k in defaults[g])
-                    if (typeof s[g][k] === 'number') scoring[g][k] = s[g][k];
+            for (const g of ['skater', 'goalie', 'bonus'])
+                if (s[g])
+                    for (const k in defaults[g])
+                        if (typeof s[g][k] === 'number') scoring[g][k] = s[g][k];
         }
     } catch (e) { /* ignore malformed cache */ }
+
+    try {
+        const sort = localStorage.getItem(STORE_SORT);
+        if (sort === 'pts' || sort === 'pos') rosterSort = sort;
+    } catch (e) { /* ignore */ }
 
     try {
         const t = JSON.parse(localStorage.getItem(STORE_TEAMS) || 'null');
@@ -763,7 +804,7 @@ Promise.all([
 ]).then(([data, settings]) => {
     players = data;
     byId = new Map(players.map(p => [p.PLAYER_ID, p]));
-    defaults = { skater: settings.skater, goalie: settings.goalie };
+    defaults = { skater: settings.skater, goalie: settings.goalie, bonus: settings.bonus || { D_PTS: 0 } };
     labels = settings.labels || {};
     scoring = JSON.parse(JSON.stringify(defaults));
     teams = Array.from({ length: NUM_TEAMS }, (_, i) => ({ name: `Team ${i + 1}`, players: [] }));
