@@ -483,9 +483,10 @@
         }
 
         /* ---------- Modal charts (pure CSS + inline SVG) ---------- */
-        /* 86vw still governs on a phone; the cap is what desktop was stuck on. */
+        /* 86vw is what governs on a phone, so it has to stay put; the cap is the
+           only term desktop ever sees. */
         .modal-chart {
-            width: min(1230px, 88vw);
+            width: min(1230px, 86vw);
             /* Bigger type makes the header taller, so the vertical room the chart
                can claim has to stay conservative or the modal starts scrolling. */
             max-height: calc(95vh - 200px);
