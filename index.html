@@ -651,6 +651,14 @@
             opacity: 0.85;
         }
 
+        /* The negative margin above cancels the padding so a hover background can
+           be taller than the text without spreading the rows apart. On the end
+           rows there is nothing to cancel against, and the bottom one leaves its
+           box hanging 4px below the legend - enough overflow to raise a scrollbar
+           on a phone, where the legend wraps under the donut instead of beside it. */
+        .legend-item:first-child { margin-top: 0; }
+        .legend-item:last-child { margin-bottom: 0; }
+
         .legend-swatch {
             width: clamp(14px, 1.25vw, 20px);
             height: clamp(14px, 1.25vw, 20px);
