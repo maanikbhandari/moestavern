@@ -490,10 +490,12 @@
         }
 
         /* ---------- Modal charts (pure CSS + inline SVG) ---------- */
-        /* 86vw is what governs on a phone, so it has to stay put; the cap is the
-           only term desktop ever sees. */
+        /* The second term is the width that actually exists: the modal's 20px
+           padding either side, then .modal-content's 95%, then its own padding.
+           A flat 86vw was wider than that on a phone, so the chart hung out past
+           the panel - clipping long titles, and making .modal-content scroll. */
         .modal-chart {
-            width: min(1230px, 86vw);
+            width: min(1230px, calc(0.95 * (100vw - 40px) - 2 * var(--pad)));
             /* Everything above and below: the modal's own padding twice over, the
                20px flex gap, the 50px nav row, and a little slack. Reserving a flat
                200px instead cost a phone 70px, because its padding is only 30px. */
