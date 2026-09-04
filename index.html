@@ -459,7 +459,7 @@
 
         .modal-content {
             background: white;
-            padding: clamp(30px, 2.6vw, 44px);
+            padding: clamp(30px, 2.7vw, 48px);
             border-radius: 20px;
             max-width: 95%;
             max-height: 95vh;
@@ -485,7 +485,9 @@
         /* ---------- Modal charts (pure CSS + inline SVG) ---------- */
         /* 86vw still governs on a phone; the cap is what desktop was stuck on. */
         .modal-chart {
-            width: min(1120px, 86vw);
+            width: min(1230px, 88vw);
+            /* Bigger type makes the header taller, so the vertical room the chart
+               can claim has to stay conservative or the modal starts scrolling. */
             max-height: calc(95vh - 200px);
             overflow-x: hidden;
             overflow-y: auto;
@@ -497,28 +499,28 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-size: clamp(20px, 1.9vw, 27px);
+            font-size: clamp(20px, 2vw, 30px);
             font-weight: 800;
             color: #1f2937;
             text-align: center;
         }
 
         .chart-title-logo {
-            width: clamp(30px, 2.8vw, 40px);
-            height: clamp(30px, 2.8vw, 40px);
+            width: clamp(30px, 2.95vw, 44px);
+            height: clamp(30px, 2.95vw, 44px);
             object-fit: contain;
             flex-shrink: 0;
         }
 
         .chart-accent {
-            width: clamp(56px, 5vw, 72px);
+            width: clamp(56px, 5.25vw, 79px);
             height: 4px;
             border-radius: 999px;
             margin: 9px auto 0;
         }
 
         .chart-subtitle {
-            font-size: clamp(13px, 1.15vw, 16px);
+            font-size: clamp(13px, 1.2vw, 18px);
             color: #6b7280;
             text-align: center;
             margin: 8px 0 20px;
@@ -537,12 +539,15 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-            gap: clamp(36px, 4vw, 64px);
+            gap: clamp(36px, 4.2vw, 70px);
         }
 
         .donut {
-            width: clamp(240px, 24vw, 340px);
-            height: clamp(240px, 24vw, 340px);
+            /* Height is the scarce axis on a laptop, so the donut also gives way
+               to the viewport rather than pushing the modal into a scroll. The
+               240px floor keeps a short landscape phone from collapsing it. */
+            width: max(240px, min(25.5vw, 374px, calc(95vh - 330px)));
+            height: max(240px, min(25.5vw, 374px, calc(95vh - 330px)));
             flex-shrink: 0;
             position: relative;
         }
@@ -589,17 +594,6 @@
             object-position: center top;
         }
 
-        .donut-fallback {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: clamp(28px, 3vw, 40px);
-            font-weight: 800;
-            color: #1f2937;
-        }
-
         /* Hover linking between slices, legend rows and gantt bars */
         .dimmed { opacity: 0.22; }
         .focused { filter: brightness(1.08); }
@@ -622,15 +616,15 @@
         .chart-legend {
             display: flex;
             flex-direction: column;
-            gap: clamp(10px, 1vw, 14px);
-            min-width: clamp(210px, 20vw, 280px);
+            gap: clamp(10px, 1.05vw, 15px);
+            min-width: clamp(210px, 21vw, 308px);
         }
 
         .legend-item {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: clamp(14px, 1.15vw, 17px);
+            font-size: clamp(14px, 1.2vw, 19px);
             padding: 4px 8px;
             margin: -4px 0;
             border-radius: 8px;
@@ -644,8 +638,8 @@
         }
 
         .legend-swatch {
-            width: clamp(14px, 1.2vw, 18px);
-            height: clamp(14px, 1.2vw, 18px);
+            width: clamp(14px, 1.25vw, 20px);
+            height: clamp(14px, 1.25vw, 20px);
             border-radius: 4px;
             flex-shrink: 0;
         }
@@ -664,7 +658,7 @@
 
         .legend-champs {
             color: #a67c00;
-            font-size: clamp(12px, 1vw, 15px);
+            font-size: clamp(12px, 1.05vw, 17px);
             font-weight: 700;
             white-space: nowrap;
         }
@@ -711,11 +705,11 @@
             gap: 8px 2px;
             width: 100%;
             /* Track and bar share this so they can never drift apart. */
-            --bar-h: clamp(26px, 2.3vw, 36px);
+            --bar-h: clamp(26px, 2.4vw, 40px);
         }
 
         .gantt-season-label {
-            font-size: clamp(10px, 0.95vw, 13px);
+            font-size: clamp(10px, 1vw, 14px);
             color: #6b7280;
             text-align: center;
             padding-bottom: 6px;
@@ -723,7 +717,7 @@
         }
 
         .gantt-owner-label {
-            font-size: clamp(13px, 1.15vw, 16px);
+            font-size: clamp(13px, 1.2vw, 18px);
             font-weight: 600;
             color: #374151;
             padding-right: 12px;
@@ -747,7 +741,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(15px, 1.4vw, 20px);
+            font-size: clamp(15px, 1.45vw, 22px);
             line-height: 1;
             pointer-events: none;
             align-self: center;
@@ -769,7 +763,7 @@
             align-items: center;
             justify-content: center;
             color: #fff;
-            font-size: clamp(11px, 1vw, 14px);
+            font-size: clamp(11px, 1.05vw, 15px);
             font-weight: 700;
             box-shadow: 0 1px 3px rgba(0,0,0,0.18);
             transform-origin: left center;
@@ -3048,7 +3042,6 @@
                             <circle class="donut-edge" cx="${cx}" cy="${cy}" r="${rOut}"/>
                         </svg>
                         <div class="donut-hole" style="background:${teamTint(player.team, 0.86)}">
-                            <span class="donut-fallback">${total}</span>
                             ${headshot ? `<img class="donut-photo" src="${headshot}" alt="${escHtml(player.name)}" onerror="this.style.display='none'">` : ''}
                         </div>
                     </div>
