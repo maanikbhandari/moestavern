@@ -459,7 +459,9 @@
 
         .modal-content {
             background: white;
-            padding: clamp(30px, 2.7vw, 48px);
+            /* The chart reserves height for this, so it has to be readable from there. */
+            --pad: clamp(30px, 2.7vw, 48px);
+            padding: var(--pad);
             border-radius: 20px;
             max-width: 95%;
             max-height: 95vh;
@@ -487,9 +489,10 @@
            only term desktop ever sees. */
         .modal-chart {
             width: min(1230px, 86vw);
-            /* Bigger type makes the header taller, so the vertical room the chart
-               can claim has to stay conservative or the modal starts scrolling. */
-            max-height: calc(95vh - 200px);
+            /* Everything above and below: the modal's own padding twice over, the
+               20px flex gap, the 50px nav row, and a little slack. Reserving a flat
+               200px instead cost a phone 70px, because its padding is only 30px. */
+            max-height: calc(95vh - 2 * var(--pad) - 105px);
             overflow-x: hidden;
             overflow-y: auto;
             transition: opacity 0.15s ease;
