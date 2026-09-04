@@ -3155,20 +3155,31 @@
             const held = new Set();
             Object.values(oy).forEach(arr => (arr || []).forEach(s => held.add(s)));
 
-            let longest = { owner: '', run: 0 };
-            owners.forEach(o => {
+            // Each owner's own best streak, so a tie can name everyone who
+            // managed it rather than silently crediting whoever sorted first.
+            const runs = owners.map(o => {
                 const idx = (oy[o] || []).map(s => seasons.indexOf(s))
                     .filter(i => i >= 0).sort((a, b) => a - b);
-                let run = 0;
+                let run = 0, best = 0;
                 idx.forEach((i, k) => {
                     run = k && i === idx[k - 1] + 1 ? run + 1 : 1;
-                    if (run > longest.run) longest = { owner: o, run };
+                    if (run > best) best = run;
                 });
+                return { owner: o, run: best };
             });
 
+            const longest = Math.max(0, ...runs.map(r => r.run));
+            // owners is already in first-appearance order, so ties read chronologically.
+            const holders = runs.filter(r => r.run === longest).map(r => r.owner);
+            const who = holders.length === 1
+                ? `with ${escHtml(holders[0])}`
+                : holders.length === 2
+                    ? `with ${escHtml(holders[0])} and ${escHtml(holders[1])}`
+                    : `by ${holders.length} different owners`;
+
             const subtitle = `Rostered in ${held.size} of ${seasons.length} seasons`
-                + (longest.run > 1
-                    ? ` · ${longest.run} straight with ${escHtml(longest.owner)}`
+                + (longest > 1
+                    ? ` · ${longest} straight ${who}`
                     : held.size > 1 ? ' · never two seasons running' : '');
 
             return `
