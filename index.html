@@ -511,10 +511,6 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            /* The close button is 40px square inset 15px, so it reaches 25px into
-               the chart once the modal's 30px padding is accounted for. Keeping
-               this padding symmetric means the title stays centred as it wraps. */
-            padding: 0 28px;
             font-size: clamp(20px, 2vw, 30px);
             font-weight: 800;
             color: #1f2937;
@@ -2965,12 +2961,12 @@
             c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
         const emptyChart = msg => `<div class="chart-empty">${escHtml(msg)}</div>`;
 
-        function chartHeader(player, title, subtitle) {
+        function chartHeader(player, subtitle) {
             const logo = getTeamLogo(player.team);
             return `
                 <div class="chart-title">
                     ${logo ? `<img class="chart-title-logo" src="${logo}" alt="" onerror="this.style.display='none'">` : ''}
-                    <span>${escHtml(player.name)} &mdash; ${title}</span>
+                    <span>${escHtml(player.name)}</span>
                 </div>
                 <div class="chart-accent" style="background:${teamLineColor(player.team)}"></div>
                 <div class="chart-subtitle">${subtitle}</div>`;
@@ -3060,7 +3056,7 @@
             const subtitle = `${total} draft${total === 1 ? '' : 's'} across ${entries.length} owner${entries.length === 1 ? '' : 's'}`;
 
             return `
-                ${chartHeader(player, 'Ownership', subtitle)}
+                ${chartHeader(player, subtitle)}
                 <div class="donut-wrap">
                     <div class="donut">
                         <svg class="donut-svg" viewBox="0 0 300 300" role="img"
@@ -3156,7 +3152,7 @@
             const subtitle = 'Seasons rostered, by owner';
 
             return `
-                ${chartHeader(player, 'Ownership Timeline', subtitle)}
+                ${chartHeader(player, subtitle)}
                 <div class="gantt-viewport">
                     <div class="gantt-scroll">
                         <div class="gantt" style="--team-tint:${teamTint(player.team, 0.9)}; min-width:${80 + seasons.length * 26}px; grid-template-columns: minmax(80px, max-content) repeat(${seasons.length}, minmax(24px, 1fr))">${cells.join('')}</div>
@@ -3245,8 +3241,7 @@
             const unmarked = champs.total - markedSeasons;
 
             return `
-                ${chartHeader(player, 'Draft Position',
-                    `Best #${best} · Average #${avg}`)}
+                ${chartHeader(player, `Best #${best} · Average #${avg}`)}
                 <svg class="chart-svg" viewBox="0 0 ${W} ${H}" style="--team:${stroke}" role="img" aria-label="Draft position by season for ${escHtml(player.name)}">
                     <defs>
                         <linearGradient id="draftFade" x1="0" y1="0" x2="0" y2="1">
