@@ -804,6 +804,41 @@
             color: #6b7280;
         }
 
+        /* Shared hover tooltip for slices, gantt bars and line points */
+        .chart-tip {
+            position: fixed;
+            z-index: 3000;
+            max-width: 270px;
+            padding: 8px 11px;
+            border-radius: 8px;
+            background: #111827;
+            color: #f9fafb;
+            font-size: 12px;
+            line-height: 1.5;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.12s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-tip.on { opacity: 1; }
+
+        .chart-tip b {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .chart-tip span {
+            display: block;
+            white-space: pre-line;
+            color: #d1d5db;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .gantt-bar, .gantt-champ, .legend-item { cursor: default; }
+
         @media (prefers-reduced-motion: reduce) {
             .gantt-bar, .chart-svg .line-draw { animation: none; }
             .chart-svg .line-draw { stroke-dashoffset: 0; }
@@ -2820,11 +2855,15 @@
             const seasons = player.championship_season || [];
             const owners = player.championship_owner || [];
             const picks = player.championship_draft_pick || [];
+            const teams = player.championship_team || [];
+            const rounds = player.championship_round || [];
             const byOwner = {}, bySeason = {};
             seasons.forEach((s, i) => {
                 const o = owners[i] || 'Unknown';
                 byOwner[o] = (byOwner[o] || 0) + 1;
-                (bySeason[s] = bySeason[s] || []).push({ owner: o, pick: picks[i] });
+                (bySeason[s] = bySeason[s] || []).push({
+                    owner: o, pick: picks[i], team: teams[i], round: rounds[i]
+                });
             });
             return { byOwner, bySeason, total: seasons.length };
         }
@@ -2845,6 +2884,21 @@
         }
 
         const fmtSeason = s => s.slice(2, 4) + '-' + s.slice(6, 8);
+
+        // Hover tooltip payload. Both halves are read back with textContent, never
+        // innerHTML, so a single escape here is enough to keep owner-supplied
+        // strings (names, fantasy team names) inert.
+        const tipAttr = (title, lines) =>
+            `data-tip-title="${escHtml(title)}" data-tip="${escHtml(lines.filter(Boolean).join('\n'))}"`;
+
+        // Which owner held the player each season. owner_years and draft_history cover
+        // exactly the same 1835 season-events, so this joins the two charts cleanly.
+        function ownerBySeason(player) {
+            const map = {};
+            Object.entries(player.owner_years || {}).forEach(([o, arr]) =>
+                (arr || []).forEach(s => { map[s] = o; }));
+            return map;
+        }
         const escHtml = str => String(str).replace(/[&<>"]/g,
             c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
         const emptyChart = msg => `<div class="chart-empty">${escHtml(msg)}</div>`;
@@ -2890,28 +2944,38 @@
 
             const colors = playerOwnerColors(player);
             const champs = playerChampInfo(player);
+            const oy = player.owner_years || {};
             const { cx, cy, rOut } = DONUT;
+
+            const sliceTip = (owner, n) => {
+                const yrs = (oy[owner] || []).map(fmtSeason);
+                const won = champs.byOwner[owner] || 0;
+                return tipAttr(owner, [
+                    `${n} draft${n === 1 ? '' : 's'} · ${Math.round(n / total * 100)}% of his history`,
+                    yrs.length ? `Seasons: ${yrs.join(', ')}` : '',
+                    won ? `\u{1F3C6} ${won} championship${won === 1 ? '' : 's'} together` : ''
+                ]);
+            };
 
             let ring;
             if (entries.length === 1) {
                 const [owner] = entries[0];
                 ring = `<path class="slice" data-oi="0" d="${fullRingPath()}" fill-rule="evenodd"
-                            fill="${colors[owner]}"
-                        ><title>${escHtml(owner)} — all ${total} draft${total === 1 ? '' : 's'} (100%)</title></path>`;
+                            fill="${colors[owner]}" ${sliceTip(owner, total)}></path>`;
             } else {
                 let a = -Math.PI / 2;
                 ring = entries.map(([owner, n], i) => {
                     const a0 = a, a1 = a + n / total * Math.PI * 2;
                     a = a1;
                     return `<path class="slice" data-oi="${i}" d="${annulusPath(a0, a1)}" fill="${colors[owner]}"
-                            ><title>${escHtml(owner)} — ${n} draft${n === 1 ? '' : 's'} (${Math.round(n / total * 100)}%)</title></path>`;
+                            ${sliceTip(owner, n)}></path>`;
                 }).join('');
             }
 
             const legend = entries.map(([owner, n], i) => {
                 const won = champs.byOwner[owner] || 0;
                 return `
-                <div class="legend-item" data-oi="${i}">
+                <div class="legend-item" data-oi="${i}" ${sliceTip(owner, n)}>
                     <span class="legend-swatch" style="background:${colors[owner]}"></span>
                     <span class="legend-name">${escHtml(owner)}</span>
                     ${won ? `<span class="legend-champs">${trophies(won)}</span>` : ''}
@@ -2970,6 +3034,7 @@
             const rows = [...owners, ...champOnly];
 
             const colors = playerOwnerColors(player);
+            const hist = player.draft_history || {};
             const cells = seasons.map((s, i) =>
                 `<div class="gantt-season-label" style="grid-row:1; grid-column:${i + 2}">${fmtSeason(s)}</div>`);
 
@@ -2988,7 +3053,22 @@
                     const label = start === end
                         ? fmtSeason(seasons[start])
                         : `${fmtSeason(seasons[start])} → ${fmtSeason(seasons[end])}`;
-                    cells.push(`<div class="gantt-bar" style="grid-row:${row}; grid-column:${start + 2} / ${end + 3}; background:${bg}; color:${textOn(bg)}; animation-delay:${r * 60}ms" title="${escHtml(owner)}: ${label}">${run.length}</div>`);
+
+                    // The pick that put him on this roster each year lives in the other
+                    // chart; surface it here so the bar explains itself.
+                    const picks = run.slice(0, 8).map(i => {
+                        const d = hist[seasons[i]];
+                        if (!d || d.draft_number == null) return `${fmtSeason(seasons[i])} · not drafted`;
+                        return `${fmtSeason(seasons[i])} · #${d.draft_number}`
+                             + (d.round_number ? ` (rd ${d.round_number})` : '');
+                    });
+                    if (run.length > 8) picks.push(`+${run.length - 8} more`);
+
+                    const tip = tipAttr(owner, [
+                        `${run.length} season${run.length === 1 ? '' : 's'} · ${label}`,
+                        ...picks
+                    ]);
+                    cells.push(`<div class="gantt-bar" style="grid-row:${row}; grid-column:${start + 2} / ${end + 3}; background:${bg}; color:${textOn(bg)}; animation-delay:${r * 60}ms" ${tip}>${run.length}</div>`);
                     run = [];
                 };
                 idx.forEach((i, k) => {
@@ -3002,8 +3082,13 @@
                     const col = seasons.indexOf(season);
                     if (col < 0) return;
                     wins.filter(w => w.owner === owner).forEach(w => {
-                        const how = w.pick === 'FA' ? 'free agent pickup' : `pick #${w.pick}`;
-                        cells.push(`<div class="gantt-champ" style="grid-row:${row}; grid-column:${col + 2}" title="${escHtml(owner)} won the ${fmtSeason(season)} title with ${escHtml(player.name)} (${how})">🏆</div>`);
+                        const tip = tipAttr(`\u{1F3C6} ${fmtSeason(season)} championship`, [
+                            w.team ? `${owner} · ${w.team}` : owner,
+                            w.pick === 'FA'
+                                ? 'Picked up as a free agent that season'
+                                : `Drafted #${w.pick}${w.round ? ` (rd ${w.round})` : ''}`
+                        ]);
+                        cells.push(`<div class="gantt-champ" style="grid-row:${row}; grid-column:${col + 2}" ${tip}>\u{1F3C6}</div>`);
                     });
                 });
             });
@@ -3058,22 +3143,29 @@
                 + ` L${cx(run[run.length - 1])} ${baseY} Z`).join(' ');
 
             const champs = playerChampInfo(player);
+            const heldBy = ownerBySeason(player);
             const champMarks = drafted.map(o => {
-                const wins = champs.bySeason[o.s];
-                if (!wins) return '';
-                const who = wins.map(w => escHtml(w.owner)).join(', ');
+                if (!champs.bySeason[o.s]) return '';
                 // A top-of-the-chart pick leaves no headroom, and the glyph would be
                 // clipped by the viewBox, so drop the trophy below the point instead.
+                // The point's own tooltip carries the detail; these are pointer-inert.
                 const ty = y(o.d.draft_number);
                 const trophyY = (ty - 18 >= 17 ? ty - 18 : ty + 27).toFixed(1);
                 return `<circle class="champ-ring" cx="${cx(o)}" cy="${cy(o)}" r="10"/>
-                        <text class="champ-trophy" x="${cx(o)}" y="${trophyY}" text-anchor="middle"><title>${fmtSeason(o.s)} championship — ${who}</title>🏆</text>`;
+                        <text class="champ-trophy" x="${cx(o)}" y="${trophyY}" text-anchor="middle">🏆</text>`;
             }).join('');
 
             const dots = drafted.map(o => {
-                const round = o.d.round_number ? ` (round ${o.d.round_number})` : '';
-                const won = champs.bySeason[o.s] ? ' — 🏆 championship season' : '';
-                return `<circle class="pt" cx="${cx(o)}" cy="${cy(o)}" r="5" tabindex="0"><title>${fmtSeason(o.s)} — pick #${o.d.draft_number}${round}${won}</title></circle>`;
+                const wins = champs.bySeason[o.s];
+                const tip = tipAttr(`${fmtSeason(o.s)} · pick #${o.d.draft_number}`, [
+                    o.d.round_number ? `Round ${o.d.round_number}` : '',
+                    heldBy[o.s] ? `Drafted by ${heldBy[o.s]}` : '',
+                    // draft_history records the NHL club he was on that season, which is
+                    // often not the one in the chart header.
+                    o.d.team && o.d.team !== player.team ? `Played for ${o.d.team} that season` : '',
+                    wins ? `\u{1F3C6} Won the title · ${wins.map(w => w.team || w.owner).join(', ')}` : ''
+                ]);
+                return `<circle class="pt" cx="${cx(o)}" cy="${cy(o)}" r="5" tabindex="0" ${tip}></circle>`;
             }).join('');
 
             const xLabels = axis.map((s, i) =>
@@ -3152,7 +3244,8 @@
             setTimeout(renderModalChart, 150);
         }
 
-        // Hovering a slice or a legend row highlights that owner and fades the rest.
+        // Hovering a slice or a legend row highlights that owner and fades the rest,
+        // and anything carrying a data-tip shows a tooltip that follows the cursor.
         (function () {
             const chartEl = document.getElementById('modalChart');
             const highlight = oi => {
@@ -3161,11 +3254,41 @@
                     el.classList.toggle('focused', oi !== null && el.dataset.oi === oi);
                 });
             };
+
+            const tip = document.createElement('div');
+            tip.className = 'chart-tip';
+            tip.append(document.createElement('b'), document.createElement('span'));
+            document.body.appendChild(tip);
+            const [tipTitle, tipBody] = tip.children;
+
+            const place = e => {
+                const r = tip.getBoundingClientRect();
+                const x = e.clientX + 16 + r.width > window.innerWidth - 8
+                    ? e.clientX - r.width - 16 : e.clientX + 16;
+                const y = e.clientY + 18 + r.height > window.innerHeight - 8
+                    ? e.clientY - r.height - 14 : e.clientY + 18;
+                tip.style.left = `${Math.max(8, x)}px`;
+                tip.style.top = `${Math.max(8, y)}px`;
+            };
+            const hideTip = () => tip.classList.remove('on');
+
+            chartEl.addEventListener('mousemove', e => {
+                const el = e.target.closest('[data-tip]');
+                if (!el) return hideTip();
+                // textContent, never innerHTML: the payload includes owner-supplied names.
+                tipTitle.textContent = el.dataset.tipTitle || '';
+                tipBody.textContent = el.dataset.tip || '';
+                tip.classList.add('on');
+                place(e);
+            });
+
             chartEl.addEventListener('mouseover', e => {
                 const el = e.target.closest('[data-oi]');
                 if (el) highlight(el.dataset.oi);
             });
-            chartEl.addEventListener('mouseleave', () => highlight(null));
+            chartEl.addEventListener('mouseleave', () => { highlight(null); hideTip(); });
+            document.getElementById('modal').addEventListener('click', hideTip);
+            window.addEventListener('keydown', hideTip);
         })();
 
         // Navigation button event listeners
