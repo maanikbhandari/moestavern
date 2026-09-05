@@ -294,6 +294,7 @@
             <div class="sub">Click a team to make it active, then draft players to it. Rename by typing over the name.</div>
             <div class="team-tabs" id="teamTabs"></div>
             <div class="row-actions" style="margin-top:18px;">
+                <button class="btn btn-primary" onclick="autoDraft()">Auto draft</button>
                 <button class="btn btn-danger" onclick="clearActive()">Clear active roster</button>
                 <button class="btn btn-danger" onclick="clearAll()">Clear all rosters</button>
             </div>
@@ -338,6 +339,10 @@
 /* ---------------- constants ---------------- */
 
 const NUM_TEAMS = 7;
+
+// Auto draft roster shape: 14 forwards, 6 defencemen, 3 goalies per team.
+const ROSTER_LIMITS = { F: 14, D: 6, G: 3 };
+const ROSTER_SIZE = ROSTER_LIMITS.F + ROSTER_LIMITS.D + ROSTER_LIMITS.G;
 
 const FANTASY_COLORS = ['#7c3aed','#2563eb','#059669','#dc2626','#ea580c','#0891b2','#db2777'];
 
@@ -596,6 +601,66 @@ function clearActive() {
 function clearAll() {
     if (!confirm('Clear every roster? This cannot be undone.')) return;
     teams.forEach(t => t.players = []);
+    rebuildOwners();
+    renderAll();
+    save();
+}
+
+/* ---------------- auto draft ---------------- */
+
+function autoDraft() {
+    const drafted = teams.reduce((n, t) => n + t.players.length, 0);
+    const msg = drafted
+        ? `Auto draft will fill every remaining spot in snake order (${ROSTER_LIMITS.F}F / ${ROSTER_LIMITS.D}D / ${ROSTER_LIMITS.G}G per team). Your ${drafted} existing pick${drafted === 1 ? '' : 's'} will be kept. Continue?`
+        : `Auto draft all seven teams in snake order (${ROSTER_LIMITS.F}F / ${ROSTER_LIMITS.D}D / ${ROSTER_LIMITS.G}G per team)?`;
+    if (!confirm(msg)) return;
+
+    // what each team already has, so a part-built roster is topped up rather than ignored
+    const counts = teams.map(t => {
+        const c = { F: 0, D: 0, G: 0 };
+        for (const id of t.players) {
+            const p = byId.get(id);
+            if (p) c[posClass(p)]++;
+        }
+        return c;
+    });
+
+    // undrafted players split by position, each list best first
+    const byPos = { F: [], D: [], G: [] };
+    players
+        .filter(p => !owner.has(p.PLAYER_ID))
+        .sort((a, b) => (points.get(b.PLAYER_ID) || 0) - (points.get(a.PLAYER_ID) || 0))
+        .forEach(p => byPos[posClass(p)].push(p));
+    const idx = { F: 0, D: 0, G: 0 };
+
+    // snake order: 1-7, then 7-1, repeating for every roster spot
+    const order = [];
+    for (let round = 0; round < ROSTER_SIZE; round++) {
+        const seq = Array.from({ length: NUM_TEAMS }, (_, i) => i);
+        if (round % 2) seq.reverse();
+        order.push(...seq);
+    }
+
+    for (const ti of order) {
+        const t = teams[ti], c = counts[ti];
+        if (t.players.length >= ROSTER_SIZE) continue;
+
+        // best available across the positions this team still has room for
+        let pick = null, pickPos = null, best = -Infinity;
+        for (const pos of ['F', 'D', 'G']) {
+            if (c[pos] >= ROSTER_LIMITS[pos]) continue;
+            const p = byPos[pos][idx[pos]];
+            if (!p) continue;
+            const v = points.get(p.PLAYER_ID) || 0;
+            if (v > best) { best = v; pick = p; pickPos = pos; }
+        }
+        if (!pick) continue;
+
+        t.players.push(pick.PLAYER_ID);
+        c[pickPos]++;
+        idx[pickPos]++;
+    }
+
     rebuildOwners();
     renderAll();
     save();
