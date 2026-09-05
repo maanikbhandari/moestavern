@@ -294,6 +294,10 @@
                 <h3>Bonus</h3>
                 <div class="scoring-grid" id="bonusScoring"></div>
             </div>
+            <div class="scoring-group" style="margin-top:24px;">
+                <h3>Roster limits</h3>
+                <div class="limit-grid" id="limitGrid"></div>
+            </div>
             <div class="row-actions" style="margin-top:18px;">
                 <button class="btn" onclick="resetScoring()">Reset to league defaults</button>
             </div>
@@ -310,10 +314,6 @@
         <div class="card">
             <h2>Teams</h2>
             <div class="sub">Click a team to make it active, then draft players to it. Rename by typing over the name.</div>
-            <div class="scoring-group" style="margin-bottom:22px;">
-                <h3>Roster limits</h3>
-                <div class="limit-grid" id="limitGrid"></div>
-            </div>
             <div class="team-tabs" id="teamTabs"></div>
             <div class="row-actions" style="margin-top:18px;">
                 <button class="btn btn-primary" onclick="autoDraft()">Auto draft</button>
@@ -365,7 +365,7 @@ const NUM_TEAMS = 7;
 // Roster shape. UTIL slots accept any position and absorb overflow past F/D/G.
 const DEFAULT_LIMITS = { F: 14, D: 6, G: 3, UTIL: 0 };
 const LIMIT_KEYS = ['F', 'D', 'G', 'UTIL'];
-const LIMIT_LABELS = { F: 'Forwards', D: 'Defence', G: 'Goalies', UTIL: 'Utility &mdash; any position' };
+const LIMIT_LABELS = { F: 'Forwards', D: 'Defence', G: 'Goalies', UTIL: 'Utility' };
 
 const FANTASY_COLORS = ['#7c3aed','#2563eb','#059669','#dc2626','#ea580c','#0891b2','#db2777'];
 
