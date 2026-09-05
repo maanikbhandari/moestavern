@@ -80,6 +80,21 @@
     .scoring-item input:focus { outline: 2px solid #c4b5fd; border-color: #7c3aed; }
     .scoring-item.changed { border-color: #7c3aed; background: #faf5ff; }
 
+    /* ---------- roster limits ---------- */
+    .limit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .limit-item { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px 12px; }
+    .limit-item label { display: block; font-size: 0.72rem; color: #64748b; margin-bottom: 5px; }
+    .limit-item .abbr { font-weight: 700; color: #374151; font-size: 0.8rem; }
+    .limit-item input {
+        width: 100%; border: 1px solid #e5e7eb; border-radius: 8px;
+        padding: 6px 8px; font-size: 0.95rem; font-weight: 600; color: #7c3aed;
+        font-family: inherit; background: white;
+    }
+    .limit-item input:focus { outline: 2px solid #c4b5fd; border-color: #7c3aed; }
+    .limit-item.changed { border-color: #7c3aed; background: #faf5ff; }
+    .limit-item.total { background: #f1f5f9; border-style: dashed; }
+    .limit-total { font-size: 0.95rem; font-weight: 700; color: #374151; padding: 6px 0; }
+
     /* ---------- leaderboard ---------- */
     .lb-row {
         display: grid; grid-template-columns: 34px 1fr auto; gap: 14px;
@@ -201,6 +216,9 @@
         font-family: inherit; letter-spacing: 0.02em; transition: all 0.15s;
     }
     .draftbtn:hover { background: #6d28d9; border-color: #6d28d9; }
+    .draftbtn:disabled {
+        background: #f1f5f9; border-color: #e5e7eb; color: #94a3b8; cursor: not-allowed;
+    }
     .iconbtn {
         width: 28px; height: 28px; border-radius: 8px; border: 1px solid #e5e7eb;
         background: white; cursor: pointer; font-size: 1rem; line-height: 1;
@@ -292,6 +310,10 @@
         <div class="card">
             <h2>Teams</h2>
             <div class="sub">Click a team to make it active, then draft players to it. Rename by typing over the name.</div>
+            <div class="scoring-group" style="margin-bottom:22px;">
+                <h3>Roster limits</h3>
+                <div class="limit-grid" id="limitGrid"></div>
+            </div>
             <div class="team-tabs" id="teamTabs"></div>
             <div class="row-actions" style="margin-top:18px;">
                 <button class="btn btn-primary" onclick="autoDraft()">Auto draft</button>
@@ -340,9 +362,10 @@
 
 const NUM_TEAMS = 7;
 
-// Auto draft roster shape: 14 forwards, 6 defencemen, 3 goalies per team.
-const ROSTER_LIMITS = { F: 14, D: 6, G: 3 };
-const ROSTER_SIZE = ROSTER_LIMITS.F + ROSTER_LIMITS.D + ROSTER_LIMITS.G;
+// Roster shape. UTIL slots accept any position and absorb overflow past F/D/G.
+const DEFAULT_LIMITS = { F: 14, D: 6, G: 3, UTIL: 0 };
+const LIMIT_KEYS = ['F', 'D', 'G', 'UTIL'];
+const LIMIT_LABELS = { F: 'Forwards', D: 'Defence', G: 'Goalies', UTIL: 'Utility &mdash; any position' };
 
 const FANTASY_COLORS = ['#7c3aed','#2563eb','#059669','#dc2626','#ea580c','#0891b2','#db2777'];
 
@@ -362,6 +385,7 @@ const LOGO_SLUG = { UTA: 'utah' };
 const STORE_SCORING = 'moe_extra_scoring';
 const STORE_TEAMS   = 'moe_extra_teams';
 const STORE_SORT    = 'moe_extra_roster_sort';
+const STORE_LIMITS  = 'moe_extra_limits';
 
 /* ---------------- state ---------------- */
 
@@ -375,6 +399,8 @@ let byId = new Map();      // PLAYER_ID -> player row
 let teams = [];
 let active = 0;
 let rosterSort = 'pts';   // 'pts' or 'pos'
+let limits = { ...DEFAULT_LIMITS };
+let activeFull = { F: false, D: false, G: false };   // which positions the active team can no longer take
 
 let filters = { q: '', pos: 'ALL', team: 'ALL', projectedOnly: true, hideTaken: true };
 
@@ -435,7 +461,62 @@ function save() {
         localStorage.setItem(STORE_SCORING, JSON.stringify(scoring));
         localStorage.setItem(STORE_TEAMS, JSON.stringify(teams));
         localStorage.setItem(STORE_SORT, rosterSort);
+        localStorage.setItem(STORE_LIMITS, JSON.stringify(limits));
     } catch (e) { /* storage unavailable — the page still works, just won't persist */ }
+}
+
+/* ---------------- roster limits ---------------- */
+
+function rosterCap() {
+    return LIMIT_KEYS.reduce((n, k) => n + limits[k], 0);
+}
+
+function posCounts(t) {
+    const c = { F: 0, D: 0, G: 0 };
+    for (const id of t.players) {
+        const p = byId.get(id);
+        if (p) c[posClass(p)]++;
+    }
+    return c;
+}
+
+// anyone sitting past their own positional limit is occupying a utility slot
+function utilUsed(c) {
+    return ['F', 'D', 'G'].reduce((n, k) => n + Math.max(0, c[k] - limits[k]), 0);
+}
+
+function canAddPos(pos, c) {
+    return c[pos] < limits[pos] || utilUsed(c) < limits.UTIL;
+}
+
+function updateActiveFull() {
+    const c = posCounts(teams[active]);
+    for (const pos of ['F', 'D', 'G']) activeFull[pos] = !canAddPos(pos, c);
+}
+
+function renderLimits() {
+    document.getElementById('limitGrid').innerHTML = LIMIT_KEYS.map(k => `
+        <div class="limit-item ${limits[k] !== DEFAULT_LIMITS[k] ? 'changed' : ''}">
+            <label><span class="abbr">${k}</span> &middot; ${LIMIT_LABELS[k]}</label>
+            <input type="number" min="0" max="50" step="1" value="${limits[k]}" data-limit="${k}">
+        </div>`).join('') + `
+        <div class="limit-item total">
+            <label>Roster size</label>
+            <div class="limit-total" id="limitTotal">${rosterCap()}</div>
+        </div>`;
+
+    document.querySelectorAll('#limitGrid input').forEach(input => {
+        input.addEventListener('input', () => {
+            const k = input.dataset.limit;
+            limits[k] = Math.max(0, Math.min(50, Math.round(parseFloat(input.value) || 0)));
+            input.closest('.limit-item').classList.toggle('changed', limits[k] !== DEFAULT_LIMITS[k]);
+            document.getElementById('limitTotal').textContent = rosterCap();
+            renderTeams();
+            renderRoster();
+            renderPool();
+            save();
+        });
+    });
 }
 
 /* ---------------- scoring ---------------- */
@@ -547,7 +628,7 @@ function renderTeams() {
                    onclick="event.stopPropagation()" maxlength="28">
             <div class="meta">
                 <span class="pts">${fmt(rosterPoints(t))}</span>
-                &middot; ${t.players.length} player${t.players.length === 1 ? '' : 's'}
+                &middot; ${t.players.length}/${rosterCap()}
             </div>
             <div class="team-roster">
                 ${roster.length
@@ -576,6 +657,9 @@ function setActive(i) {
 
 function addPlayer(id) {
     if (owner.has(id)) return;
+    const p = byId.get(id);
+    if (!p) return;
+    if (!canAddPos(posClass(p), posCounts(teams[active]))) return;
     teams[active].players.push(id);
     rebuildOwners();
     renderAll();
@@ -609,21 +693,21 @@ function clearAll() {
 /* ---------------- auto draft ---------------- */
 
 function autoDraft() {
+    const cap = rosterCap();
+    if (cap === 0) {
+        alert('Every roster limit is 0, so there is nothing to draft into. Set some slots first.');
+        return;
+    }
+
+    const shape = `${limits.F}F / ${limits.D}D / ${limits.G}G / ${limits.UTIL}UTIL`;
     const drafted = teams.reduce((n, t) => n + t.players.length, 0);
     const msg = drafted
-        ? `Auto draft will fill every remaining spot in snake order (${ROSTER_LIMITS.F}F / ${ROSTER_LIMITS.D}D / ${ROSTER_LIMITS.G}G per team). Your ${drafted} existing pick${drafted === 1 ? '' : 's'} will be kept. Continue?`
-        : `Auto draft all seven teams in snake order (${ROSTER_LIMITS.F}F / ${ROSTER_LIMITS.D}D / ${ROSTER_LIMITS.G}G per team)?`;
+        ? `Auto draft will fill every remaining spot in snake order (${shape} per team). Your ${drafted} existing pick${drafted === 1 ? '' : 's'} will be kept. Continue?`
+        : `Auto draft all seven teams in snake order (${shape} per team)?`;
     if (!confirm(msg)) return;
 
     // what each team already has, so a part-built roster is topped up rather than ignored
-    const counts = teams.map(t => {
-        const c = { F: 0, D: 0, G: 0 };
-        for (const id of t.players) {
-            const p = byId.get(id);
-            if (p) c[posClass(p)]++;
-        }
-        return c;
-    });
+    const counts = teams.map(posCounts);
 
     // undrafted players split by position, each list best first
     const byPos = { F: [], D: [], G: [] };
@@ -635,7 +719,7 @@ function autoDraft() {
 
     // snake order: 1-7, then 7-1, repeating for every roster spot
     const order = [];
-    for (let round = 0; round < ROSTER_SIZE; round++) {
+    for (let round = 0; round < cap; round++) {
         const seq = Array.from({ length: NUM_TEAMS }, (_, i) => i);
         if (round % 2) seq.reverse();
         order.push(...seq);
@@ -643,12 +727,12 @@ function autoDraft() {
 
     for (const ti of order) {
         const t = teams[ti], c = counts[ti];
-        if (t.players.length >= ROSTER_SIZE) continue;
+        if (t.players.length >= cap) continue;
 
         // best available across the positions this team still has room for
         let pick = null, pickPos = null, best = -Infinity;
         for (const pos of ['F', 'D', 'G']) {
-            if (c[pos] >= ROSTER_LIMITS[pos]) continue;
+            if (!canAddPos(pos, c)) continue;
             const p = byPos[pos][idx[pos]];
             if (!p) continue;
             const v = points.get(p.PLAYER_ID) || 0;
@@ -712,7 +796,10 @@ function playerRow(p, mode) {
     if (mode === 'roster') {
         action = `<button class="iconbtn rm" title="Remove" onclick="removePlayer(${p.PLAYER_ID})">&minus;</button>`;
     } else if (takenBy === undefined) {
-        action = `<button class="draftbtn" title="Draft to ${esc(teams[active].name)}"
+        action = activeFull[posClass(p)]
+            ? `<button class="draftbtn" disabled
+                       title="${esc(teams[active].name)} has no ${posClass(p)} or utility slots left">Full</button>`
+            : `<button class="draftbtn" title="Draft to ${esc(teams[active].name)}"
                      onclick="addPlayer(${p.PLAYER_ID})">Draft</button>`;
     } else {
         action = `<div class="takenby" style="color:${FANTASY_COLORS[takenBy]}">${esc(teams[takenBy].name)}</div>`;
@@ -757,6 +844,7 @@ function filteredPool() {
 const POOL_LIMIT = 150;
 
 function renderPool() {
+    updateActiveFull();
     const list = filteredPool();
     const shown = list.slice(0, POOL_LIMIT);
     document.getElementById('pool').innerHTML = shown.length
@@ -789,8 +877,9 @@ function renderRoster() {
     const t = teams[active];
     document.getElementById('rosterName').textContent = t.name;
     document.getElementById('rosterName').style.color = FANTASY_COLORS[active];
+    const c = posCounts(t);
     document.getElementById('rosterCount').textContent =
-        `${t.players.length} player${t.players.length === 1 ? '' : 's'} — no position limits`;
+        `${c.F}F / ${c.D}D / ${c.G}G \u2014 ${t.players.length} of ${rosterCap()}`;
     document.getElementById('rosterTotal').textContent = fmt(rosterPoints(t));
     document.getElementById('rosterTotal').style.color = FANTASY_COLORS[active];
 
@@ -822,8 +911,8 @@ function bindControls() {
     search.addEventListener('input', () => { filters.q = search.value; renderPool(); });
     search.addEventListener('keydown', e => {
         if (e.key !== 'Enter') return;
-        const top = filteredPool()[0];
-        if (top && !owner.has(top.PLAYER_ID)) {
+        const top = filteredPool().find(p => !owner.has(p.PLAYER_ID) && !activeFull[posClass(p)]);
+        if (top) {
             addPlayer(top.PLAYER_ID);
             search.value = '';
             filters.q = '';
@@ -872,6 +961,12 @@ function loadState() {
     } catch (e) { /* ignore */ }
 
     try {
+        const l = JSON.parse(localStorage.getItem(STORE_LIMITS) || 'null');
+        if (l) for (const k of LIMIT_KEYS)
+            if (Number.isFinite(l[k])) limits[k] = Math.max(0, Math.min(50, Math.round(l[k])));
+    } catch (e) { /* ignore malformed cache */ }
+
+    try {
         const t = JSON.parse(localStorage.getItem(STORE_TEAMS) || 'null');
         if (Array.isArray(t) && t.length === NUM_TEAMS) {
             const valid = new Set(players.map(p => p.PLAYER_ID));
@@ -901,6 +996,7 @@ Promise.all([
     document.getElementById('app').style.display = 'block';
 
     renderScoring();
+    renderLimits();
     renderTeamFilter();
     renderPosChips();
     bindControls();
