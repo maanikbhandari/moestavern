@@ -95,6 +95,15 @@
     .limit-item.total { background: #f1f5f9; border-style: dashed; }
     .limit-total { font-size: 0.95rem; font-weight: 700; color: #374151; padding: 6px 0; }
 
+    /* ---------- dataset picker ---------- */
+    .dataset-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+    .dataset-row label { font-size: 0.8rem; font-weight: 600; color: #374151;
+                         text-transform: uppercase; letter-spacing: 0.03em; }
+    .dataset-row select { padding: 9px 12px; border: 1px solid #e5e7eb; border-radius: 9px;
+                          font-size: 0.9rem; font-family: inherit; background: #fff; color: #111827; }
+    .dataset-row select:focus { outline: 2px solid #c4b5fd; border-color: #7c3aed; }
+    .dataset-note { font-size: 0.78rem; color: #64748b; }
+
     /* ---------- leaderboard ---------- */
     .lb-row {
         display: grid; grid-template-columns: 34px 1fr auto; gap: 14px;
@@ -326,6 +335,11 @@
         <div class="builder">
             <div class="card">
                 <h2>Available Players</h2>
+                <div class="dataset-row">
+                    <label for="datasetPick">Stats</label>
+                    <select id="datasetPick"></select>
+                    <span class="dataset-note" id="datasetNote"></span>
+                </div>
                 <div class="sub" id="poolCount"></div>
                 <div class="controls">
                     <input type="text" id="search" placeholder="Search players&hellip;  (Enter drafts the top result)" autocomplete="off">
@@ -362,6 +376,18 @@
 
 const NUM_TEAMS = 7;
 
+// Selectable stat sources. The projection lives on each player row itself;
+// past seasons live under p.SEASONS. AVG3 is the mean of whichever of the
+// three a player actually has a line for.
+const PROJECTION_ID = '20262027';
+const SEASON_IDS = [PROJECTION_ID, '20252026', '20242025'];
+const DATASETS = [
+    { id: PROJECTION_ID, label: '2026-27 projections' },
+    { id: '20252026',    label: '2025-26 actuals' },
+    { id: '20242025',    label: '2024-25 actuals' },
+    { id: 'AVG3',        label: 'Three-year average' }
+];
+
 // Roster shape. UTIL slots accept any position and absorb overflow past F/D/G.
 const DEFAULT_LIMITS = { F: 14, D: 6, G: 3, UTIL: 0 };
 const LIMIT_KEYS = ['F', 'D', 'G', 'UTIL'];
@@ -391,6 +417,7 @@ const STORE_SCORING = 'moe_extra_scoring';
 const STORE_TEAMS   = 'moe_extra_teams';
 const STORE_SORT    = 'moe_extra_roster_sort';
 const STORE_LIMITS  = 'moe_extra_limits';
+const STORE_DATASET = 'moe_extra_dataset';
 
 /* ---------------- state ---------------- */
 
@@ -401,6 +428,8 @@ let labels = {};
 let points = new Map();    // PLAYER_ID -> projected points
 let owner = new Map();     // PLAYER_ID -> team index
 let byId = new Map();      // PLAYER_ID -> player row
+let dataset = PROJECTION_ID;
+let statLines = new Map(); // PLAYER_ID -> the active dataset's stat line
 let teams = [];
 let active = 0;
 let rosterSort = 'pts';   // 'pts' or 'pos'
@@ -424,20 +453,50 @@ function num(v) {
 
 const GOALIE_KEYS = ['GS','W','SV','SO','OTL'];
 const SKATER_KEYS = ['GP','G','A','PPP','SHP','GWG','HAT','BLK'];
+const STAT_KEYS = [...SKATER_KEYS, ...GOALIE_KEYS, '+/-'];
 
 function filled(p, keys) {
     return keys.some(k => p[k] !== null && p[k] !== undefined && p[k] !== '' && p[k] !== '--');
 }
 
-function hasStats(p) {
-    return filled(p, isGoalie(p) ? GOALIE_KEYS : SKATER_KEYS);
+// The stat line a player carries for one dataset, or null if they sat that year out.
+function seasonLine(p, id) {
+    if (id !== PROJECTION_ID) return (p.SEASONS && p.SEASONS[id]) || null;
+    return filled(p, isGoalie(p) ? GOALIE_KEYS : SKATER_KEYS) ? p : null;
 }
 
-// A dual-eligible player only scores off the goalie card if they actually keep goalie stats.
+// Cache one stat line per player for the active dataset so nothing recomputes per render.
+function buildStatLines() {
+    statLines = new Map();
+    for (const p of players) {
+        if (dataset !== 'AVG3') {
+            statLines.set(p.PLAYER_ID, seasonLine(p, dataset) || {});
+            continue;
+        }
+        const lines = SEASON_IDS.map(id => seasonLine(p, id)).filter(Boolean);
+        const avg = {};
+        // divide by the seasons a player actually played, so a rookie is not buried
+        for (const k of STAT_KEYS)
+            if (lines.length) avg[k] = lines.reduce((n, l) => n + num(l[k]), 0) / lines.length;
+        statLines.set(p.PLAYER_ID, lines.length ? avg : {});
+    }
+}
+
+function statsOf(p) {
+    return statLines.get(p.PLAYER_ID) || {};
+}
+
+function hasStats(p) {
+    return filled(statsOf(p), isGoalie(p) ? GOALIE_KEYS : SKATER_KEYS);
+}
+
+// A dual-eligible player only scores off the goalie card if they keep goalie stats somewhere.
 function isGoalie(p) {
     const elig = posEligible(p);
     if (!elig.includes('G')) return false;
-    return elig.length === 1 || filled(p, GOALIE_KEYS);
+    if (elig.length === 1) return true;
+    return filled(p, GOALIE_KEYS) ||
+        SEASON_IDS.some(id => p.SEASONS && p.SEASONS[id] && filled(p.SEASONS[id], GOALIE_KEYS));
 }
 
 function logoUrl(team) {
@@ -487,6 +546,7 @@ function save() {
         localStorage.setItem(STORE_TEAMS, JSON.stringify(teams));
         localStorage.setItem(STORE_SORT, rosterSort);
         localStorage.setItem(STORE_LIMITS, JSON.stringify(limits));
+        localStorage.setItem(STORE_DATASET, dataset);
     } catch (e) { /* storage unavailable — the page still works, just won't persist */ }
 }
 
@@ -586,11 +646,12 @@ function renderLimits() {
 function computePoints() {
     points.clear();
     for (const p of players) {
+        const s = statsOf(p);
         const cats = isGoalie(p) ? scoring.goalie : scoring.skater;
         let total = 0;
-        for (const k in cats) total += num(p[k]) * cats[k];
+        for (const k in cats) total += num(s[k]) * cats[k];
         // flat bonus per point (G + A) for defencemen only
-        if (posEligible(p).includes('D')) total += (num(p.G) + num(p.A)) * scoring.bonus.D_PTS;
+        if (posEligible(p).includes('D')) total += (num(s.G) + num(s.A)) * scoring.bonus.D_PTS;
         points.set(p.PLAYER_ID, total);
     }
 }
@@ -930,6 +991,26 @@ function renderTeamFilter() {
         list.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
 }
 
+/* ---------------- dataset ---------------- */
+
+function renderDatasetPick() {
+    document.getElementById('datasetPick').innerHTML = DATASETS.map(d =>
+        `<option value="${d.id}" ${d.id === dataset ? 'selected' : ''}>${esc(d.label)}</option>`).join('');
+    document.getElementById('datasetNote').textContent =
+        dataset === 'AVG3' ? 'averaged over the seasons each player actually played' : '';
+    document.getElementById('chipProjected').textContent =
+        dataset === PROJECTION_ID ? 'Only players with projections' : 'Only players with stats';
+}
+
+function setDataset(id) {
+    if (!DATASETS.some(d => d.id === id)) return;
+    dataset = id;
+    buildStatLines();
+    renderDatasetPick();
+    recalc();
+    save();
+}
+
 /* ---------------- roster ---------------- */
 
 function renderRoster() {
@@ -983,6 +1064,9 @@ function bindControls() {
     const tf = document.getElementById('teamFilter');
     tf.addEventListener('change', () => { filters.team = tf.value; renderPool(); });
 
+    const dp = document.getElementById('datasetPick');
+    dp.addEventListener('change', () => setDataset(dp.value));
+
     document.getElementById('sortPts').addEventListener('click', () => setRosterSort('pts'));
     document.getElementById('sortPos').addEventListener('click', () => setRosterSort('pos'));
     document.getElementById('sortPts').classList.toggle('on', rosterSort === 'pts');
@@ -1021,6 +1105,11 @@ function loadState() {
     } catch (e) { /* ignore */ }
 
     try {
+        const d = localStorage.getItem(STORE_DATASET);
+        if (DATASETS.some(x => x.id === d)) dataset = d;
+    } catch (e) { /* ignore */ }
+
+    try {
         const l = JSON.parse(localStorage.getItem(STORE_LIMITS) || 'null');
         if (l) for (const k of LIMIT_KEYS)
             if (Number.isFinite(l[k])) limits[k] = Math.max(0, Math.min(50, Math.round(l[k])));
@@ -1051,12 +1140,14 @@ Promise.all([
 
     loadState();
     rebuildOwners();
+    buildStatLines();
 
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 
     renderScoring();
     renderLimits();
+    renderDatasetPick();
     renderTeamFilter();
     renderPosChips();
     bindControls();
