@@ -608,6 +608,8 @@
             object-position: center top;
         }
 
+        .donut-video { object-position: center; }
+
         /* Hover linking between slices, legend rows and gantt bars */
         .dimmed { opacity: 0.22; }
         .focused { filter: brightness(1.08); }
@@ -1787,6 +1789,11 @@
                 img.src = 'img/moe_alt.png';
             }
             moeImageToggled = !moeImageToggled;
+        }
+
+        // 20% of Will Smith's ownership donuts play the clip instead of a photo.
+        function willSmithDonutVideo() {
+            return Math.random() < 0.2 ? 'img/will-smith.mp4' : null;
         }
 
         // Get random Will Smith image (for player Will Smith)
@@ -3071,6 +3078,10 @@
                 </div>`).join('');
 
             const headshot = getPlayerHeadshot(player);
+            const video = player.name === 'Will Smith' ? willSmithDonutVideo() : null;
+            const holeMedia = video
+                ? `<video class="donut-photo donut-video" src="${video}" loop playsinline autoplay></video>`
+                : (headshot ? `<img class="donut-photo" src="${headshot}" alt="${escHtml(player.name)}" onerror="this.style.display='none'">` : '');
             const subtitle = `${total} draft${total === 1 ? '' : 's'} across ${entries.length} owner${entries.length === 1 ? '' : 's'}`;
 
             return `
@@ -3083,7 +3094,7 @@
                             <circle class="donut-edge" cx="${cx}" cy="${cy}" r="${rOut}"/>
                         </svg>
                         <div class="donut-hole" style="background:${teamTint(player.team, 0.86)}">
-                            ${headshot ? `<img class="donut-photo" src="${headshot}" alt="${escHtml(player.name)}" onerror="this.style.display='none'">` : ''}
+                            ${holeMedia}
                         </div>
                     </div>
                     <div class="chart-legend">${legend}${champOnlyRows}</div>
@@ -3336,6 +3347,19 @@
             update();
         }
 
+        // Unmuted autoplay only survives while the card click still counts as user
+        // activation; fall back to muted rather than not playing at all.
+        function playDonutVideo() {
+            const v = document.querySelector('#modalChart video.donut-video');
+            if (!v) return;
+            v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
+        }
+
+        function stopDonutVideo() {
+            const v = document.querySelector('#modalChart video.donut-video');
+            if (v) v.pause();
+        }
+
         function renderModalChart() {
             if (!currentModalPlayer) return;
             const el = document.getElementById('modalChart');
@@ -3343,6 +3367,7 @@
             el.style.opacity = '1';
             updateIndicators();
             syncGanttOverflow();
+            playDonutVideo();
         }
 
         function showModalImage() {
@@ -3443,11 +3468,13 @@
 
 
         document.getElementById('closeModal').addEventListener('click', () => {
+            stopDonutVideo();
             document.getElementById('modal').classList.remove('active');
         });
 
         document.getElementById('modal').addEventListener('click', (e) => {
             if (e.target.id === 'modal') {
+                stopDonutVideo();
                 document.getElementById('modal').classList.remove('active');
             }
         });
@@ -3457,6 +3484,7 @@
             const modal = document.getElementById('modal');
             if (modal.classList.contains('active')) {
                 if (e.key === 'Escape') {
+                    stopDonutVideo();
                     modal.classList.remove('active');
                 } else if (e.key === 'ArrowLeft') {
                     navigateImage(-1);

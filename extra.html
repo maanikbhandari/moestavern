@@ -688,9 +688,12 @@ function bindScoringInputs() {
     });
 }
 
+// The button sits under the roster-limit grid too, so it resets those as well.
 function resetScoring() {
     scoring = JSON.parse(JSON.stringify(defaults));
+    limits = { ...DEFAULT_LIMITS };
     renderScoring();
+    renderLimits();
     recalc();
     save();
 }
