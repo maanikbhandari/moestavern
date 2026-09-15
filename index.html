@@ -1829,6 +1829,10 @@
                 }
                 // 75% chance: use official NHL headshot (fall through to default)
             }
+            // Special case for Quinn Hughes - 90% official, 10% easter egg image
+            if (player.name === 'Quinn Hughes' && Math.random() < 0.1) {
+                return 'img/quinn-hughes-1.jpg';
+            }
             // Default NHL headshot
             return player.player_id ? `https://assets.nhle.com/mugs/nhl/latest/${player.player_id}.png` : null;
         }
