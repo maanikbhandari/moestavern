@@ -60,6 +60,19 @@
     .btn-danger:hover { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
     .row-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
+    /* ---------- spread charts ---------- */
+    .chart-legend { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 14px; }
+    .chart-key { display: flex; align-items: center; gap: 7px; font-size: 0.8rem; color: #475569; }
+    .chart-key i { width: 13px; height: 13px; border-radius: 4px; display: inline-block; }
+    .chart-wrap { width: 100%; overflow-x: auto; }
+    .chart-wrap svg { width: 100%; min-width: 620px; height: auto; display: block; }
+    .chart-note {
+        margin-top: 14px; font-size: 0.78rem; color: #64748b;
+        background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px 12px;
+    }
+    .chart-note b { color: #374151; }
+    .chart-empty { color: #94a3b8; font-size: 0.9rem; padding: 30px 0; text-align: center; }
+
     /* ---------- scoring ---------- */
     .scoring-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     @media (max-width: 900px) { .scoring-groups { grid-template-columns: 1fr; } }
@@ -368,6 +381,19 @@
                 <div id="roster"></div>
             </div>
         </div>
+
+        <!-- Positional spread -->
+        <div class="card">
+            <h2>Positional Value Spread</h2>
+            <div class="sub">
+                How much fantasy value each position holds, under your scoring and roster
+                settings. One box per stat source, all three panels on a shared scale so you
+                can compare positions directly.
+            </div>
+            <div class="chart-legend" id="chartLegend"></div>
+            <div class="chart-wrap" id="chartWrap"></div>
+            <div class="chart-note" id="chartNote"></div>
+        </div>
     </div>
 </div>
 
@@ -386,6 +412,14 @@ const DATASETS = [
     { id: '20252026',    label: '2025-26 actuals' },
     { id: '20242025',    label: '2024-25 actuals' },
     { id: 'AVG3',        label: 'Three-year average' }
+];
+
+// Same sources in chronological order, with the palette the spread chart uses.
+const CHART_SERIES = [
+    { id: '20242025',    label: '2024-25 actuals',     color: '#94a3b8' },
+    { id: '20252026',    label: '2025-26 actuals',     color: '#0891b2' },
+    { id: PROJECTION_ID, label: '2026-27 projections', color: '#7c3aed' },
+    { id: 'AVG3',        label: 'Three-year average',  color: '#ea580c' }
 ];
 
 // Roster shape. UTIL slots accept any position and absorb overflow past F/D/G.
@@ -430,6 +464,8 @@ let owner = new Map();     // PLAYER_ID -> team index
 let byId = new Map();      // PLAYER_ID -> player row
 let dataset = PROJECTION_ID;
 let statLines = new Map(); // PLAYER_ID -> the active dataset's stat line
+let datasetLines = new Map(); // dataset id -> (PLAYER_ID -> stat line), for the charts
+let chartGroups = { F: [], D: [], G: [] }; // players bucketed into one chart panel each
 let teams = [];
 let active = 0;
 let rosterSort = 'pts';   // 'pts' or 'pos'
@@ -468,17 +504,32 @@ function seasonLine(p, id) {
 // Cache one stat line per player for the active dataset so nothing recomputes per render.
 function buildStatLines() {
     statLines = new Map();
+    for (const p of players) statLines.set(p.PLAYER_ID, lineFor(p, dataset));
+}
+
+// The stat line for any dataset, including the synthetic three-year average.
+function lineFor(p, id) {
+    if (id !== 'AVG3') return seasonLine(p, id) || {};
+    const lines = SEASON_IDS.map(x => seasonLine(p, x)).filter(Boolean);
+    if (!lines.length) return {};
+    const avg = {};
+    // divide by the seasons a player actually played, so a rookie is not buried
+    for (const k of STAT_KEYS) avg[k] = lines.reduce((n, l) => n + num(l[k]), 0) / lines.length;
+    return avg;
+}
+
+// Stats never change, only the scoring does, so every dataset's lines are cached once.
+function buildDatasetLines() {
+    datasetLines = new Map();
+    for (const d of DATASETS) {
+        const m = new Map();
+        for (const p of players) m.set(p.PLAYER_ID, lineFor(p, d.id));
+        datasetLines.set(d.id, m);
+    }
+    chartGroups = { F: [], D: [], G: [] };
     for (const p of players) {
-        if (dataset !== 'AVG3') {
-            statLines.set(p.PLAYER_ID, seasonLine(p, dataset) || {});
-            continue;
-        }
-        const lines = SEASON_IDS.map(id => seasonLine(p, id)).filter(Boolean);
-        const avg = {};
-        // divide by the seasons a player actually played, so a rookie is not buried
-        for (const k of STAT_KEYS)
-            if (lines.length) avg[k] = lines.reduce((n, l) => n + num(l[k]), 0) / lines.length;
-        statLines.set(p.PLAYER_ID, lines.length ? avg : {});
+        const pos = chartPos(p);
+        if (pos) chartGroups[pos].push(p);
     }
 }
 
@@ -636,6 +687,7 @@ function renderLimits() {
             renderTeams();
             renderRoster();
             renderPool();
+            renderCharts();
             save();
         });
     });
@@ -645,15 +697,18 @@ function renderLimits() {
 
 function computePoints() {
     points.clear();
-    for (const p of players) {
-        const s = statsOf(p);
-        const cats = isGoalie(p) ? scoring.goalie : scoring.skater;
-        let total = 0;
-        for (const k in cats) total += num(s[k]) * cats[k];
-        // flat bonus per point (G + A) for defencemen only
-        if (posEligible(p).includes('D')) total += (num(s.G) + num(s.A)) * scoring.bonus.D_PTS;
-        points.set(p.PLAYER_ID, total);
-    }
+    for (const p of players) points.set(p.PLAYER_ID, scoreLine(p, statsOf(p)));
+}
+
+// One player's total from an arbitrary stat line, so the charts can score every
+// dataset without disturbing the active one.
+function scoreLine(p, s) {
+    const cats = isGoalie(p) ? scoring.goalie : scoring.skater;
+    let total = 0;
+    for (const k in cats) total += num(s[k]) * cats[k];
+    // flat bonus per point (G + A) for defencemen only
+    if (posEligible(p).includes('D')) total += (num(s.G) + num(s.A)) * scoring.bonus.D_PTS;
+    return total;
 }
 
 function renderScoring() {
@@ -1034,6 +1089,161 @@ function renderRoster() {
         : '<div class="empty-note">Nothing here yet.<br>Draft players from the list on the left.</div>';
 }
 
+/* ---------------- positional spread chart ---------------- */
+
+// A player lands in exactly one panel, so dual-eligible skaters are not counted twice.
+function chartPos(p) {
+    if (isGoalie(p)) return 'G';
+    return posEligible(p)[0] || null;
+}
+
+function quantile(sorted, q) {
+    if (!sorted.length) return 0;
+    const pos = (sorted.length - 1) * q;
+    const base = Math.floor(pos);
+    const next = sorted[base + 1];
+    return next === undefined ? sorted[base] : sorted[base] + (pos - base) * (next - sorted[base]);
+}
+
+function boxStats(vals) {
+    const s = vals.slice().sort((a, b) => a - b);
+    const q1 = quantile(s, 0.25), med = quantile(s, 0.5), q3 = quantile(s, 0.75);
+    const loFence = q1 - 1.5 * (q3 - q1), hiFence = q3 + 1.5 * (q3 - q1);
+    const inner = s.filter(v => v >= loFence && v <= hiFence);
+    return {
+        n: s.length, q1, med, q3,
+        lo: inner.length ? inner[0] : s[0],
+        hi: inner.length ? inner[inner.length - 1] : s[s.length - 1],
+        out: s.filter(v => v < loFence || v > hiFence)
+    };
+}
+
+// The draftable pool at each position: top (teams x limit) players, per dataset.
+function chartPools() {
+    const out = [];
+    for (const pos of POS_ORDER) {
+        const size = NUM_TEAMS * (limits[pos] || 0);
+        if (!size) continue;
+        const series = CHART_SERIES.map(sr => {
+            const lines = datasetLines.get(sr.id);
+            const vals = [];
+            for (const p of chartGroups[pos]) {
+                const line = lines && lines.get(p.PLAYER_ID);
+                if (!line || !filled(line, isGoalie(p) ? GOALIE_KEYS : SKATER_KEYS)) continue;
+                vals.push(scoreLine(p, line));
+            }
+            vals.sort((a, b) => b - a);
+            return { label: sr.label, color: sr.color, vals: vals.slice(0, size) };
+        });
+        out.push({ pos, size, series });
+    }
+    return out;
+}
+
+function niceTicks(lo, hi, count) {
+    const step0 = ((hi - lo) || 1) / count;
+    const mag = Math.pow(10, Math.floor(Math.log10(step0)));
+    const norm = step0 / mag;
+    const step = (norm >= 5 ? 10 : norm >= 2 ? 5 : norm >= 1 ? 2 : 1) * mag;
+    const ticks = [];
+    for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) ticks.push(v);
+    return ticks;
+}
+
+function renderCharts() {
+    const wrap = document.getElementById('chartWrap');
+    if (!wrap) return;
+    const note = document.getElementById('chartNote');
+
+    document.getElementById('chartLegend').innerHTML = CHART_SERIES.map(s =>
+        `<span class="chart-key"><i style="background:${s.color}"></i>${esc(s.label)}</span>`
+    ).join('');
+
+    const panels = chartPools().filter(p => p.series.some(s => s.vals.length));
+    if (!panels.length) {
+        wrap.innerHTML = '<div class="chart-empty">Give at least one position a roster limit to see the spread.</div>';
+        note.textContent = '';
+        return;
+    }
+
+    const W = 1000, H = 440;
+    const M = { top: 34, right: 16, bottom: 64, left: 58 };
+    const innerW = W - M.left - M.right;
+    const innerH = H - M.top - M.bottom;
+    const gap = 24;
+    const panelW = (innerW - gap * (panels.length - 1)) / panels.length;
+
+    let lo = Infinity, hi = -Infinity;
+    for (const p of panels) for (const s of p.series) for (const v of s.vals) {
+        if (v < lo) lo = v;
+        if (v > hi) hi = v;
+    }
+    const pad = (hi - lo) * 0.09 || 1;
+    lo -= pad; hi += pad;
+    const y = v => M.top + innerH * (1 - (v - lo) / (hi - lo));
+
+    let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Fantasy point spread by position">`;
+    svg += `<text x="6" y="${M.top - 14}" font-size="11.5" fill="#64748b">Fantasy points</text>`;
+    for (const t of niceTicks(lo, hi, 6)) {
+        const ty = y(t).toFixed(1);
+        svg += `<line x1="${M.left}" y1="${ty}" x2="${W - M.right}" y2="${ty}" stroke="#eef2f7"/>`
+             + `<text x="${M.left - 10}" y="${(y(t) + 4).toFixed(1)}" text-anchor="end"`
+             + ` font-size="11" fill="#94a3b8">${Math.round(t)}</text>`;
+    }
+
+    panels.forEach((panel, pi) => {
+        const px = M.left + pi * (panelW + gap);
+        svg += `<rect x="${px.toFixed(1)}" y="${M.top}" width="${panelW.toFixed(1)}"`
+             + ` height="${innerH}" fill="#fbfcfe" stroke="#eef2f7" rx="8"/>`;
+        const slot = panelW / panel.series.length;
+        const bw = Math.min(slot * 0.5, 42);
+
+        panel.series.forEach((s, si) => {
+            if (!s.vals.length) return;
+            const cx = px + slot * (si + 0.5);
+            const b = boxStats(s.vals);
+            const cap = bw * 0.28;
+            const tip = `${s.label} \u00b7 ${LIMIT_LABELS[panel.pos]}\n`
+                + `n ${b.n}\nhigh ${Math.round(b.hi)}\nQ3 ${Math.round(b.q3)}\n`
+                + `median ${Math.round(b.med)}\nQ1 ${Math.round(b.q1)}\nlow ${Math.round(b.lo)}`;
+            svg += `<g><title>${esc(tip)}</title>`
+                 + `<line x1="${cx.toFixed(1)}" y1="${y(b.hi).toFixed(1)}" x2="${cx.toFixed(1)}"`
+                 + ` y2="${y(b.lo).toFixed(1)}" stroke="${s.color}" stroke-width="1.5" opacity="0.6"/>`
+                 + `<line x1="${(cx - cap).toFixed(1)}" y1="${y(b.hi).toFixed(1)}" x2="${(cx + cap).toFixed(1)}"`
+                 + ` y2="${y(b.hi).toFixed(1)}" stroke="${s.color}" stroke-width="1.5"/>`
+                 + `<line x1="${(cx - cap).toFixed(1)}" y1="${y(b.lo).toFixed(1)}" x2="${(cx + cap).toFixed(1)}"`
+                 + ` y2="${y(b.lo).toFixed(1)}" stroke="${s.color}" stroke-width="1.5"/>`
+                 + `<rect x="${(cx - bw / 2).toFixed(1)}" y="${y(b.q3).toFixed(1)}" width="${bw.toFixed(1)}"`
+                 + ` height="${Math.max(1.5, y(b.q1) - y(b.q3)).toFixed(1)}" rx="3" fill="${s.color}"`
+                 + ` fill-opacity="0.2" stroke="${s.color}" stroke-width="1.5"/>`
+                 + `<line x1="${(cx - bw / 2).toFixed(1)}" y1="${y(b.med).toFixed(1)}"`
+                 + ` x2="${(cx + bw / 2).toFixed(1)}" y2="${y(b.med).toFixed(1)}"`
+                 + ` stroke="${s.color}" stroke-width="3" stroke-linecap="round"/>`;
+            for (const o of b.out)
+                svg += `<circle cx="${cx.toFixed(1)}" cy="${y(o).toFixed(1)}" r="2.2"`
+                     + ` fill="${s.color}" fill-opacity="0.4"/>`;
+            // label rides the median line itself; the white halo keeps it legible over the box
+            svg += `<text x="${cx.toFixed(1)}" y="${(y(b.med) - 5).toFixed(1)}" text-anchor="middle"`
+                 + ` font-size="11" font-weight="700" fill="${s.color}" stroke="#ffffff"`
+                 + ` stroke-width="3.5" paint-order="stroke">${Math.round(b.med)}</text>`
+                 + `</g>`;
+        });
+
+        svg += `<text x="${(px + panelW / 2).toFixed(1)}" y="${H - 32}" text-anchor="middle"`
+             + ` font-size="13.5" font-weight="700" fill="#1e293b">${esc(LIMIT_LABELS[panel.pos])}</text>`
+             + `<text x="${(px + panelW / 2).toFixed(1)}" y="${H - 14}" text-anchor="middle"`
+             + ` font-size="11" fill="#94a3b8">top ${panel.size}`
+             + ` \u00b7 ${NUM_TEAMS} teams \u00d7 ${limits[panel.pos]}</text>`;
+    });
+    wrap.innerHTML = svg + '</svg>';
+
+    const shape = panels.map(p => `${p.size} ${LIMIT_LABELS[p.pos].toLowerCase()}`).join(', ');
+    note.innerHTML = `<b>Pools track your roster limits:</b> ${esc(shape)}. `
+        + 'Each box covers the middle half of that pool and the printed number sits on the '
+        + 'median line. Whiskers reach 1.5&times;IQR and loose dots are outliers beyond them. '
+        + 'All panels share one vertical scale, so positions are directly comparable.';
+}
+
 /* ---------------- orchestration ---------------- */
 
 function recalc() {
@@ -1046,6 +1256,7 @@ function renderAll() {
     renderLeaderboard();
     renderRoster();
     renderPool();
+    renderCharts();
 }
 
 /* ---------------- boot ---------------- */
@@ -1154,6 +1365,7 @@ Promise.all([
     renderTeamFilter();
     renderPosChips();
     bindControls();
+    buildDatasetLines();
     recalc();
 }).catch(err => {
     document.getElementById('loading').textContent =

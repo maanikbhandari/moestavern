@@ -36,6 +36,6 @@
     "TOT": "Verified against all 371 players carrying stats in all_players_data.json.",
     "AVG_skaters": "AVG = TOT / GP. Verified for all 326 skaters with games played.",
     "AVG_goalies": "AVG is TOT divided by games played, which is not a column in this dataset (GS is starts, not appearances). Only 11 of 49 goalies match TOT / GS.",
-    "D_PTS": "Not an ESPN league setting and not a column in the data. It is an extra per-point bonus applied only to players with POS = D, worth D_PTS for every goal and assist they record. Default 0, so it changes nothing until you raise it."
+    "D_PTS": "ESPN's defensemen-points bonus. Not a column in the data - it is an extra per-point bonus applied only to players with POS = D, worth D_PTS for every goal and assist they record. Default 0, so it changes nothing until you raise it."
   }
 }
