@@ -1118,14 +1118,18 @@ function boxStats(vals) {
     };
 }
 
-// The draftable pool at each position: top (teams x limit) players, per dataset.
+// The draftable pool at each position: the dedicated (teams x limit) slots, plus
+// whatever the UTIL slots absorb. UTIL is position-agnostic, so those go to the
+// best players still on the board - which in practice is mostly forwards.
 function chartPools() {
-    const out = [];
-    for (const pos of POS_ORDER) {
-        const size = NUM_TEAMS * (limits[pos] || 0);
-        if (!size) continue;
-        const series = CHART_SERIES.map(sr => {
-            const lines = datasetLines.get(sr.id);
+    const dedicated = {};
+    for (const pos of POS_ORDER) dedicated[pos] = NUM_TEAMS * (limits[pos] || 0);
+    const utilSlots = NUM_TEAMS * (limits.UTIL || 0);
+
+    const perSeries = CHART_SERIES.map(sr => {
+        const lines = datasetLines.get(sr.id);
+        const ranked = {};
+        for (const pos of POS_ORDER) {
             const vals = [];
             for (const p of chartGroups[pos]) {
                 const line = lines && lines.get(p.PLAYER_ID);
@@ -1133,9 +1137,39 @@ function chartPools() {
                 vals.push(scoreLine(p, line));
             }
             vals.sort((a, b) => b - a);
-            return { label: sr.label, color: sr.color, vals: vals.slice(0, size) };
+            ranked[pos] = vals;
+        }
+
+        const take = {};
+        for (const pos of POS_ORDER) take[pos] = Math.min(dedicated[pos], ranked[pos].length);
+        // each ranked list is already sorted, so a 3-way merge fills UTIL in value order
+        for (let k = 0; k < utilSlots; k++) {
+            let best = null, bestVal = -Infinity;
+            for (const pos of POS_ORDER) {
+                const v = ranked[pos][take[pos]];
+                if (v !== undefined && v > bestVal) { bestVal = v; best = pos; }
+            }
+            if (best === null) break;
+            take[best]++;
+        }
+        return { sr, ranked, take };
+    });
+
+    const out = [];
+    for (const pos of POS_ORDER) {
+        const sizes = perSeries.map(x => x.take[pos]);
+        if (!sizes.some(n => n)) continue;
+        out.push({
+            pos,
+            lo: Math.min(...sizes),
+            hi: Math.max(...sizes),
+            dedicated: dedicated[pos],
+            series: perSeries.map(x => ({
+                label: x.sr.label,
+                color: x.sr.color,
+                vals: x.ranked[pos].slice(0, x.take[pos])
+            }))
         });
-        out.push({ pos, size, series });
     }
     return out;
 }
@@ -1229,16 +1263,26 @@ function renderCharts() {
                  + `</g>`;
         });
 
+        const span = panel.lo === panel.hi ? `top ${panel.lo}` : `top ${panel.lo}\u2013${panel.hi}`;
+        const slots = limits.UTIL
+            ? `${NUM_TEAMS} \u00d7 (${limits[panel.pos]} + util)`
+            : `${NUM_TEAMS} teams \u00d7 ${limits[panel.pos]}`;
         svg += `<text x="${(px + panelW / 2).toFixed(1)}" y="${H - 32}" text-anchor="middle"`
              + ` font-size="13.5" font-weight="700" fill="#1e293b">${esc(LIMIT_LABELS[panel.pos])}</text>`
              + `<text x="${(px + panelW / 2).toFixed(1)}" y="${H - 14}" text-anchor="middle"`
-             + ` font-size="11" fill="#94a3b8">top ${panel.size}`
-             + ` \u00b7 ${NUM_TEAMS} teams \u00d7 ${limits[panel.pos]}</text>`;
+             + ` font-size="11" fill="#94a3b8">${span} \u00b7 ${slots}</text>`;
     });
     wrap.innerHTML = svg + '</svg>';
 
-    const shape = panels.map(p => `${p.size} ${LIMIT_LABELS[p.pos].toLowerCase()}`).join(', ');
+    const shape = panels.map(p => {
+        const n = p.lo === p.hi ? `${p.lo}` : `${p.lo}\u2013${p.hi}`;
+        return `${n} ${LIMIT_LABELS[p.pos].toLowerCase()}`;
+    }).join(', ');
     note.innerHTML = `<b>Pools track your roster limits:</b> ${esc(shape)}. `
+        + (limits.UTIL
+            ? `Your ${NUM_TEAMS * limits.UTIL} utility slots go to the best players left at `
+              + 'any position, so those pools vary a little between sources. '
+            : '')
         + 'Each box covers the middle half of that pool and the printed number sits on the '
         + 'median line. Whiskers reach 1.5&times;IQR and loose dots are outliers beyond them. '
         + 'All panels share one vertical scale, so positions are directly comparable.';
