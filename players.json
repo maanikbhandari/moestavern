@@ -125,14 +125,14 @@
   {
     "name": "Adam Fox",
     "image": "images/Adam_Fox_ownership.png",
-    "total_drafts": 6,
+    "total_drafts": 7,
     "unique_owners": 3,
     "team": "NYR",
     "position": [
       "D"
     ],
     "owners": {
-      "Brandon Nguyen": 3,
+      "Brandon Nguyen": 4,
       "Brian Duong": 1,
       "Ivan Chow": 2
     },
@@ -141,7 +141,8 @@
       "Brandon Nguyen": [
         "20202021",
         "20212022",
-        "20252026"
+        "20252026",
+        "20262027"
       ],
       "Ivan Chow": [
         "20222023",
@@ -180,6 +181,11 @@
       "20252026": {
         "draft_number": 29,
         "round_number": 5,
+        "team": "NYR"
+      },
+      "20262027": {
+        "draft_number": 42,
+        "round_number": 6,
         "team": "NYR"
       }
     }
@@ -290,7 +296,7 @@
   {
     "name": "Adrian Kempe",
     "image": "images/Adrian_Kempe_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 2,
     "team": "LAK",
     "position": [
@@ -298,7 +304,7 @@
       "RW"
     ],
     "owners": {
-      "Brian Duong": 2,
+      "Brian Duong": 3,
       "Ivan Chow": 2
     },
     "player_id": "8477960",
@@ -309,7 +315,8 @@
       ],
       "Brian Duong": [
         "20232024",
-        "20242025"
+        "20242025",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -331,6 +338,11 @@
       "20252026": {
         "draft_number": 49,
         "round_number": 7,
+        "team": "LA"
+      },
+      "20262027": {
+        "draft_number": 80,
+        "round_number": 12,
         "team": "LA"
       }
     }
@@ -379,7 +391,7 @@
   {
     "name": "Aleksander Barkov",
     "image": "images/Aleksander_Barkov_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 4,
     "team": "Fla",
     "position": [
@@ -388,7 +400,7 @@
     "owners": {
       "Brian Duong": 1,
       "Ivan Chow": 3,
-      "Maanik Bhandari": 3,
+      "Maanik Bhandari": 4,
       "Nam Le": 2
     },
     "player_id": "8477493",
@@ -408,7 +420,8 @@
       "Maanik Bhandari": [
         "20192020",
         "20212022",
-        "20242025"
+        "20242025",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -456,14 +469,19 @@
         "draft_number": 27,
         "round_number": 4,
         "team": "Fla"
+      },
+      "20262027": {
+        "draft_number": 37,
+        "round_number": 6,
+        "team": "Fla"
       }
     }
   },
   {
     "name": "Alex DeBrincat",
     "image": "images/Alex_DeBrincat_ownership.png",
-    "total_drafts": 8,
-    "unique_owners": 5,
+    "total_drafts": 9,
+    "unique_owners": 6,
     "team": "Det",
     "position": [
       "LW",
@@ -471,6 +489,7 @@
     ],
     "owners": {
       "Brandon Nguyen": 1,
+      "Brian Duong": 1,
       "Ivan Chow": 2,
       "Nam Le": 3,
       "bryan lam": 1,
@@ -516,6 +535,9 @@
       ],
       "vince tran": [
         "20232024"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -557,6 +579,11 @@
       "20252026": {
         "draft_number": 78,
         "round_number": 12,
+        "team": "Det"
+      },
+      "20262027": {
+        "draft_number": 61,
+        "round_number": 9,
         "team": "Det"
       }
     }
@@ -686,9 +713,35 @@
     }
   },
   {
+    "name": "Alex Laferriere",
+    "image": "images/Alex_Laferriere_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "LAK",
+    "position": [
+      "RW"
+    ],
+    "owners": {
+      "vince tran": 1
+    },
+    "player_id": "8482155",
+    "owner_years": {
+      "vince tran": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 134,
+        "round_number": 20,
+        "team": "LA"
+      }
+    }
+  },
+  {
     "name": "Alex Ovechkin",
     "image": "images/Alex_Ovechkin_ownership.png",
-    "total_drafts": 12,
+    "total_drafts": 13,
     "unique_owners": 7,
     "team": "Wsh",
     "position": [
@@ -696,7 +749,7 @@
       "RW"
     ],
     "owners": {
-      "Brandon Nguyen": 1,
+      "Brandon Nguyen": 2,
       "Brian Duong": 2,
       "Ivan Chow": 1,
       "Maanik Bhandari": 1,
@@ -707,7 +760,8 @@
     "player_id": "8471214",
     "owner_years": {
       "Brandon Nguyen": [
-        "20142015"
+        "20142015",
+        "20262027"
       ],
       "bryan lam": [
         "20152016",
@@ -792,6 +846,11 @@
       "20252026": {
         "draft_number": 89,
         "round_number": 13,
+        "team": "Wsh"
+      },
+      "20262027": {
+        "draft_number": 127,
+        "round_number": 19,
         "team": "Wsh"
       }
     },
@@ -913,13 +972,14 @@
   {
     "name": "Alex Tuch",
     "image": "images/Alex_Tuch_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 3,
-    "team": "Buf",
+    "total_drafts": 5,
+    "unique_owners": 4,
+    "team": "Wsh",
     "position": [
       "RW"
     ],
     "owners": {
+      "Ivan Chow": 1,
       "Maanik Bhandari": 1,
       "bryan lam": 1,
       "vince tran": 2
@@ -951,6 +1011,9 @@
       ],
       "bryan lam": [
         "20252026"
+      ],
+      "Ivan Chow": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -973,6 +1036,11 @@
         "draft_number": 90,
         "round_number": 13,
         "team": "Buf"
+      },
+      "20262027": {
+        "draft_number": 82,
+        "round_number": 12,
+        "team": "Wsh"
       }
     }
   },
@@ -1179,8 +1247,8 @@
   {
     "name": "Alexis Lafrenière",
     "image": "images/Alexis_Lafrenière_ownership.png",
-    "total_drafts": 3,
-    "unique_owners": 3,
+    "total_drafts": 4,
+    "unique_owners": 4,
     "team": "NYR",
     "position": [
       "LW"
@@ -1188,7 +1256,8 @@
     "owners": {
       "Brian Duong": 1,
       "Ivan Chow": 1,
-      "Maanik Bhandari": 1
+      "Maanik Bhandari": 1,
+      "Nam Le": 1
     },
     "player_id": "8482109",
     "owner_years": {
@@ -1200,6 +1269,9 @@
       ],
       "Maanik Bhandari": [
         "20242025"
+      ],
+      "Nam Le": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -1216,6 +1288,11 @@
       "20242025": {
         "draft_number": 100,
         "round_number": 15,
+        "team": "NYR"
+      },
+      "20262027": {
+        "draft_number": 116,
+        "round_number": 17,
         "team": "NYR"
       }
     }
@@ -1374,14 +1451,14 @@
   {
     "name": "Andrei Svechnikov",
     "image": "images/Andrei_Svechnikov_ownership.png",
-    "total_drafts": 5,
+    "total_drafts": 6,
     "unique_owners": 4,
     "team": "Car",
     "position": [
       "LW"
     ],
     "owners": {
-      "Brandon Nguyen": 1,
+      "Brandon Nguyen": 2,
       "Brian Duong": 1,
       "Maanik Bhandari": 1,
       "Nam Le": 2
@@ -1412,7 +1489,8 @@
         "20212022"
       ],
       "Brandon Nguyen": [
-        "20222023"
+        "20222023",
+        "20262027"
       ],
       "Maanik Bhandari": [
         "20232024"
@@ -1443,13 +1521,18 @@
         "draft_number": 76,
         "round_number": 11,
         "team": "Car"
+      },
+      "20262027": {
+        "draft_number": 85,
+        "round_number": 13,
+        "team": "Car"
       }
     }
   },
   {
     "name": "Andrei Vasilevskiy",
     "image": "images/Andrei_Vasilevskiy_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 5,
     "team": "TBL",
     "position": [
@@ -1459,14 +1542,15 @@
       "Brandon Nguyen": 1,
       "Ivan Chow": 2,
       "Maanik Bhandari": 1,
-      "Nam Le": 2,
+      "Nam Le": 3,
       "bryan lam": 3
     },
     "player_id": "8476883",
     "owner_years": {
       "Nam Le": [
         "20172018",
-        "20222023"
+        "20222023",
+        "20262027"
       ],
       "bryan lam": [
         "20182019",
@@ -1528,6 +1612,11 @@
       "20252026": {
         "draft_number": 22,
         "round_number": 4,
+        "team": "TB"
+      },
+      "20262027": {
+        "draft_number": 39,
+        "round_number": 6,
         "team": "TB"
       }
     }
@@ -1872,16 +1961,16 @@
   {
     "name": "Artemi Panarin",
     "image": "images/Artemi_Panarin_ownership.png",
-    "total_drafts": 10,
+    "total_drafts": 11,
     "unique_owners": 5,
-    "team": "NYR",
+    "team": "LAK",
     "position": [
       "C",
       "LW"
     ],
     "owners": {
       "Brandon Nguyen": 2,
-      "Ivan Chow": 1,
+      "Ivan Chow": 2,
       "Nam Le": 3,
       "bryan lam": 1,
       "vince tran": 3
@@ -1922,7 +2011,8 @@
         "20232024"
       ],
       "Ivan Chow": [
-        "20212022"
+        "20212022",
+        "20262027"
       ],
       "vince tran": [
         "20222023",
@@ -1980,19 +2070,25 @@
         "draft_number": 11,
         "round_number": 2,
         "team": "NYR"
+      },
+      "20262027": {
+        "draft_number": 17,
+        "round_number": 3,
+        "team": "LA"
       }
     }
   },
   {
     "name": "Auston Matthews",
     "image": "images/Auston_Matthews_ownership.png",
-    "total_drafts": 10,
-    "unique_owners": 4,
+    "total_drafts": 11,
+    "unique_owners": 5,
     "team": "Tor",
     "position": [
       "C"
     ],
     "owners": {
+      "Brandon Nguyen": 1,
       "Ivan Chow": 2,
       "Maanik Bhandari": 2,
       "bryan lam": 3,
@@ -2033,6 +2129,9 @@
         "20192020",
         "20232024",
         "20242025"
+      ],
+      "Brandon Nguyen": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -2085,6 +2184,37 @@
         "draft_number": 8,
         "round_number": 2,
         "team": "Tor"
+      },
+      "20262027": {
+        "draft_number": 28,
+        "round_number": 4,
+        "team": "Tor"
+      }
+    }
+  },
+  {
+    "name": "Beckett Sennecke",
+    "image": "images/Beckett_Sennecke_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Ana",
+    "position": [
+      "RW"
+    ],
+    "owners": {
+      "Brian Duong": 1
+    },
+    "player_id": "8484762",
+    "owner_years": {
+      "Brian Duong": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 122,
+        "round_number": 18,
+        "team": "Ana"
       }
     }
   },
@@ -2294,8 +2424,8 @@
   {
     "name": "Bo Horvat",
     "image": "images/Bo_Horvat_ownership.png",
-    "total_drafts": 9,
-    "unique_owners": 4,
+    "total_drafts": 10,
+    "unique_owners": 5,
     "team": "NYI",
     "position": [
       "C"
@@ -2303,6 +2433,7 @@
     "owners": {
       "Brian Duong": 1,
       "Ivan Chow": 1,
+      "Maanik Bhandari": 1,
       "bryan lam": 6,
       "vince tran": 1
     },
@@ -2324,6 +2455,9 @@
       ],
       "Brian Duong": [
         "20242025"
+      ],
+      "Maanik Bhandari": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -2370,6 +2504,11 @@
       "20252026": {
         "draft_number": 118,
         "round_number": 17,
+        "team": "NYI"
+      },
+      "20262027": {
+        "draft_number": 104,
+        "round_number": 15,
         "team": "NYI"
       }
     }
@@ -2437,19 +2576,23 @@
   {
     "name": "Bowen Byram",
     "image": "images/Bowen_Byram_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
-    "team": "Col",
+    "total_drafts": 2,
+    "unique_owners": 2,
+    "team": "Chi",
     "position": [
       "D"
     ],
     "owners": {
-      "Brian Duong": 1
+      "Brian Duong": 1,
+      "Nam Le": 1
     },
     "player_id": "8481524",
     "owner_years": {
       "Brian Duong": [
         "20232024"
+      ],
+      "Nam Le": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -2457,6 +2600,11 @@
         "draft_number": 154,
         "round_number": 22,
         "team": "Col"
+      },
+      "20262027": {
+        "draft_number": 109,
+        "round_number": 16,
+        "team": "Chi"
       }
     }
   },
@@ -2668,14 +2816,14 @@
   {
     "name": "Brady Tkachuk",
     "image": "images/Brady_Tkachuk_ownership.png",
-    "total_drafts": 7,
+    "total_drafts": 8,
     "unique_owners": 5,
-    "team": "Ott",
+    "team": "Fla",
     "position": [
       "LW"
     ],
     "owners": {
-      "Brandon Nguyen": 2,
+      "Brandon Nguyen": 3,
       "Brian Duong": 1,
       "Maanik Bhandari": 2,
       "bryan lam": 1,
@@ -2695,7 +2843,8 @@
       ],
       "Brandon Nguyen": [
         "20222023",
-        "20232024"
+        "20232024",
+        "20262027"
       ],
       "Brian Duong": [
         "20242025"
@@ -2736,6 +2885,11 @@
         "draft_number": 80,
         "round_number": 12,
         "team": "Ott"
+      },
+      "20262027": {
+        "draft_number": 70,
+        "round_number": 10,
+        "team": "Fla"
       }
     },
     "championship_wins": 1,
@@ -2756,15 +2910,42 @@
     ]
   },
   {
+    "name": "Brandon Bussi",
+    "image": "images/Brandon_Bussi_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Car",
+    "position": [
+      "G"
+    ],
+    "owners": {
+      "vince tran": 1
+    },
+    "player_id": "8483548",
+    "owner_years": {
+      "vince tran": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 106,
+        "round_number": 16,
+        "team": "Car"
+      }
+    }
+  },
+  {
     "name": "Brandon Hagel",
     "image": "images/Brandon_Hagel_ownership.png",
-    "total_drafts": 3,
-    "unique_owners": 2,
+    "total_drafts": 4,
+    "unique_owners": 3,
     "team": "TBL",
     "position": [
       "LW"
     ],
     "owners": {
+      "Brian Duong": 1,
       "Ivan Chow": 2,
       "bryan lam": 1
     },
@@ -2776,6 +2957,9 @@
       ],
       "bryan lam": [
         "20252026"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -2791,6 +2975,11 @@
       },
       "20252026": {
         "draft_number": 48,
+        "round_number": 7,
+        "team": "TB"
+      },
+      "20262027": {
+        "draft_number": 47,
         "round_number": 7,
         "team": "TB"
       }
@@ -2899,19 +3088,23 @@
   {
     "name": "Brandt Clarke",
     "image": "images/Brandt_Clarke_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "LAK",
     "position": [
       "D"
     ],
     "owners": {
+      "Maanik Bhandari": 1,
       "bryan lam": 1
     },
     "player_id": "8482730",
     "owner_years": {
       "bryan lam": [
         "20252026"
+      ],
+      "Maanik Bhandari": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -2919,20 +3112,25 @@
         "draft_number": 160,
         "round_number": 23,
         "team": "LA"
+      },
+      "20262027": {
+        "draft_number": 93,
+        "round_number": 14,
+        "team": "LA"
       }
     }
   },
   {
     "name": "Brayden Point",
     "image": "images/Brayden_Point_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 4,
     "team": "TBL",
     "position": [
       "C"
     ],
     "owners": {
-      "Brandon Nguyen": 1,
+      "Brandon Nguyen": 2,
       "Brian Duong": 1,
       "Nam Le": 4,
       "vince tran": 2
@@ -2979,7 +3177,8 @@
         "20252026"
       ],
       "Brandon Nguyen": [
-        "20242025"
+        "20242025",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -3021,6 +3220,11 @@
       "20252026": {
         "draft_number": 18,
         "round_number": 3,
+        "team": "TB"
+      },
+      "20262027": {
+        "draft_number": 57,
+        "round_number": 9,
         "team": "TB"
       }
     }
@@ -3292,14 +3496,14 @@
   {
     "name": "Brock Boeser",
     "image": "images/Brock_Boeser_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 2,
     "team": "Van",
     "position": [
       "RW"
     ],
     "owners": {
-      "bryan lam": 7,
+      "bryan lam": 8,
       "vince tran": 1
     },
     "player_id": "8478444",
@@ -3311,7 +3515,8 @@
         "20202021",
         "20212022",
         "20232024",
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "vince tran": [
         "20222023"
@@ -3357,20 +3562,26 @@
         "draft_number": 45,
         "round_number": 7,
         "team": "Van"
+      },
+      "20262027": {
+        "draft_number": 156,
+        "round_number": 23,
+        "team": "Van"
       }
     }
   },
   {
     "name": "Brock Faber",
     "image": "images/Brock_Faber_ownership.png",
-    "total_drafts": 2,
-    "unique_owners": 2,
+    "total_drafts": 3,
+    "unique_owners": 3,
     "team": "Min",
     "position": [
       "D"
     ],
     "owners": {
       "Brandon Nguyen": 1,
+      "Brian Duong": 1,
       "Nam Le": 1
     },
     "player_id": "8482122",
@@ -3401,6 +3612,9 @@
       ],
       "Brandon Nguyen": [
         "20252026"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -3413,13 +3627,18 @@
         "draft_number": 155,
         "round_number": 23,
         "team": "Min"
+      },
+      "20262027": {
+        "draft_number": 66,
+        "round_number": 10,
+        "team": "Min"
       }
     }
   },
   {
     "name": "Brock Nelson",
     "image": "images/Brock_Nelson_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 3,
     "team": "Col",
     "position": [
@@ -3428,12 +3647,13 @@
     "owners": {
       "Brandon Nguyen": 2,
       "Ivan Chow": 1,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8475754",
     "owner_years": {
       "vince tran": [
-        "20202021"
+        "20202021",
+        "20262027"
       ],
       "Ivan Chow": [
         "20232024"
@@ -3462,6 +3682,11 @@
       "20252026": {
         "draft_number": 127,
         "round_number": 19,
+        "team": "Col"
+      },
+      "20262027": {
+        "draft_number": 105,
+        "round_number": 15,
         "team": "Col"
       }
     }
@@ -3516,7 +3741,7 @@
   {
     "name": "Bryan Rust",
     "image": "images/Bryan_Rust_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 2,
     "team": "Pit",
     "position": [
@@ -3524,7 +3749,7 @@
     ],
     "owners": {
       "Brian Duong": 1,
-      "bryan lam": 2
+      "bryan lam": 3
     },
     "player_id": "8475810",
     "championship_wins": 2,
@@ -3551,7 +3776,8 @@
     "owner_years": {
       "bryan lam": [
         "20202021",
-        "20212022"
+        "20212022",
+        "20262027"
       ],
       "Brian Duong": [
         "20222023"
@@ -3572,21 +3798,27 @@
         "draft_number": 127,
         "round_number": 19,
         "team": "Pit"
+      },
+      "20262027": {
+        "draft_number": 111,
+        "round_number": 16,
+        "team": "Pit"
       }
     }
   },
   {
     "name": "Cale Makar",
     "image": "images/Cale_Makar_ownership.png",
-    "total_drafts": 7,
-    "unique_owners": 2,
+    "total_drafts": 8,
+    "unique_owners": 3,
     "team": "Col",
     "position": [
       "D"
     ],
     "owners": {
       "Brandon Nguyen": 1,
-      "Maanik Bhandari": 6
+      "Maanik Bhandari": 6,
+      "vince tran": 1
     },
     "player_id": "8480069",
     "championship_wins": 2,
@@ -3621,6 +3853,9 @@
       ],
       "Brandon Nguyen": [
         "20242025"
+      ],
+      "vince tran": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -3656,6 +3891,11 @@
       },
       "20252026": {
         "draft_number": 5,
+        "round_number": 1,
+        "team": "Col"
+      },
+      "20262027": {
+        "draft_number": 7,
         "round_number": 1,
         "team": "Col"
       }
@@ -3899,16 +4139,16 @@
   {
     "name": "Carter Hart",
     "image": "images/Carter_Hart_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 3,
-    "team": "Phi",
+    "team": "VGK",
     "position": [
       "G"
     ],
     "owners": {
       "Brandon Nguyen": 1,
       "Maanik Bhandari": 1,
-      "Nam Le": 1
+      "Nam Le": 2
     },
     "player_id": "8479394",
     "championship_wins": 1,
@@ -3929,7 +4169,8 @@
     ],
     "owner_years": {
       "Nam Le": [
-        "20192020"
+        "20192020",
+        "20262027"
       ],
       "Maanik Bhandari": [
         "20202021"
@@ -3953,6 +4194,11 @@
         "draft_number": 148,
         "round_number": 22,
         "team": "Phi"
+      },
+      "20262027": {
+        "draft_number": 158,
+        "round_number": 23,
+        "team": "VGK"
       }
     }
   },
@@ -4078,7 +4324,7 @@
   {
     "name": "Charlie McAvoy",
     "image": "images/Charlie_McAvoy_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 5,
     "team": "Bos",
     "position": [
@@ -4088,7 +4334,7 @@
       "Brandon Nguyen": 3,
       "Brian Duong": 2,
       "Maanik Bhandari": 1,
-      "Nam Le": 1,
+      "Nam Le": 2,
       "vince tran": 1
     },
     "player_id": "8479325",
@@ -4122,7 +4368,8 @@
         "20232024"
       ],
       "Nam Le": [
-        "20222023"
+        "20222023",
+        "20262027"
       ],
       "vince tran": [
         "20252026"
@@ -4168,15 +4415,20 @@
         "draft_number": 81,
         "round_number": 12,
         "team": "Bos"
+      },
+      "20262027": {
+        "draft_number": 81,
+        "round_number": 12,
+        "team": "Bos"
       }
     }
   },
   {
     "name": "Chris Kreider",
     "image": "images/Chris_Kreider_ownership.png",
-    "total_drafts": 6,
-    "unique_owners": 4,
-    "team": "NYR",
+    "total_drafts": 7,
+    "unique_owners": 5,
+    "team": "MTL",
     "position": [
       "LW"
     ],
@@ -4184,6 +4436,7 @@
       "Brandon Nguyen": 2,
       "Brian Duong": 2,
       "Ivan Chow": 1,
+      "Maanik Bhandari": 1,
       "bryan lam": 1
     },
     "player_id": "8475184",
@@ -4201,6 +4454,9 @@
       ],
       "Ivan Chow": [
         "20222023"
+      ],
+      "Maanik Bhandari": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -4233,6 +4489,11 @@
         "draft_number": 91,
         "round_number": 13,
         "team": "NYR"
+      },
+      "20262027": {
+        "draft_number": 160,
+        "round_number": 23,
+        "team": "MTL"
       }
     }
   },
@@ -4412,8 +4673,8 @@
   {
     "name": "Clayton Keller",
     "image": "images/Clayton_Keller_ownership.png",
-    "total_drafts": 6,
-    "unique_owners": 3,
+    "total_drafts": 7,
+    "unique_owners": 4,
     "team": "UTA",
     "position": [
       "C",
@@ -4422,7 +4683,8 @@
     "owners": {
       "Ivan Chow": 3,
       "Maanik Bhandari": 2,
-      "Nam Le": 1
+      "Nam Le": 1,
+      "vince tran": 1
     },
     "player_id": "8479343",
     "championship_wins": 4,
@@ -4468,6 +4730,9 @@
       ],
       "Nam Le": [
         "20232024"
+      ],
+      "vince tran": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -4500,6 +4765,11 @@
         "draft_number": 33,
         "round_number": 5,
         "team": "UTA"
+      },
+      "20262027": {
+        "draft_number": 22,
+        "round_number": 4,
+        "team": "UTA"
       }
     }
   },
@@ -4531,7 +4801,7 @@
   {
     "name": "Cole Caufield",
     "image": "images/Cole_Caufield_ownership.png",
-    "total_drafts": 5,
+    "total_drafts": 6,
     "unique_owners": 5,
     "team": "MTL",
     "position": [
@@ -4542,7 +4812,7 @@
       "Brandon Nguyen": 1,
       "Brian Duong": 1,
       "Ivan Chow": 1,
-      "Maanik Bhandari": 1,
+      "Maanik Bhandari": 2,
       "Nam Le": 1
     },
     "player_id": "8481540",
@@ -4554,7 +4824,8 @@
         "20222023"
       ],
       "Maanik Bhandari": [
-        "20232024"
+        "20232024",
+        "20262027"
       ],
       "Brandon Nguyen": [
         "20242025"
@@ -4588,6 +4859,37 @@
         "draft_number": 59,
         "round_number": 9,
         "team": "Mon"
+      },
+      "20262027": {
+        "draft_number": 23,
+        "round_number": 4,
+        "team": "MTL"
+      }
+    }
+  },
+  {
+    "name": "Cole Hutson",
+    "image": "images/Cole_Hutson_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Wsh",
+    "position": [
+      "D"
+    ],
+    "owners": {
+      "vince tran": 1
+    },
+    "player_id": "8484873",
+    "owner_years": {
+      "vince tran": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 161,
+        "round_number": 23,
+        "team": "Wsh"
       }
     }
   },
@@ -4664,7 +4966,7 @@
   {
     "name": "Connor Bedard",
     "image": "images/Connor_Bedard_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 2,
     "team": "Chi",
     "position": [
@@ -4672,7 +4974,7 @@
     ],
     "owners": {
       "Brandon Nguyen": 2,
-      "Maanik Bhandari": 1
+      "Maanik Bhandari": 2
     },
     "player_id": "8484144",
     "owner_years": {
@@ -4681,7 +4983,8 @@
         "20252026"
       ],
       "Maanik Bhandari": [
-        "20242025"
+        "20242025",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -4699,14 +5002,19 @@
         "draft_number": 43,
         "round_number": 7,
         "team": "Chi"
+      },
+      "20262027": {
+        "draft_number": 62,
+        "round_number": 9,
+        "team": "Chi"
       }
     }
   },
   {
     "name": "Connor Hellebuyck",
     "image": "images/Connor_Hellebuyck_ownership.png",
-    "total_drafts": 8,
-    "unique_owners": 5,
+    "total_drafts": 9,
+    "unique_owners": 6,
     "team": "Wpg",
     "position": [
       "G"
@@ -4714,6 +5022,7 @@
     "owners": {
       "Brandon Nguyen": 1,
       "Ivan Chow": 2,
+      "Maanik Bhandari": 1,
       "Nam Le": 2,
       "bryan lam": 1,
       "vince tran": 2
@@ -4758,6 +5067,9 @@
       ],
       "bryan lam": [
         "20252026"
+      ],
+      "Maanik Bhandari": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -4800,6 +5112,11 @@
         "draft_number": 20,
         "round_number": 3,
         "team": "Wpg"
+      },
+      "20262027": {
+        "draft_number": 135,
+        "round_number": 20,
+        "team": "Wpg"
       }
     }
   },
@@ -4832,14 +5149,14 @@
   {
     "name": "Connor McDavid",
     "image": "images/Connor_McDavid_ownership.png",
-    "total_drafts": 11,
+    "total_drafts": 12,
     "unique_owners": 7,
     "team": "Edm",
     "position": [
       "C"
     ],
     "owners": {
-      "Brandon Nguyen": 1,
+      "Brandon Nguyen": 2,
       "Brian Duong": 3,
       "Ivan Chow": 1,
       "Maanik Bhandari": 1,
@@ -4919,6 +5236,11 @@
         "draft_number": 1,
         "round_number": 1,
         "team": "Edm"
+      },
+      "20262027": {
+        "draft_number": 1,
+        "round_number": 1,
+        "team": "Edm"
       }
     },
     "owner_years": {
@@ -4945,7 +5267,8 @@
         "20242025"
       ],
       "Brandon Nguyen": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     }
   },
@@ -5115,6 +5438,32 @@
         "draft_number": 136,
         "round_number": 20,
         "team": "NJ"
+      }
+    }
+  },
+  {
+    "name": "Cutter Gauthier",
+    "image": "images/Cutter_Gauthier_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Ana",
+    "position": [
+      "LW"
+    ],
+    "owners": {
+      "Ivan Chow": 1
+    },
+    "player_id": "8483445",
+    "owner_years": {
+      "Ivan Chow": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 87,
+        "round_number": 13,
+        "team": "Ana"
       }
     }
   },
@@ -5338,6 +5687,32 @@
     }
   },
   {
+    "name": "Darren Raddysh",
+    "image": "images/Darren_Raddysh_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Tor",
+    "position": [
+      "D"
+    ],
+    "owners": {
+      "Brian Duong": 1
+    },
+    "player_id": "8478178",
+    "owner_years": {
+      "Brian Duong": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 52,
+        "round_number": 8,
+        "team": "Tor"
+      }
+    }
+  },
+  {
     "name": "Dave Bolland",
     "image": "images/Dave_Bolland_ownership.png",
     "total_drafts": 1,
@@ -5516,7 +5891,7 @@
   {
     "name": "David Pastrnak",
     "image": "images/David_Pastrnak_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 6,
     "team": "Bos",
     "position": [
@@ -5524,7 +5899,7 @@
       "RW"
     ],
     "owners": {
-      "Brian Duong": 2,
+      "Brian Duong": 3,
       "Ivan Chow": 2,
       "Maanik Bhandari": 1,
       "Nam Le": 2,
@@ -5554,7 +5929,8 @@
       ],
       "Brian Duong": [
         "20182019",
-        "20192020"
+        "20192020",
+        "20262027"
       ],
       "Nam Le": [
         "20202021",
@@ -5614,6 +5990,11 @@
       },
       "20252026": {
         "draft_number": 6,
+        "round_number": 1,
+        "team": "Bos"
+      },
+      "20262027": {
+        "draft_number": 5,
         "round_number": 1,
         "team": "Bos"
       }
@@ -6009,8 +6390,8 @@
   {
     "name": "Dougie Hamilton",
     "image": "images/Dougie_Hamilton_ownership.png",
-    "total_drafts": 11,
-    "unique_owners": 3,
+    "total_drafts": 12,
+    "unique_owners": 4,
     "team": "NJD",
     "position": [
       "D"
@@ -6018,7 +6399,8 @@
     "owners": {
       "Brandon Nguyen": 5,
       "Brian Duong": 3,
-      "Maanik Bhandari": 3
+      "Maanik Bhandari": 3,
+      "vince tran": 1
     },
     "player_id": "8476462",
     "owner_years": {
@@ -6038,6 +6420,9 @@
         "20182019",
         "20212022",
         "20232024"
+      ],
+      "vince tran": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -6095,6 +6480,11 @@
         "draft_number": 98,
         "round_number": 14,
         "team": "NJ"
+      },
+      "20262027": {
+        "draft_number": 78,
+        "round_number": 12,
+        "team": "NJ"
       }
     },
     "championship_wins": 1,
@@ -6117,8 +6507,8 @@
   {
     "name": "Drake Batherson",
     "image": "images/Drake_Batherson_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 4,
+    "total_drafts": 5,
+    "unique_owners": 5,
     "team": "Ott",
     "position": [
       "C",
@@ -6128,7 +6518,8 @@
       "Brandon Nguyen": 1,
       "Maanik Bhandari": 1,
       "Nam Le": 1,
-      "bryan lam": 1
+      "bryan lam": 1,
+      "vince tran": 1
     },
     "player_id": "8480208",
     "championship_wins": 2,
@@ -6164,6 +6555,9 @@
       ],
       "Brandon Nguyen": [
         "20252026"
+      ],
+      "vince tran": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -6185,6 +6579,11 @@
       "20252026": {
         "draft_number": 112,
         "round_number": 16,
+        "team": "Ott"
+      },
+      "20262027": {
+        "draft_number": 64,
+        "round_number": 10,
         "team": "Ott"
       }
     }
@@ -6481,25 +6880,34 @@
   {
     "name": "Dustin Wolf",
     "image": "images/Dustin_Wolf_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "Cgy",
     "position": [
       "G"
     ],
     "owners": {
-      "Brandon Nguyen": 1
+      "Brandon Nguyen": 1,
+      "Ivan Chow": 1
     },
     "player_id": "8481692",
     "owner_years": {
       "Brandon Nguyen": [
         "20252026"
+      ],
+      "Ivan Chow": [
+        "20262027"
       ]
     },
     "draft_history": {
       "20252026": {
         "draft_number": 70,
         "round_number": 10,
+        "team": "Cgy"
+      },
+      "20262027": {
+        "draft_number": 152,
+        "round_number": 22,
         "team": "Cgy"
       }
     }
@@ -6533,14 +6941,15 @@
   {
     "name": "Dylan Guenther",
     "image": "images/Dylan_Guenther_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "UTA",
     "position": [
       "RW"
     ],
     "owners": {
-      "Brian Duong": 1
+      "Brian Duong": 1,
+      "Nam Le": 1
     },
     "player_id": "8482699",
     "championship_wins": 1,
@@ -6562,6 +6971,9 @@
     "owner_years": {
       "Brian Duong": [
         "20252026"
+      ],
+      "Nam Le": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -6569,31 +6981,45 @@
         "draft_number": 83,
         "round_number": 12,
         "team": "UTA"
+      },
+      "20262027": {
+        "draft_number": 46,
+        "round_number": 7,
+        "team": "UTA"
       }
     }
   },
   {
     "name": "Dylan Holloway",
     "image": "images/Dylan_Holloway_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "StL",
     "position": [
       "C"
     ],
     "owners": {
-      "Nam Le": 1
+      "Nam Le": 1,
+      "vince tran": 1
     },
     "player_id": "8482077",
     "owner_years": {
       "Nam Le": [
         "20252026"
+      ],
+      "vince tran": [
+        "20262027"
       ]
     },
     "draft_history": {
       "20252026": {
         "draft_number": 87,
         "round_number": 13,
+        "team": "StL"
+      },
+      "20262027": {
+        "draft_number": 120,
+        "round_number": 18,
         "team": "StL"
       }
     },
@@ -6617,14 +7043,14 @@
   {
     "name": "Dylan Larkin",
     "image": "images/Dylan_Larkin_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 4,
     "team": "Det",
     "position": [
       "C"
     ],
     "owners": {
-      "Brandon Nguyen": 5,
+      "Brandon Nguyen": 6,
       "Ivan Chow": 1,
       "Maanik Bhandari": 1,
       "Nam Le": 2
@@ -6660,7 +7086,8 @@
         "20222023",
         "20232024",
         "20242025",
-        "20252026"
+        "20252026",
+        "20262027"
       ],
       "Nam Le": [
         "20192020",
@@ -6715,13 +7142,18 @@
         "draft_number": 56,
         "round_number": 8,
         "team": "Det"
+      },
+      "20262027": {
+        "draft_number": 99,
+        "round_number": 15,
+        "team": "Det"
       }
     }
   },
   {
     "name": "Dylan Strome",
     "image": "images/Dylan_Strome_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 3,
     "team": "Wsh",
     "position": [
@@ -6729,13 +7161,14 @@
     ],
     "owners": {
       "Ivan Chow": 1,
-      "Maanik Bhandari": 1,
+      "Maanik Bhandari": 2,
       "vince tran": 1
     },
     "player_id": "8478440",
     "owner_years": {
       "Maanik Bhandari": [
-        "20192020"
+        "20192020",
+        "20262027"
       ],
       "Ivan Chow": [
         "20242025"
@@ -6758,6 +7191,11 @@
       "20252026": {
         "draft_number": 53,
         "round_number": 8,
+        "team": "Wsh"
+      },
+      "20262027": {
+        "draft_number": 121,
+        "round_number": 18,
         "team": "Wsh"
       }
     }
@@ -6797,13 +7235,14 @@
   {
     "name": "Elias Lindholm",
     "image": "images/Elias_Lindholm_ownership.png",
-    "total_drafts": 6,
-    "unique_owners": 5,
+    "total_drafts": 7,
+    "unique_owners": 6,
     "team": "Bos",
     "position": [
       "RW"
     ],
     "owners": {
+      "Brandon Nguyen": 1,
       "Brian Duong": 1,
       "Maanik Bhandari": 2,
       "Nam Le": 1,
@@ -6843,6 +7282,9 @@
       "Maanik Bhandari": [
         "20232024",
         "20242025"
+      ],
+      "Brandon Nguyen": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -6875,20 +7317,25 @@
         "draft_number": 128,
         "round_number": 19,
         "team": "Bos"
+      },
+      "20262027": {
+        "draft_number": 154,
+        "round_number": 22,
+        "team": "Bos"
       }
     }
   },
   {
     "name": "Elias Pettersson",
     "image": "images/Elias_Pettersson_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 3,
     "team": "Van",
     "position": [
       "C"
     ],
     "owners": {
-      "Maanik Bhandari": 4,
+      "Maanik Bhandari": 5,
       "bryan lam": 3,
       "vince tran": 1
     },
@@ -6898,7 +7345,8 @@
         "20182019",
         "20202021",
         "20222023",
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "vince tran": [
         "20192020"
@@ -6948,6 +7396,11 @@
       "20252026": {
         "draft_number": 37,
         "round_number": 6,
+        "team": "Van"
+      },
+      "20262027": {
+        "draft_number": 76,
+        "round_number": 11,
         "team": "Van"
       }
     }
@@ -7117,7 +7570,7 @@
   {
     "name": "Erik Karlsson",
     "image": "images/Erik_Karlsson_ownership.png",
-    "total_drafts": 12,
+    "total_drafts": 13,
     "unique_owners": 5,
     "team": "Pit",
     "position": [
@@ -7127,7 +7580,7 @@
       "Brian Duong": 2,
       "Ivan Chow": 1,
       "Maanik Bhandari": 5,
-      "bryan lam": 3,
+      "bryan lam": 4,
       "vince tran": 1
     },
     "player_id": "8474578",
@@ -7172,7 +7625,8 @@
       "bryan lam": [
         "20162017",
         "20202021",
-        "20232024"
+        "20232024",
+        "20262027"
       ],
       "vince tran": [
         "20192020"
@@ -7241,13 +7695,44 @@
         "draft_number": 75,
         "round_number": 11,
         "team": "Pit"
+      },
+      "20262027": {
+        "draft_number": 72,
+        "round_number": 11,
+        "team": "Pit"
+      }
+    }
+  },
+  {
+    "name": "Esa Lindell",
+    "image": "images/Esa_Lindell_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Dal",
+    "position": [
+      "D"
+    ],
+    "owners": {
+      "Brandon Nguyen": 1
+    },
+    "player_id": "8476902",
+    "owner_years": {
+      "Brandon Nguyen": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 112,
+        "round_number": 16,
+        "team": "Dal"
       }
     }
   },
   {
     "name": "Evan Bouchard",
     "image": "images/Evan_Bouchard_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 3,
     "team": "Edm",
     "position": [
@@ -7256,7 +7741,7 @@
     "owners": {
       "Brian Duong": 1,
       "Maanik Bhandari": 2,
-      "Nam Le": 1
+      "Nam Le": 2
     },
     "player_id": "8480803",
     "championship_wins": 3,
@@ -7291,7 +7776,8 @@
         "20252026"
       ],
       "Nam Le": [
-        "20232024"
+        "20232024",
+        "20262027"
       ],
       "Brian Duong": [
         "20242025"
@@ -7316,6 +7802,11 @@
       "20252026": {
         "draft_number": 24,
         "round_number": 4,
+        "team": "Edm"
+      },
+      "20262027": {
+        "draft_number": 11,
+        "round_number": 2,
         "team": "Edm"
       }
     }
@@ -7409,7 +7900,7 @@
   {
     "name": "Evgeni Malkin",
     "image": "images/Evgeni_Malkin_ownership.png",
-    "total_drafts": 12,
+    "total_drafts": 13,
     "unique_owners": 4,
     "team": "Pit",
     "position": [
@@ -7419,7 +7910,7 @@
       "Brandon Nguyen": 9,
       "Maanik Bhandari": 1,
       "Nam Le": 1,
-      "bryan lam": 1
+      "bryan lam": 2
     },
     "player_id": "8471215",
     "championship_wins": 1,
@@ -7457,7 +7948,8 @@
         "20222023"
       ],
       "bryan lam": [
-        "20232024"
+        "20232024",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -7519,6 +8011,11 @@
       "20252026": {
         "draft_number": 141,
         "round_number": 21,
+        "team": "Pit"
+      },
+      "20262027": {
+        "draft_number": 128,
+        "round_number": 19,
         "team": "Pit"
       }
     }
@@ -7660,7 +8157,7 @@
   {
     "name": "Filip Forsberg",
     "image": "images/Filip_Forsberg_ownership.png",
-    "total_drafts": 11,
+    "total_drafts": 12,
     "unique_owners": 4,
     "team": "Nsh",
     "position": [
@@ -7671,7 +8168,7 @@
       "Brian Duong": 5,
       "Maanik Bhandari": 1,
       "Nam Le": 4,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8476887",
     "championship_wins": 3,
@@ -7718,7 +8215,8 @@
         "20182019"
       ],
       "vince tran": [
-        "20192020"
+        "20192020",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -7776,6 +8274,11 @@
         "draft_number": 44,
         "round_number": 7,
         "team": "Nsh"
+      },
+      "20262027": {
+        "draft_number": 36,
+        "round_number": 6,
+        "team": "Nsh"
       }
     }
   },
@@ -7817,7 +8320,7 @@
   {
     "name": "Filip Hronek",
     "image": "images/Filip_Hronek_ownership.png",
-    "total_drafts": 2,
+    "total_drafts": 3,
     "unique_owners": 2,
     "team": "Van",
     "position": [
@@ -7825,12 +8328,13 @@
     ],
     "owners": {
       "Brian Duong": 1,
-      "bryan lam": 1
+      "bryan lam": 2
     },
     "player_id": "8479425",
     "owner_years": {
       "bryan lam": [
-        "20212022"
+        "20212022",
+        "20262027"
       ],
       "Brian Duong": [
         "20242025"
@@ -7845,6 +8349,11 @@
       "20242025": {
         "draft_number": 137,
         "round_number": 20,
+        "team": "Van"
+      },
+      "20262027": {
+        "draft_number": 100,
+        "round_number": 15,
         "team": "Van"
       }
     }
@@ -8054,15 +8563,16 @@
   {
     "name": "Gabriel Vilardi",
     "image": "images/Gabriel_Vilardi_ownership.png",
-    "total_drafts": 2,
-    "unique_owners": 2,
+    "total_drafts": 3,
+    "unique_owners": 3,
     "team": "Wpg",
     "position": [
       "C"
     ],
     "owners": {
       "Ivan Chow": 1,
-      "Nam Le": 1
+      "Nam Le": 1,
+      "bryan lam": 1
     },
     "player_id": "8480014",
     "championship_wins": 2,
@@ -8092,6 +8602,9 @@
       ],
       "Ivan Chow": [
         "20252026"
+      ],
+      "bryan lam": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -8104,6 +8617,37 @@
         "draft_number": 161,
         "round_number": 23,
         "team": "Wpg"
+      },
+      "20262027": {
+        "draft_number": 114,
+        "round_number": 17,
+        "team": "Wpg"
+      }
+    }
+  },
+  {
+    "name": "Gavin McKenna",
+    "image": "images/Gavin_McKenna_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Tor",
+    "position": [
+      "LW"
+    ],
+    "owners": {
+      "Maanik Bhandari": 1
+    },
+    "player_id": "8486067",
+    "owner_years": {
+      "Maanik Bhandari": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 132,
+        "round_number": 19,
+        "team": "Tor"
       }
     }
   },
@@ -8331,7 +8875,7 @@
   {
     "name": "Igor Shesterkin",
     "image": "images/Igor_Shesterkin_ownership.png",
-    "total_drafts": 6,
+    "total_drafts": 7,
     "unique_owners": 5,
     "team": "NYR",
     "position": [
@@ -8341,7 +8885,7 @@
       "Brandon Nguyen": 1,
       "Brian Duong": 2,
       "Maanik Bhandari": 1,
-      "Nam Le": 1,
+      "Nam Le": 2,
       "vince tran": 1
     },
     "player_id": "8478048",
@@ -8367,7 +8911,8 @@
         "20212022"
       ],
       "Nam Le": [
-        "20222023"
+        "20222023",
+        "20262027"
       ],
       "Maanik Bhandari": [
         "20232024"
@@ -8408,6 +8953,11 @@
       "20252026": {
         "draft_number": 46,
         "round_number": 7,
+        "team": "NYR"
+      },
+      "20262027": {
+        "draft_number": 130,
+        "round_number": 19,
         "team": "NYR"
       }
     }
@@ -8491,7 +9041,7 @@
   {
     "name": "Ilya Sorokin",
     "image": "images/Ilya_Sorokin_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 3,
     "team": "NYI",
     "position": [
@@ -8500,7 +9050,7 @@
     "owners": {
       "Brandon Nguyen": 1,
       "Brian Duong": 2,
-      "Ivan Chow": 1
+      "Ivan Chow": 2
     },
     "player_id": "8478009",
     "owner_years": {
@@ -8512,7 +9062,8 @@
         "20242025"
       ],
       "Ivan Chow": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -8535,25 +9086,34 @@
         "draft_number": 106,
         "round_number": 16,
         "team": "NYI"
+      },
+      "20262027": {
+        "draft_number": 101,
+        "round_number": 15,
+        "team": "NYI"
       }
     }
   },
   {
     "name": "Ivan Demidov",
     "image": "images/Ivan_Demidov_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "MTL",
     "position": [
       "RW"
     ],
     "owners": {
-      "Maanik Bhandari": 1
+      "Maanik Bhandari": 1,
+      "vince tran": 1
     },
     "player_id": "8484984",
     "owner_years": {
       "Maanik Bhandari": [
         "20252026"
+      ],
+      "vince tran": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -8561,6 +9121,11 @@
         "draft_number": 131,
         "round_number": 19,
         "team": "Mon"
+      },
+      "20262027": {
+        "draft_number": 77,
+        "round_number": 11,
+        "team": "MTL"
       }
     },
     "championship_wins": 1,
@@ -8636,7 +9201,7 @@
   {
     "name": "J.T. Miller",
     "image": "images/J.T._Miller_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 4,
     "team": "NYR",
     "position": [
@@ -8645,7 +9210,7 @@
     "owners": {
       "Brian Duong": 1,
       "Nam Le": 1,
-      "bryan lam": 5,
+      "bryan lam": 6,
       "vince tran": 1
     },
     "player_id": "8476468",
@@ -8680,7 +9245,8 @@
         "20222023",
         "20232024",
         "20242025",
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -8723,26 +9289,32 @@
         "draft_number": 34,
         "round_number": 5,
         "team": "NYR"
+      },
+      "20262027": {
+        "draft_number": 86,
+        "round_number": 13,
+        "team": "NYR"
       }
     }
   },
   {
     "name": "JJ Peterka",
     "image": "images/JJ_Peterka_ownership.png",
-    "total_drafts": 2,
+    "total_drafts": 3,
     "unique_owners": 2,
-    "team": "UTA",
+    "team": "Bos",
     "position": [
       "RW"
     ],
     "owners": {
       "Maanik Bhandari": 1,
-      "Nam Le": 1
+      "Nam Le": 2
     },
     "player_id": "8482175",
     "owner_years": {
       "Nam Le": [
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "Maanik Bhandari": [
         "20252026"
@@ -8758,6 +9330,11 @@
         "draft_number": 108,
         "round_number": 16,
         "team": "UTA"
+      },
+      "20262027": {
+        "draft_number": 151,
+        "round_number": 22,
+        "team": "Bos"
       }
     }
   },
@@ -8850,14 +9427,14 @@
   {
     "name": "Jack Eichel",
     "image": "images/Jack_Eichel_ownership.png",
-    "total_drafts": 10,
+    "total_drafts": 11,
     "unique_owners": 6,
     "team": "VGK",
     "position": [
       "C"
     ],
     "owners": {
-      "Brandon Nguyen": 1,
+      "Brandon Nguyen": 2,
       "Brian Duong": 1,
       "Ivan Chow": 2,
       "Maanik Bhandari": 1,
@@ -8902,7 +9479,8 @@
         "20202021"
       ],
       "Brandon Nguyen": [
-        "20242025"
+        "20242025",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -8955,13 +9533,18 @@
         "draft_number": 17,
         "round_number": 3,
         "team": "VGK"
+      },
+      "20262027": {
+        "draft_number": 15,
+        "round_number": 3,
+        "team": "VGK"
       }
     }
   },
   {
     "name": "Jack Hughes",
     "image": "images/Jack_Hughes_ownership.png",
-    "total_drafts": 7,
+    "total_drafts": 8,
     "unique_owners": 4,
     "team": "NJD",
     "position": [
@@ -8969,7 +9552,7 @@
     ],
     "owners": {
       "Brandon Nguyen": 2,
-      "Maanik Bhandari": 2,
+      "Maanik Bhandari": 3,
       "bryan lam": 2,
       "vince tran": 1
     },
@@ -8981,7 +9564,8 @@
       ],
       "Maanik Bhandari": [
         "20212022",
-        "20232024"
+        "20232024",
+        "20262027"
       ],
       "Brandon Nguyen": [
         "20222023",
@@ -9026,6 +9610,11 @@
         "draft_number": 15,
         "round_number": 3,
         "team": "NJ"
+      },
+      "20262027": {
+        "draft_number": 20,
+        "round_number": 3,
+        "team": "NJ"
       }
     }
   },
@@ -9058,19 +9647,23 @@
   {
     "name": "Jackson LaCombe",
     "image": "images/Jackson_LaCombe_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "Ana",
     "position": [
       "D"
     ],
     "owners": {
-      "Ivan Chow": 1
+      "Ivan Chow": 1,
+      "vince tran": 1
     },
     "player_id": "8481605",
     "owner_years": {
       "Ivan Chow": [
         "20252026"
+      ],
+      "vince tran": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -9078,20 +9671,26 @@
         "draft_number": 77,
         "round_number": 11,
         "team": "Ana"
+      },
+      "20262027": {
+        "draft_number": 35,
+        "round_number": 5,
+        "team": "Ana"
       }
     }
   },
   {
     "name": "Jacob Markstrom",
     "image": "images/Jacob_Markstrom_ownership.png",
-    "total_drafts": 7,
-    "unique_owners": 4,
-    "team": "NJD",
+    "total_drafts": 8,
+    "unique_owners": 5,
+    "team": "Fla",
     "position": [
       "G"
     ],
     "owners": {
       "Brandon Nguyen": 1,
+      "Brian Duong": 1,
       "Maanik Bhandari": 1,
       "Nam Le": 3,
       "bryan lam": 2
@@ -9133,6 +9732,9 @@
         "20232024",
         "20242025",
         "20252026"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -9170,6 +9772,11 @@
         "draft_number": 101,
         "round_number": 15,
         "team": "NJ"
+      },
+      "20262027": {
+        "draft_number": 145,
+        "round_number": 21,
+        "team": "Fla"
       }
     }
   },
@@ -9421,8 +10028,8 @@
   {
     "name": "Jake Guentzel",
     "image": "images/Jake_Guentzel_ownership.png",
-    "total_drafts": 8,
-    "unique_owners": 3,
+    "total_drafts": 9,
+    "unique_owners": 4,
     "team": "TBL",
     "position": [
       "LW"
@@ -9430,7 +10037,8 @@
     "owners": {
       "Brandon Nguyen": 1,
       "Brian Duong": 3,
-      "Nam Le": 4
+      "Nam Le": 4,
+      "bryan lam": 1
     },
     "player_id": "8477404",
     "championship_wins": 2,
@@ -9468,6 +10076,9 @@
       ],
       "Brandon Nguyen": [
         "20212022"
+      ],
+      "bryan lam": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -9509,6 +10120,11 @@
       "20252026": {
         "draft_number": 31,
         "round_number": 5,
+        "team": "TB"
+      },
+      "20262027": {
+        "draft_number": 27,
+        "round_number": 4,
         "team": "TB"
       }
     }
@@ -9573,7 +10189,7 @@
   {
     "name": "Jake Oettinger",
     "image": "images/Jake_Oettinger_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 3,
     "team": "Dal",
     "position": [
@@ -9581,7 +10197,7 @@
     ],
     "owners": {
       "Brian Duong": 1,
-      "Ivan Chow": 1,
+      "Ivan Chow": 2,
       "Nam Le": 2
     },
     "player_id": "8479979",
@@ -9608,7 +10224,8 @@
     ],
     "owner_years": {
       "Ivan Chow": [
-        "20222023"
+        "20222023",
+        "20262027"
       ],
       "Nam Le": [
         "20232024",
@@ -9638,20 +10255,25 @@
         "draft_number": 30,
         "round_number": 5,
         "team": "Dal"
+      },
+      "20262027": {
+        "draft_number": 54,
+        "round_number": 8,
+        "team": "Dal"
       }
     }
   },
   {
     "name": "Jake Sanderson",
     "image": "images/Jake_Sanderson_ownership.png",
-    "total_drafts": 2,
+    "total_drafts": 3,
     "unique_owners": 2,
     "team": "Ott",
     "position": [
       "D"
     ],
     "owners": {
-      "Maanik Bhandari": 1,
+      "Maanik Bhandari": 2,
       "bryan lam": 1
     },
     "player_id": "8482105",
@@ -9660,7 +10282,8 @@
         "20242025"
       ],
       "Maanik Bhandari": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -9672,6 +10295,11 @@
       "20252026": {
         "draft_number": 61,
         "round_number": 9,
+        "team": "Ott"
+      },
+      "20262027": {
+        "draft_number": 65,
+        "round_number": 10,
         "team": "Ott"
       }
     },
@@ -9695,14 +10323,15 @@
   {
     "name": "Jakob Chychrun",
     "image": "images/Jakob_Chychrun_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 1,
+    "total_drafts": 5,
+    "unique_owners": 2,
     "team": "Wsh",
     "position": [
       "D"
     ],
     "owners": {
-      "Ivan Chow": 4
+      "Ivan Chow": 4,
+      "vince tran": 1
     },
     "player_id": "8479345",
     "championship_wins": 1,
@@ -9727,6 +10356,9 @@
         "20232024",
         "20242025",
         "20252026"
+      ],
+      "vince tran": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -9749,6 +10381,37 @@
         "draft_number": 91,
         "round_number": 13,
         "team": "Wsh"
+      },
+      "20262027": {
+        "draft_number": 49,
+        "round_number": 7,
+        "team": "Wsh"
+      }
+    }
+  },
+  {
+    "name": "Jakub Dobes",
+    "image": "images/Jakub_Dobes_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "MTL",
+    "position": [
+      "G"
+    ],
+    "owners": {
+      "Maanik Bhandari": 1
+    },
+    "player_id": "8482487",
+    "owner_years": {
+      "Maanik Bhandari": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 79,
+        "round_number": 12,
+        "team": "MTL"
       }
     }
   },
@@ -10366,14 +11029,15 @@
   {
     "name": "Jason Robertson",
     "image": "images/Jason_Robertson_ownership.png",
-    "total_drafts": 5,
-    "unique_owners": 4,
+    "total_drafts": 6,
+    "unique_owners": 5,
     "team": "Dal",
     "position": [
       "LW"
     ],
     "owners": {
       "Brandon Nguyen": 1,
+      "Brian Duong": 1,
       "Nam Le": 1,
       "bryan lam": 2,
       "vince tran": 1
@@ -10408,6 +11072,9 @@
       ],
       "vince tran": [
         "20252026"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -10434,6 +11101,11 @@
       "20252026": {
         "draft_number": 25,
         "round_number": 4,
+        "team": "Dal"
+      },
+      "20262027": {
+        "draft_number": 10,
+        "round_number": 2,
         "team": "Dal"
       }
     }
@@ -10709,15 +11381,16 @@
   {
     "name": "Jeremy Swayman",
     "image": "images/Jeremy_Swayman_ownership.png",
-    "total_drafts": 3,
-    "unique_owners": 2,
+    "total_drafts": 4,
+    "unique_owners": 3,
     "team": "Bos",
     "position": [
       "G"
     ],
     "owners": {
       "Brian Duong": 2,
-      "Nam Le": 1
+      "Nam Le": 1,
+      "bryan lam": 1
     },
     "player_id": "8480280",
     "championship_wins": 2,
@@ -10748,6 +11421,9 @@
       ],
       "Nam Le": [
         "20242025"
+      ],
+      "bryan lam": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -10765,20 +11441,26 @@
         "draft_number": 135,
         "round_number": 20,
         "team": "Bos"
+      },
+      "20262027": {
+        "draft_number": 142,
+        "round_number": 21,
+        "team": "Bos"
       }
     }
   },
   {
     "name": "Jesper Bratt",
     "image": "images/Jesper_Bratt_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 2,
+    "total_drafts": 5,
+    "unique_owners": 3,
     "team": "NJD",
     "position": [
       "RW"
     ],
     "owners": {
       "Brandon Nguyen": 3,
+      "Ivan Chow": 1,
       "bryan lam": 1
     },
     "player_id": "8479407",
@@ -10790,6 +11472,9 @@
         "20232024",
         "20242025",
         "20252026"
+      ],
+      "Ivan Chow": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -10812,6 +11497,37 @@
         "draft_number": 14,
         "round_number": 2,
         "team": "NJ"
+      },
+      "20262027": {
+        "draft_number": 59,
+        "round_number": 9,
+        "team": "NJ"
+      }
+    }
+  },
+  {
+    "name": "Jesper Wallstedt",
+    "image": "images/Jesper_Wallstedt_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Min",
+    "position": [
+      "G"
+    ],
+    "owners": {
+      "Brandon Nguyen": 1
+    },
+    "player_id": "8482661",
+    "owner_years": {
+      "Brandon Nguyen": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 126,
+        "round_number": 18,
+        "team": "Min"
       }
     }
   },
@@ -10838,6 +11554,32 @@
         "draft_number": 153,
         "round_number": 22,
         "team": "CBJ"
+      }
+    }
+  },
+  {
+    "name": "Jimmy Snuggerud",
+    "image": "images/Jimmy_Snuggerud_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "StL",
+    "position": [
+      "RW"
+    ],
+    "owners": {
+      "Brian Duong": 1
+    },
+    "player_id": "8483516",
+    "owner_years": {
+      "Brian Duong": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 159,
+        "round_number": 23,
+        "team": "StL"
       }
     }
   },
@@ -11118,9 +11860,9 @@
   {
     "name": "John Carlson",
     "image": "images/John_Carlson_ownership.png",
-    "total_drafts": 11,
+    "total_drafts": 12,
     "unique_owners": 4,
-    "team": "Wsh",
+    "team": "TBL",
     "position": [
       "D"
     ],
@@ -11128,7 +11870,7 @@
       "Brandon Nguyen": 2,
       "Ivan Chow": 3,
       "Maanik Bhandari": 3,
-      "Nam Le": 3
+      "Nam Le": 4
     },
     "player_id": "8474590",
     "championship_wins": 1,
@@ -11156,7 +11898,8 @@
       "Nam Le": [
         "20162017",
         "20202021",
-        "20222023"
+        "20222023",
+        "20262027"
       ],
       "Brandon Nguyen": [
         "20182019",
@@ -11223,6 +11966,11 @@
         "draft_number": 71,
         "round_number": 11,
         "team": "Wsh"
+      },
+      "20262027": {
+        "draft_number": 74,
+        "round_number": 11,
+        "team": "TB"
       }
     }
   },
@@ -11369,7 +12117,7 @@
   {
     "name": "John Tavares",
     "image": "images/John_Tavares_ownership.png",
-    "total_drafts": 12,
+    "total_drafts": 13,
     "unique_owners": 6,
     "team": "Tor",
     "position": [
@@ -11381,7 +12129,7 @@
       "Maanik Bhandari": 1,
       "Nam Le": 2,
       "bryan lam": 2,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8475166",
     "championship_wins": 1,
@@ -11423,7 +12171,8 @@
         "20242025"
       ],
       "vince tran": [
-        "20212022"
+        "20212022",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -11485,6 +12234,11 @@
       "20252026": {
         "draft_number": 63,
         "round_number": 9,
+        "team": "Tor"
+      },
+      "20262027": {
+        "draft_number": 50,
+        "round_number": 8,
         "team": "Tor"
       }
     }
@@ -12279,21 +13033,22 @@
   {
     "name": "Josh Morrissey",
     "image": "images/Josh_Morrissey_ownership.png",
-    "total_drafts": 5,
+    "total_drafts": 6,
     "unique_owners": 3,
     "team": "Wpg",
     "position": [
       "D"
     ],
     "owners": {
-      "Ivan Chow": 1,
+      "Ivan Chow": 2,
       "bryan lam": 1,
       "vince tran": 3
     },
     "player_id": "8477504",
     "owner_years": {
       "Ivan Chow": [
-        "20192020"
+        "20192020",
+        "20262027"
       ],
       "vince tran": [
         "20222023",
@@ -12328,6 +13083,11 @@
       "20252026": {
         "draft_number": 32,
         "round_number": 5,
+        "team": "Wpg"
+      },
+      "20262027": {
+        "draft_number": 73,
+        "round_number": 11,
         "team": "Wpg"
       }
     }
@@ -12386,7 +13146,7 @@
   {
     "name": "Juraj Slafkovský",
     "image": "images/Juraj_Slafkovský_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 3,
     "team": "MTL",
     "position": [
@@ -12395,7 +13155,7 @@
     "owners": {
       "Brandon Nguyen": 1,
       "Brian Duong": 1,
-      "Maanik Bhandari": 1
+      "Maanik Bhandari": 2
     },
     "player_id": "8483515",
     "owner_years": {
@@ -12403,7 +13163,8 @@
         "20232024"
       ],
       "Maanik Bhandari": [
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "Brian Duong": [
         "20252026"
@@ -12424,6 +13185,11 @@
         "draft_number": 139,
         "round_number": 20,
         "team": "Mon"
+      },
+      "20262027": {
+        "draft_number": 48,
+        "round_number": 7,
+        "team": "MTL"
       }
     },
     "championship_wins": 1,
@@ -12598,13 +13364,14 @@
   {
     "name": "Juuse Saros",
     "image": "images/Juuse_Saros_ownership.png",
-    "total_drafts": 6,
-    "unique_owners": 4,
+    "total_drafts": 7,
+    "unique_owners": 5,
     "team": "Nsh",
     "position": [
       "G"
     ],
     "owners": {
+      "Brandon Nguyen": 1,
       "Ivan Chow": 1,
       "Maanik Bhandari": 1,
       "Nam Le": 2,
@@ -12625,6 +13392,9 @@
       ],
       "Maanik Bhandari": [
         "20232024"
+      ],
+      "Brandon Nguyen": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -12656,6 +13426,11 @@
       "20252026": {
         "draft_number": 152,
         "round_number": 22,
+        "team": "Nsh"
+      },
+      "20262027": {
+        "draft_number": 141,
+        "round_number": 21,
         "team": "Nsh"
       }
     },
@@ -12766,25 +13541,31 @@
   {
     "name": "Karel Vejmelka",
     "image": "images/Karel_Vejmelka_ownership.png",
-    "total_drafts": 1,
+    "total_drafts": 2,
     "unique_owners": 1,
     "team": "UTA",
     "position": [
       "G"
     ],
     "owners": {
-      "bryan lam": 1
+      "bryan lam": 2
     },
     "player_id": "8478872",
     "owner_years": {
       "bryan lam": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
       "20252026": {
         "draft_number": 146,
         "round_number": 21,
+        "team": "UTA"
+      },
+      "20262027": {
+        "draft_number": 83,
+        "round_number": 12,
         "team": "UTA"
       }
     }
@@ -13036,7 +13817,7 @@
   {
     "name": "Kirill Kaprizov",
     "image": "images/Kirill_Kaprizov_ownership.png",
-    "total_drafts": 6,
+    "total_drafts": 7,
     "unique_owners": 4,
     "team": "Min",
     "position": [
@@ -13046,7 +13827,7 @@
       "Brian Duong": 1,
       "Ivan Chow": 1,
       "Maanik Bhandari": 3,
-      "Nam Le": 1
+      "Nam Le": 2
     },
     "player_id": "8478864",
     "championship_wins": 1,
@@ -13078,7 +13859,8 @@
         "20242025"
       ],
       "Nam Le": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -13111,31 +13893,45 @@
         "draft_number": 12,
         "round_number": 2,
         "team": "Min"
+      },
+      "20262027": {
+        "draft_number": 18,
+        "round_number": 3,
+        "team": "Min"
       }
     }
   },
   {
     "name": "Kirill Marchenko",
     "image": "images/Kirill_Marchenko_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "CBJ",
     "position": [
       "LW"
     ],
     "owners": {
+      "Brian Duong": 1,
       "bryan lam": 1
     },
     "player_id": "8480893",
     "owner_years": {
       "bryan lam": [
         "20252026"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
       "20252026": {
         "draft_number": 62,
         "round_number": 9,
+        "team": "CBJ"
+      },
+      "20262027": {
+        "draft_number": 94,
+        "round_number": 14,
         "team": "CBJ"
       }
     }
@@ -13310,7 +14106,7 @@
   {
     "name": "Kyle Connor",
     "image": "images/Kyle_Connor_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 4,
     "team": "Wpg",
     "position": [
@@ -13319,7 +14115,7 @@
     "owners": {
       "Brian Duong": 1,
       "Maanik Bhandari": 1,
-      "Nam Le": 1,
+      "Nam Le": 2,
       "vince tran": 5
     },
     "player_id": "8478398",
@@ -13351,7 +14147,8 @@
         "20212022"
       ],
       "Nam Le": [
-        "20232024"
+        "20232024",
+        "20262027"
       ],
       "Brian Duong": [
         "20252026"
@@ -13396,6 +14193,11 @@
       "20252026": {
         "draft_number": 16,
         "round_number": 3,
+        "team": "Wpg"
+      },
+      "20262027": {
+        "draft_number": 32,
+        "round_number": 5,
         "team": "Wpg"
       }
     }
@@ -13541,13 +14343,14 @@
   {
     "name": "Lane Hutson",
     "image": "images/Lane_Hutson_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "MTL",
     "position": [
       "D"
     ],
     "owners": {
+      "Maanik Bhandari": 1,
       "Nam Le": 1
     },
     "player_id": "8483457",
@@ -13570,6 +14373,9 @@
     "owner_years": {
       "Nam Le": [
         "20252026"
+      ],
+      "Maanik Bhandari": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -13577,13 +14383,44 @@
         "draft_number": 40,
         "round_number": 6,
         "team": "Mon"
+      },
+      "20262027": {
+        "draft_number": 9,
+        "round_number": 2,
+        "team": "MTL"
+      }
+    }
+  },
+  {
+    "name": "Leo Carlsson",
+    "image": "images/Leo_Carlsson_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Ana",
+    "position": [
+      "C"
+    ],
+    "owners": {
+      "Nam Le": 1
+    },
+    "player_id": "8484153",
+    "owner_years": {
+      "Nam Le": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 53,
+        "round_number": 8,
+        "team": "Ana"
       }
     }
   },
   {
     "name": "Leon Draisaitl",
     "image": "images/Leon_Draisaitl_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 5,
     "team": "Edm",
     "position": [
@@ -13595,7 +14432,7 @@
       "Maanik Bhandari": 3,
       "Nam Le": 2,
       "bryan lam": 1,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8477934",
     "championship_wins": 2,
@@ -13637,7 +14474,8 @@
         "20232024"
       ],
       "vince tran": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -13684,6 +14522,11 @@
       "20252026": {
         "draft_number": 4,
         "round_number": 1,
+        "team": "Edm"
+      },
+      "20262027": {
+        "draft_number": 8,
+        "round_number": 2,
         "team": "Edm"
       }
     }
@@ -13748,8 +14591,8 @@
   {
     "name": "Logan Cooley",
     "image": "images/Logan_Cooley_ownership.png",
-    "total_drafts": 3,
-    "unique_owners": 3,
+    "total_drafts": 4,
+    "unique_owners": 4,
     "team": "UTA",
     "position": [
       "C"
@@ -13757,7 +14600,8 @@
     "owners": {
       "Brandon Nguyen": 1,
       "Ivan Chow": 1,
-      "Maanik Bhandari": 1
+      "Maanik Bhandari": 1,
+      "Nam Le": 1
     },
     "player_id": "8483431",
     "owner_years": {
@@ -13769,6 +14613,9 @@
       ],
       "Ivan Chow": [
         "20252026"
+      ],
+      "Nam Le": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -13785,6 +14632,11 @@
       "20252026": {
         "draft_number": 105,
         "round_number": 15,
+        "team": "UTA"
+      },
+      "20262027": {
+        "draft_number": 95,
+        "round_number": 14,
         "team": "UTA"
       }
     },
@@ -13947,19 +14799,23 @@
   {
     "name": "Logan Thompson",
     "image": "images/Logan_Thompson_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
-    "team": "VGK",
+    "total_drafts": 2,
+    "unique_owners": 2,
+    "team": "Wsh",
     "position": [
       "G"
     ],
     "owners": {
+      "Brian Duong": 1,
       "Nam Le": 1
     },
     "player_id": "8480313",
     "owner_years": {
       "Nam Le": [
         "20222023"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -13967,6 +14823,11 @@
         "draft_number": 152,
         "round_number": 22,
         "team": "Vgk"
+      },
+      "20262027": {
+        "draft_number": 89,
+        "round_number": 13,
+        "team": "Wsh"
       }
     }
   },
@@ -13999,14 +14860,14 @@
   {
     "name": "Lucas Raymond",
     "image": "images/Lucas_Raymond_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 3,
     "team": "Det",
     "position": [
       "LW"
     ],
     "owners": {
-      "Ivan Chow": 1,
+      "Ivan Chow": 2,
       "Nam Le": 1,
       "vince tran": 1
     },
@@ -14016,7 +14877,8 @@
         "20222023"
       ],
       "Ivan Chow": [
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "Nam Le": [
         "20252026"
@@ -14037,20 +14899,51 @@
         "draft_number": 54,
         "round_number": 8,
         "team": "Det"
+      },
+      "20262027": {
+        "draft_number": 68,
+        "round_number": 10,
+        "team": "Det"
+      }
+    }
+  },
+  {
+    "name": "Lukas Dostal",
+    "image": "images/Lukas_Dostal_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Ana",
+    "position": [
+      "G"
+    ],
+    "owners": {
+      "vince tran": 1
+    },
+    "player_id": "8480843",
+    "owner_years": {
+      "vince tran": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 147,
+        "round_number": 21,
+        "team": "Ana"
       }
     }
   },
   {
     "name": "Luke Hughes",
     "image": "images/Luke_Hughes_ownership.png",
-    "total_drafts": 2,
+    "total_drafts": 3,
     "unique_owners": 1,
     "team": "NJD",
     "position": [
       "D"
     ],
     "owners": {
-      "Maanik Bhandari": 2
+      "Maanik Bhandari": 3
     },
     "player_id": "8482684",
     "championship_wins": 1,
@@ -14072,7 +14965,8 @@
     "owner_years": {
       "Maanik Bhandari": [
         "20232024",
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -14085,22 +14979,27 @@
         "draft_number": 122,
         "round_number": 18,
         "team": "NJ"
+      },
+      "20262027": {
+        "draft_number": 146,
+        "round_number": 21,
+        "team": "NJ"
       }
     }
   },
   {
     "name": "MacKenzie Weegar",
     "image": "images/MacKenzie_Weegar_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 3,
-    "team": "Cgy",
+    "team": "UTA",
     "position": [
       "D"
     ],
     "owners": {
       "Brian Duong": 2,
       "bryan lam": 1,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8477346",
     "owner_years": {
@@ -14112,7 +15011,8 @@
         "20242025"
       ],
       "vince tran": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -14135,6 +15035,11 @@
         "draft_number": 67,
         "round_number": 10,
         "team": "Cgy"
+      },
+      "20262027": {
+        "draft_number": 91,
+        "round_number": 13,
+        "team": "UTA"
       }
     }
   },
@@ -14167,25 +15072,34 @@
   {
     "name": "Macklin Celebrini",
     "image": "images/Macklin_Celebrini_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "SJS",
     "position": [
       "C"
     ],
     "owners": {
-      "Brandon Nguyen": 1
+      "Brandon Nguyen": 1,
+      "Nam Le": 1
     },
     "player_id": "8484801",
     "owner_years": {
       "Brandon Nguyen": [
         "20252026"
+      ],
+      "Nam Le": [
+        "20262027"
       ]
     },
     "draft_history": {
       "20252026": {
         "draft_number": 42,
         "round_number": 6,
+        "team": "SJ"
+      },
+      "20262027": {
+        "draft_number": 4,
+        "round_number": 1,
         "team": "SJ"
       }
     }
@@ -14510,14 +15424,15 @@
   {
     "name": "Mark Scheifele",
     "image": "images/Mark_Scheifele_ownership.png",
-    "total_drafts": 10,
-    "unique_owners": 3,
+    "total_drafts": 11,
+    "unique_owners": 4,
     "team": "Wpg",
     "position": [
       "C"
     ],
     "owners": {
       "Brandon Nguyen": 1,
+      "Brian Duong": 1,
       "Maanik Bhandari": 3,
       "Nam Le": 6
     },
@@ -14569,6 +15484,9 @@
       ],
       "Brandon Nguyen": [
         "20232024"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -14621,13 +15539,18 @@
         "draft_number": 26,
         "round_number": 4,
         "team": "Wpg"
+      },
+      "20262027": {
+        "draft_number": 24,
+        "round_number": 4,
+        "team": "Wpg"
       }
     }
   },
   {
     "name": "Mark Stone",
     "image": "images/Mark_Stone_ownership.png",
-    "total_drafts": 11,
+    "total_drafts": 12,
     "unique_owners": 5,
     "team": "VGK",
     "position": [
@@ -14636,7 +15559,7 @@
     "owners": {
       "Brandon Nguyen": 3,
       "Brian Duong": 1,
-      "Ivan Chow": 1,
+      "Ivan Chow": 2,
       "Nam Le": 3,
       "vince tran": 3
     },
@@ -14658,7 +15581,8 @@
         "20242025"
       ],
       "Ivan Chow": [
-        "20212022"
+        "20212022",
+        "20262027"
       ],
       "Brian Duong": [
         "20232024"
@@ -14718,6 +15642,11 @@
       "20252026": {
         "draft_number": 123,
         "round_number": 18,
+        "team": "VGK"
+      },
+      "20262027": {
+        "draft_number": 96,
+        "round_number": 14,
         "team": "VGK"
       }
     }
@@ -14845,7 +15774,7 @@
   {
     "name": "Martin Necas",
     "image": "images/Martin_Necas_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 3,
     "team": "Col",
     "position": [
@@ -14854,7 +15783,7 @@
     ],
     "owners": {
       "Brandon Nguyen": 1,
-      "bryan lam": 1,
+      "bryan lam": 2,
       "vince tran": 1
     },
     "player_id": "8480039",
@@ -14866,7 +15795,8 @@
         "20242025"
       ],
       "bryan lam": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -14883,6 +15813,11 @@
       "20252026": {
         "draft_number": 51,
         "round_number": 8,
+        "team": "Col"
+      },
+      "20262027": {
+        "draft_number": 16,
+        "round_number": 3,
         "team": "Col"
       }
     }
@@ -14916,7 +15851,7 @@
   {
     "name": "Mathew Barzal",
     "image": "images/Mathew_Barzal_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 4,
     "team": "NYI",
     "position": [
@@ -14926,7 +15861,7 @@
       "Brian Duong": 1,
       "Ivan Chow": 2,
       "Maanik Bhandari": 1,
-      "Nam Le": 4
+      "Nam Le": 5
     },
     "player_id": "8478445",
     "championship_wins": 1,
@@ -14957,7 +15892,8 @@
         "20212022",
         "20222023",
         "20242025",
-        "20252026"
+        "20252026",
+        "20262027"
       ],
       "Maanik Bhandari": [
         "20232024"
@@ -15002,6 +15938,11 @@
       "20252026": {
         "draft_number": 96,
         "round_number": 14,
+        "team": "NYI"
+      },
+      "20262027": {
+        "draft_number": 102,
+        "round_number": 15,
         "team": "NYI"
       }
     }
@@ -15171,13 +16112,14 @@
   {
     "name": "Matt Boldy",
     "image": "images/Matt_Boldy_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 1,
+    "total_drafts": 5,
+    "unique_owners": 2,
     "team": "Min",
     "position": [
       "LW"
     ],
     "owners": {
+      "Brian Duong": 1,
       "Nam Le": 4
     },
     "player_id": "8481557",
@@ -15208,6 +16150,9 @@
         "20232024",
         "20242025",
         "20252026"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -15229,6 +16174,11 @@
       "20252026": {
         "draft_number": 45,
         "round_number": 7,
+        "team": "Min"
+      },
+      "20262027": {
+        "draft_number": 19,
+        "round_number": 3,
         "team": "Min"
       }
     }
@@ -15262,8 +16212,8 @@
   {
     "name": "Matt Duchene",
     "image": "images/Matt_Duchene_ownership.png",
-    "total_drafts": 8,
-    "unique_owners": 4,
+    "total_drafts": 9,
+    "unique_owners": 5,
     "team": "Dal",
     "position": [
       "C"
@@ -15271,6 +16221,7 @@
     "owners": {
       "Brandon Nguyen": 2,
       "Brian Duong": 1,
+      "Ivan Chow": 1,
       "Nam Le": 3,
       "bryan lam": 2
     },
@@ -15307,6 +16258,9 @@
       "bryan lam": [
         "20222023",
         "20252026"
+      ],
+      "Ivan Chow": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -15348,6 +16302,11 @@
       "20252026": {
         "draft_number": 76,
         "round_number": 11,
+        "team": "Dal"
+      },
+      "20262027": {
+        "draft_number": 143,
+        "round_number": 21,
         "team": "Dal"
       }
     }
@@ -15452,14 +16411,15 @@
   {
     "name": "Matthew Knies",
     "image": "images/Matthew_Knies_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "Tor",
     "position": [
       "LW"
     ],
     "owners": {
-      "Brian Duong": 1
+      "Brian Duong": 1,
+      "Ivan Chow": 1
     },
     "player_id": "8482720",
     "championship_wins": 1,
@@ -15481,6 +16441,9 @@
     "owner_years": {
       "Brian Duong": [
         "20252026"
+      ],
+      "Ivan Chow": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -15488,13 +16451,44 @@
         "draft_number": 100,
         "round_number": 15,
         "team": "Tor"
+      },
+      "20262027": {
+        "draft_number": 129,
+        "round_number": 19,
+        "team": "Tor"
+      }
+    }
+  },
+  {
+    "name": "Matthew Schaefer",
+    "image": "images/Matthew_Schaefer_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "NYI",
+    "position": [
+      "D"
+    ],
+    "owners": {
+      "Ivan Chow": 1
+    },
+    "player_id": "8485366",
+    "owner_years": {
+      "Ivan Chow": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 45,
+        "round_number": 7,
+        "team": "NYI"
       }
     }
   },
   {
     "name": "Matthew Tkachuk",
     "image": "images/Matthew_Tkachuk_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 5,
     "team": "Fla",
     "position": [
@@ -15505,7 +16499,7 @@
       "Brandon Nguyen": 2,
       "Brian Duong": 2,
       "Maanik Bhandari": 1,
-      "Nam Le": 2,
+      "Nam Le": 3,
       "bryan lam": 2
     },
     "player_id": "8479314",
@@ -15548,7 +16542,8 @@
       ],
       "Nam Le": [
         "20212022",
-        "20232024"
+        "20232024",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -15596,6 +16591,11 @@
         "draft_number": 113,
         "round_number": 17,
         "team": "Fla"
+      },
+      "20262027": {
+        "draft_number": 25,
+        "round_number": 4,
+        "team": "Fla"
       }
     }
   },
@@ -15638,6 +16638,32 @@
         "draft_number": 126,
         "round_number": 21,
         "team": "Nsh"
+      }
+    }
+  },
+  {
+    "name": "Mattias Samuelsson",
+    "image": "images/Mattias_Samuelsson_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Buf",
+    "position": [
+      "D"
+    ],
+    "owners": {
+      "Ivan Chow": 1
+    },
+    "player_id": "8480807",
+    "owner_years": {
+      "Ivan Chow": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 157,
+        "round_number": 23,
+        "team": "Buf"
       }
     }
   },
@@ -15959,13 +16985,14 @@
   {
     "name": "Mika Zibanejad",
     "image": "images/Mika_Zibanejad_ownership.png",
-    "total_drafts": 7,
-    "unique_owners": 4,
+    "total_drafts": 8,
+    "unique_owners": 5,
     "team": "NYR",
     "position": [
       "C"
     ],
     "owners": {
+      "Brandon Nguyen": 1,
       "Brian Duong": 2,
       "Ivan Chow": 1,
       "Maanik Bhandari": 2,
@@ -15987,6 +17014,9 @@
       ],
       "Ivan Chow": [
         "20242025"
+      ],
+      "Brandon Nguyen": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -16022,6 +17052,11 @@
       },
       "20252026": {
         "draft_number": 52,
+        "round_number": 8,
+        "team": "NYR"
+      },
+      "20262027": {
+        "draft_number": 56,
         "round_number": 8,
         "team": "NYR"
       }
@@ -16240,14 +17275,15 @@
   {
     "name": "Mike Matheson",
     "image": "images/Mike_Matheson_ownership.png",
-    "total_drafts": 2,
-    "unique_owners": 2,
+    "total_drafts": 3,
+    "unique_owners": 3,
     "team": "MTL",
     "position": [
       "D"
     ],
     "owners": {
       "Ivan Chow": 1,
+      "Maanik Bhandari": 1,
       "bryan lam": 1
     },
     "player_id": "8476875",
@@ -16257,6 +17293,9 @@
       ],
       "Ivan Chow": [
         "20252026"
+      ],
+      "Maanik Bhandari": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -16269,6 +17308,11 @@
         "draft_number": 133,
         "round_number": 19,
         "team": "Mon"
+      },
+      "20262027": {
+        "draft_number": 107,
+        "round_number": 16,
+        "team": "MTL"
       }
     }
   },
@@ -16301,7 +17345,7 @@
   {
     "name": "Mikhail Sergachev",
     "image": "images/Mikhail_Sergachev_ownership.png",
-    "total_drafts": 6,
+    "total_drafts": 7,
     "unique_owners": 4,
     "team": "UTA",
     "position": [
@@ -16310,7 +17354,7 @@
     "owners": {
       "Brian Duong": 2,
       "Maanik Bhandari": 1,
-      "Nam Le": 1,
+      "Nam Le": 2,
       "vince tran": 2
     },
     "player_id": "8479410",
@@ -16327,7 +17371,8 @@
         "20242025"
       ],
       "Nam Le": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -16359,6 +17404,11 @@
       "20252026": {
         "draft_number": 73,
         "round_number": 11,
+        "team": "UTA"
+      },
+      "20262027": {
+        "draft_number": 67,
+        "round_number": 10,
         "team": "UTA"
       }
     }
@@ -16401,7 +17451,7 @@
   {
     "name": "Mikko Rantanen",
     "image": "images/Mikko_Rantanen_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 4,
     "team": "Dal",
     "position": [
@@ -16409,7 +17459,7 @@
     ],
     "owners": {
       "Brian Duong": 1,
-      "Ivan Chow": 2,
+      "Ivan Chow": 3,
       "Maanik Bhandari": 2,
       "Nam Le": 3
     },
@@ -16460,7 +17510,8 @@
       ],
       "Ivan Chow": [
         "20222023",
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -16502,6 +17553,11 @@
       "20252026": {
         "draft_number": 7,
         "round_number": 1,
+        "team": "Dal"
+      },
+      "20262027": {
+        "draft_number": 12,
+        "round_number": 2,
         "team": "Dal"
       }
     }
@@ -16550,7 +17606,7 @@
   {
     "name": "Miro Heiskanen",
     "image": "images/Miro_Heiskanen_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 5,
     "team": "Dal",
     "position": [
@@ -16560,7 +17616,7 @@
       "Brian Duong": 1,
       "Maanik Bhandari": 2,
       "Nam Le": 1,
-      "bryan lam": 2,
+      "bryan lam": 3,
       "vince tran": 2
     },
     "player_id": "8480036",
@@ -16583,7 +17639,8 @@
     "owner_years": {
       "bryan lam": [
         "20182019",
-        "20202021"
+        "20202021",
+        "20262027"
       ],
       "Brian Duong": [
         "20192020"
@@ -16640,13 +17697,18 @@
         "draft_number": 74,
         "round_number": 11,
         "team": "Dal"
+      },
+      "20262027": {
+        "draft_number": 30,
+        "round_number": 5,
+        "team": "Dal"
       }
     }
   },
   {
     "name": "Mitch Marner",
     "image": "images/Mitch_Marner_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 5,
     "team": "VGK",
     "position": [
@@ -16658,7 +17720,7 @@
       "Ivan Chow": 1,
       "Maanik Bhandari": 2,
       "Nam Le": 3,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8478483",
     "championship_wins": 2,
@@ -16697,7 +17759,8 @@
         "20242025"
       ],
       "vince tran": [
-        "20212022"
+        "20212022",
+        "20262027"
       ],
       "Ivan Chow": [
         "20232024"
@@ -16748,20 +17811,51 @@
         "draft_number": 10,
         "round_number": 2,
         "team": "VGK"
+      },
+      "20262027": {
+        "draft_number": 21,
+        "round_number": 3,
+        "team": "VGK"
+      }
+    }
+  },
+  {
+    "name": "Morgan Geekie",
+    "image": "images/Morgan_Geekie_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Bos",
+    "position": [
+      "RW"
+    ],
+    "owners": {
+      "Ivan Chow": 1
+    },
+    "player_id": "8479987",
+    "owner_years": {
+      "Ivan Chow": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 115,
+        "round_number": 17,
+        "team": "Bos"
       }
     }
   },
   {
     "name": "Morgan Rielly",
     "image": "images/Morgan_Rielly_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 5,
     "team": "Tor",
     "position": [
       "D"
     ],
     "owners": {
-      "Brandon Nguyen": 1,
+      "Brandon Nguyen": 2,
       "Ivan Chow": 3,
       "Maanik Bhandari": 2,
       "Nam Le": 1,
@@ -16807,7 +17901,8 @@
         "20242025"
       ],
       "Brandon Nguyen": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -16855,13 +17950,18 @@
         "draft_number": 85,
         "round_number": 13,
         "team": "Tor"
+      },
+      "20262027": {
+        "draft_number": 140,
+        "round_number": 20,
+        "team": "Tor"
       }
     }
   },
   {
     "name": "Moritz Seider",
     "image": "images/Moritz_Seider_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 4,
     "team": "Det",
     "position": [
@@ -16871,7 +17971,7 @@
       "Brandon Nguyen": 1,
       "Brian Duong": 1,
       "Ivan Chow": 1,
-      "Maanik Bhandari": 1
+      "Maanik Bhandari": 2
     },
     "player_id": "8481542",
     "championship_wins": 1,
@@ -16895,7 +17995,8 @@
         "20222023"
       ],
       "Maanik Bhandari": [
-        "20232024"
+        "20232024",
+        "20262027"
       ],
       "Ivan Chow": [
         "20242025"
@@ -16922,6 +18023,11 @@
       },
       "20252026": {
         "draft_number": 55,
+        "round_number": 8,
+        "team": "Det"
+      },
+      "20262027": {
+        "draft_number": 51,
         "round_number": 8,
         "team": "Det"
       }
@@ -16972,7 +18078,7 @@
   {
     "name": "Nathan MacKinnon",
     "image": "images/Nathan_MacKinnon_ownership.png",
-    "total_drafts": 12,
+    "total_drafts": 13,
     "unique_owners": 6,
     "team": "Col",
     "position": [
@@ -16984,7 +18090,7 @@
       "Ivan Chow": 2,
       "Maanik Bhandari": 5,
       "Nam Le": 1,
-      "bryan lam": 2
+      "bryan lam": 3
     },
     "player_id": "8477492",
     "championship_wins": 2,
@@ -17018,7 +18124,8 @@
       ],
       "bryan lam": [
         "20152016",
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "Brandon Nguyen": [
         "20172018"
@@ -17094,20 +18201,25 @@
         "draft_number": 2,
         "round_number": 1,
         "team": "Col"
+      },
+      "20262027": {
+        "draft_number": 2,
+        "round_number": 1,
+        "team": "Col"
       }
     }
   },
   {
     "name": "Nazem Kadri",
     "image": "images/Nazem_Kadri_ownership.png",
-    "total_drafts": 5,
+    "total_drafts": 6,
     "unique_owners": 4,
-    "team": "Cgy",
+    "team": "Col",
     "position": [
       "C"
     ],
     "owners": {
-      "Brandon Nguyen": 2,
+      "Brandon Nguyen": 3,
       "Maanik Bhandari": 1,
       "bryan lam": 1,
       "vince tran": 1
@@ -17132,7 +18244,8 @@
     "owner_years": {
       "Brandon Nguyen": [
         "20172018",
-        "20182019"
+        "20182019",
+        "20262027"
       ],
       "vince tran": [
         "20222023"
@@ -17169,6 +18282,11 @@
         "draft_number": 117,
         "round_number": 17,
         "team": "Cgy"
+      },
+      "20262027": {
+        "draft_number": 155,
+        "round_number": 23,
+        "team": "Col"
       }
     }
   },
@@ -17331,7 +18449,7 @@
   {
     "name": "Nick Schmaltz",
     "image": "images/Nick_Schmaltz_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 3,
     "team": "UTA",
     "position": [
@@ -17340,7 +18458,7 @@
     ],
     "owners": {
       "Nam Le": 1,
-      "bryan lam": 1,
+      "bryan lam": 2,
       "vince tran": 1
     },
     "player_id": "8477951",
@@ -17352,7 +18470,8 @@
         "20242025"
       ],
       "bryan lam": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -17370,13 +18489,18 @@
         "draft_number": 107,
         "round_number": 16,
         "team": "UTA"
+      },
+      "20262027": {
+        "draft_number": 44,
+        "round_number": 7,
+        "team": "UTA"
       }
     }
   },
   {
     "name": "Nick Suzuki",
     "image": "images/Nick_Suzuki_ownership.png",
-    "total_drafts": 7,
+    "total_drafts": 8,
     "unique_owners": 3,
     "team": "MTL",
     "position": [
@@ -17384,7 +18508,7 @@
     ],
     "owners": {
       "Ivan Chow": 1,
-      "Maanik Bhandari": 2,
+      "Maanik Bhandari": 3,
       "bryan lam": 4
     },
     "player_id": "8480018",
@@ -17413,7 +18537,8 @@
       ],
       "Maanik Bhandari": [
         "20202021",
-        "20222023"
+        "20222023",
+        "20262027"
       ],
       "Ivan Chow": [
         "20252026"
@@ -17454,6 +18579,11 @@
         "draft_number": 21,
         "round_number": 3,
         "team": "Mon"
+      },
+      "20262027": {
+        "draft_number": 6,
+        "round_number": 1,
+        "team": "MTL"
       }
     }
   },
@@ -17563,13 +18693,14 @@
   {
     "name": "Nico Hischier",
     "image": "images/Nico_Hischier_ownership.png",
-    "total_drafts": 8,
-    "unique_owners": 4,
+    "total_drafts": 9,
+    "unique_owners": 5,
     "team": "NJD",
     "position": [
       "C"
     ],
     "owners": {
+      "Brandon Nguyen": 1,
       "Brian Duong": 1,
       "Ivan Chow": 1,
       "Maanik Bhandari": 4,
@@ -17608,6 +18739,9 @@
       ],
       "Brian Duong": [
         "20252026"
+      ],
+      "Brandon Nguyen": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -17650,6 +18784,11 @@
         "draft_number": 58,
         "round_number": 9,
         "team": "NJ"
+      },
+      "20262027": {
+        "draft_number": 71,
+        "round_number": 11,
+        "team": "NJ"
       }
     }
   },
@@ -17682,8 +18821,8 @@
   {
     "name": "Nikita Kucherov",
     "image": "images/Nikita_Kucherov_ownership.png",
-    "total_drafts": 11,
-    "unique_owners": 6,
+    "total_drafts": 12,
+    "unique_owners": 7,
     "team": "TBL",
     "position": [
       "RW"
@@ -17691,6 +18830,7 @@
     "owners": {
       "Brandon Nguyen": 1,
       "Brian Duong": 2,
+      "Ivan Chow": 1,
       "Maanik Bhandari": 2,
       "Nam Le": 3,
       "bryan lam": 2,
@@ -17736,6 +18876,9 @@
       ],
       "vince tran": [
         "20222023"
+      ],
+      "Ivan Chow": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -17793,6 +18936,11 @@
         "draft_number": 3,
         "round_number": 1,
         "team": "TB"
+      },
+      "20262027": {
+        "draft_number": 3,
+        "round_number": 1,
+        "team": "TB"
       }
     }
   },
@@ -17834,7 +18982,7 @@
   {
     "name": "Nikolaj Ehlers",
     "image": "images/Nikolaj_Ehlers_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 3,
     "team": "Car",
     "position": [
@@ -17843,7 +18991,7 @@
     "owners": {
       "Ivan Chow": 1,
       "Maanik Bhandari": 2,
-      "vince tran": 5
+      "vince tran": 6
     },
     "player_id": "8477940",
     "owner_years": {
@@ -17852,7 +19000,8 @@
         "20182019",
         "20222023",
         "20232024",
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "Ivan Chow": [
         "20202021"
@@ -17902,6 +19051,11 @@
         "draft_number": 103,
         "round_number": 15,
         "team": "Car"
+      },
+      "20262027": {
+        "draft_number": 63,
+        "round_number": 9,
+        "team": "Car"
       }
     }
   },
@@ -17934,8 +19088,8 @@
   {
     "name": "Noah Dobson",
     "image": "images/Noah_Dobson_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 4,
+    "total_drafts": 5,
+    "unique_owners": 5,
     "team": "MTL",
     "position": [
       "D"
@@ -17944,6 +19098,7 @@
       "Ivan Chow": 1,
       "Maanik Bhandari": 1,
       "Nam Le": 1,
+      "bryan lam": 1,
       "vince tran": 1
     },
     "player_id": "8480865",
@@ -17980,6 +19135,9 @@
       ],
       "Maanik Bhandari": [
         "20252026"
+      ],
+      "bryan lam": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -18002,6 +19160,11 @@
         "draft_number": 94,
         "round_number": 14,
         "team": "Mon"
+      },
+      "20262027": {
+        "draft_number": 55,
+        "round_number": 8,
+        "team": "MTL"
       }
     }
   },
@@ -18578,9 +19741,9 @@
   {
     "name": "Patrick Kane",
     "image": "images/Patrick_Kane_ownership.png",
-    "total_drafts": 12,
+    "total_drafts": 13,
     "unique_owners": 6,
-    "team": "Det",
+    "team": "Chi",
     "position": [
       "RW"
     ],
@@ -18588,7 +19751,7 @@
       "Brandon Nguyen": 4,
       "Brian Duong": 2,
       "Ivan Chow": 1,
-      "Maanik Bhandari": 1,
+      "Maanik Bhandari": 2,
       "Nam Le": 2,
       "vince tran": 2
     },
@@ -18647,7 +19810,8 @@
         "20242025"
       ],
       "Maanik Bhandari": [
-        "20232024"
+        "20232024",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -18710,6 +19874,11 @@
         "draft_number": 140,
         "round_number": 20,
         "team": "Det"
+      },
+      "20262027": {
+        "draft_number": 118,
+        "round_number": 17,
+        "team": "Chi"
       }
     }
   },
@@ -19048,19 +20217,23 @@
   {
     "name": "Pavel Dorofeyev",
     "image": "images/Pavel_Dorofeyev_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
-    "team": "VGK",
+    "total_drafts": 2,
+    "unique_owners": 2,
+    "team": "NYR",
     "position": [
       "RW"
     ],
     "owners": {
-      "Brian Duong": 1
+      "Brian Duong": 1,
+      "Ivan Chow": 1
     },
     "player_id": "8481604",
     "owner_years": {
       "Brian Duong": [
         "20252026"
+      ],
+      "Ivan Chow": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -19068,6 +20241,37 @@
         "draft_number": 142,
         "round_number": 21,
         "team": "VGK"
+      },
+      "20262027": {
+        "draft_number": 124,
+        "round_number": 18,
+        "team": "NYR"
+      }
+    }
+  },
+  {
+    "name": "Pavel Zacha",
+    "image": "images/Pavel_Zacha_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Bos",
+    "position": [
+      "C"
+    ],
+    "owners": {
+      "bryan lam": 1
+    },
+    "player_id": "8478401",
+    "owner_years": {
+      "bryan lam": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 125,
+        "round_number": 18,
+        "team": "Bos"
       }
     }
   },
@@ -19415,16 +20619,42 @@
     }
   },
   {
+    "name": "Porter Martone",
+    "image": "images/Porter_Martone_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Phi",
+    "position": [
+      "RW"
+    ],
+    "owners": {
+      "Brian Duong": 1
+    },
+    "player_id": "8485406",
+    "owner_years": {
+      "Brian Duong": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 150,
+        "round_number": 22,
+        "team": "Phi"
+      }
+    }
+  },
+  {
     "name": "Quinn Hughes",
     "image": "images/Quinn_Hughes_ownership.png",
-    "total_drafts": 7,
+    "total_drafts": 8,
     "unique_owners": 5,
-    "team": "Van",
+    "team": "Min",
     "position": [
       "D"
     ],
     "owners": {
-      "Brandon Nguyen": 1,
+      "Brandon Nguyen": 2,
       "Maanik Bhandari": 1,
       "Nam Le": 2,
       "bryan lam": 1,
@@ -19460,7 +20690,8 @@
         "20222023"
       ],
       "Brandon Nguyen": [
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "bryan lam": [
         "20252026"
@@ -19501,31 +20732,42 @@
         "draft_number": 9,
         "round_number": 2,
         "team": "Van"
+      },
+      "20262027": {
+        "draft_number": 14,
+        "round_number": 2,
+        "team": "Min"
       }
     }
   },
   {
     "name": "Quinton Byfield",
     "image": "images/Quinton_Byfield_ownership.png",
-    "total_drafts": 1,
+    "total_drafts": 2,
     "unique_owners": 1,
     "team": "LAK",
     "position": [
       "C"
     ],
     "owners": {
-      "Nam Le": 1
+      "Nam Le": 2
     },
     "player_id": "8482124",
     "owner_years": {
       "Nam Le": [
-        "20242025"
+        "20242025",
+        "20262027"
       ]
     },
     "draft_history": {
       "20242025": {
         "draft_number": 107,
         "round_number": 16,
+        "team": "LA"
+      },
+      "20262027": {
+        "draft_number": 137,
+        "round_number": 20,
         "team": "LA"
       }
     }
@@ -19559,13 +20801,14 @@
   {
     "name": "Rasmus Andersson",
     "image": "images/Rasmus_Andersson_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 4,
-    "team": "Cgy",
+    "total_drafts": 5,
+    "unique_owners": 5,
+    "team": "VGK",
     "position": [
       "D"
     ],
     "owners": {
+      "Brandon Nguyen": 1,
       "Maanik Bhandari": 1,
       "Nam Le": 1,
       "bryan lam": 1,
@@ -19605,6 +20848,9 @@
       ],
       "bryan lam": [
         "20252026"
+      ],
+      "Brandon Nguyen": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -19627,20 +20873,25 @@
         "draft_number": 104,
         "round_number": 15,
         "team": "Cgy"
+      },
+      "20262027": {
+        "draft_number": 98,
+        "round_number": 14,
+        "team": "VGK"
       }
     }
   },
   {
     "name": "Rasmus Dahlin",
     "image": "images/Rasmus_Dahlin_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 4,
     "team": "Buf",
     "position": [
       "D"
     ],
     "owners": {
-      "Ivan Chow": 4,
+      "Ivan Chow": 5,
       "Maanik Bhandari": 1,
       "bryan lam": 1,
       "vince tran": 2
@@ -19658,7 +20909,8 @@
         "20212022",
         "20222023",
         "20232024",
-        "20252026"
+        "20252026",
+        "20262027"
       ],
       "Maanik Bhandari": [
         "20242025"
@@ -19703,6 +20955,11 @@
       "20252026": {
         "draft_number": 36,
         "round_number": 6,
+        "team": "Buf"
+      },
+      "20262027": {
+        "draft_number": 31,
+        "round_number": 5,
         "team": "Buf"
       }
     }
@@ -19934,8 +21191,8 @@
   {
     "name": "Robert Thomas",
     "image": "images/Robert_Thomas_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 4,
+    "total_drafts": 5,
+    "unique_owners": 5,
     "team": "StL",
     "position": [
       "C"
@@ -19944,6 +21201,7 @@
       "Brandon Nguyen": 1,
       "Brian Duong": 1,
       "Ivan Chow": 1,
+      "Nam Le": 1,
       "bryan lam": 1
     },
     "player_id": "8480023",
@@ -19959,6 +21217,9 @@
       ],
       "Brian Duong": [
         "20252026"
+      ],
+      "Nam Le": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -19980,6 +21241,11 @@
       "20252026": {
         "draft_number": 41,
         "round_number": 6,
+        "team": "StL"
+      },
+      "20262027": {
+        "draft_number": 60,
+        "round_number": 9,
         "team": "StL"
       }
     }
@@ -20066,14 +21332,14 @@
   {
     "name": "Roman Josi",
     "image": "images/Roman_Josi_ownership.png",
-    "total_drafts": 11,
+    "total_drafts": 12,
     "unique_owners": 6,
     "team": "Nsh",
     "position": [
       "D"
     ],
     "owners": {
-      "Brandon Nguyen": 1,
+      "Brandon Nguyen": 2,
       "Brian Duong": 2,
       "Ivan Chow": 1,
       "Nam Le": 2,
@@ -20103,7 +21369,8 @@
         "20212022"
       ],
       "Brandon Nguyen": [
-        "20232024"
+        "20232024",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -20160,6 +21427,11 @@
       "20252026": {
         "draft_number": 39,
         "round_number": 6,
+        "team": "Nsh"
+      },
+      "20262027": {
+        "draft_number": 43,
+        "round_number": 7,
         "team": "Nsh"
       }
     },
@@ -20696,7 +21968,7 @@
   {
     "name": "Ryan O'Reilly",
     "image": "images/Ryan_O'Reilly_ownership.png",
-    "total_drafts": 10,
+    "total_drafts": 11,
     "unique_owners": 4,
     "team": "Nsh",
     "position": [
@@ -20706,7 +21978,7 @@
     "owners": {
       "Brian Duong": 2,
       "Nam Le": 4,
-      "bryan lam": 3,
+      "bryan lam": 4,
       "vince tran": 1
     },
     "player_id": "8475158",
@@ -20714,7 +21986,8 @@
       "bryan lam": [
         "20142015",
         "20192020",
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "Brian Duong": [
         "20152016",
@@ -20779,6 +22052,11 @@
       "20242025": {
         "draft_number": 96,
         "round_number": 14,
+        "team": "Nsh"
+      },
+      "20262027": {
+        "draft_number": 58,
+        "round_number": 9,
         "team": "Nsh"
       }
     }
@@ -20924,7 +22202,7 @@
   {
     "name": "Sam Bennett",
     "image": "images/Sam_Bennett_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 4,
     "team": "Fla",
     "position": [
@@ -20935,7 +22213,7 @@
       "Brandon Nguyen": 1,
       "Ivan Chow": 1,
       "bryan lam": 1,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8477935",
     "owner_years": {
@@ -20949,7 +22227,8 @@
         "20212022"
       ],
       "vince tran": [
-        "20222023"
+        "20222023",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -20971,6 +22250,11 @@
       "20222023": {
         "draft_number": 150,
         "round_number": 22,
+        "team": "Fla"
+      },
+      "20262027": {
+        "draft_number": 119,
+        "round_number": 17,
         "team": "Fla"
       }
     }
@@ -21004,7 +22288,7 @@
   {
     "name": "Sam Reinhart",
     "image": "images/Sam_Reinhart_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 6,
     "team": "Fla",
     "position": [
@@ -21012,7 +22296,7 @@
       "RW"
     ],
     "owners": {
-      "Brian Duong": 1,
+      "Brian Duong": 2,
       "Ivan Chow": 2,
       "Maanik Bhandari": 1,
       "Nam Le": 1,
@@ -21050,7 +22334,8 @@
         "20182019"
       ],
       "Brian Duong": [
-        "20202021"
+        "20202021",
+        "20262027"
       ],
       "Nam Le": [
         "20212022"
@@ -21107,6 +22392,11 @@
       },
       "20252026": {
         "draft_number": 35,
+        "round_number": 5,
+        "team": "Fla"
+      },
+      "20262027": {
+        "draft_number": 33,
         "round_number": 5,
         "team": "Fla"
       }
@@ -21205,6 +22495,32 @@
         "draft_number": 127,
         "round_number": 19,
         "team": "Nsh"
+      }
+    }
+  },
+  {
+    "name": "Scott Wedgewood",
+    "image": "images/Scott_Wedgewood_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Col",
+    "position": [
+      "G"
+    ],
+    "owners": {
+      "Brian Duong": 1
+    },
+    "player_id": "8475809",
+    "owner_years": {
+      "Brian Duong": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 136,
+        "round_number": 20,
+        "team": "Col"
       }
     }
   },
@@ -21399,7 +22715,7 @@
   {
     "name": "Sebastian Aho",
     "image": "images/Sebastian_Aho_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 5,
     "team": "Car",
     "position": [
@@ -21408,7 +22724,7 @@
     ],
     "owners": {
       "Brian Duong": 2,
-      "Ivan Chow": 2,
+      "Ivan Chow": 3,
       "Maanik Bhandari": 3,
       "Nam Le": 1,
       "vince tran": 1
@@ -21447,7 +22763,8 @@
       ],
       "Ivan Chow": [
         "20202021",
-        "20252026"
+        "20252026",
+        "20262027"
       ],
       "vince tran": [
         "20212022"
@@ -21500,6 +22817,11 @@
       "20252026": {
         "draft_number": 50,
         "round_number": 8,
+        "team": "Car"
+      },
+      "20262027": {
+        "draft_number": 40,
+        "round_number": 6,
         "team": "Car"
       }
     }
@@ -21569,13 +22891,14 @@
   {
     "name": "Sergei Bobrovsky",
     "image": "images/Sergei_Bobrovsky_ownership.png",
-    "total_drafts": 9,
-    "unique_owners": 4,
-    "team": "Fla",
+    "total_drafts": 10,
+    "unique_owners": 5,
+    "team": "Tor",
     "position": [
       "G"
     ],
     "owners": {
+      "Brandon Nguyen": 1,
       "Brian Duong": 3,
       "Nam Le": 2,
       "bryan lam": 2,
@@ -21615,6 +22938,9 @@
       "vince tran": [
         "20212022",
         "20222023"
+      ],
+      "Brandon Nguyen": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -21662,26 +22988,35 @@
         "draft_number": 65,
         "round_number": 10,
         "team": "Fla"
+      },
+      "20262027": {
+        "draft_number": 113,
+        "round_number": 17,
+        "team": "Tor"
       }
     }
   },
   {
     "name": "Seth Jarvis",
     "image": "images/Seth_Jarvis_ownership.png",
-    "total_drafts": 2,
-    "unique_owners": 1,
+    "total_drafts": 3,
+    "unique_owners": 2,
     "team": "Car",
     "position": [
       "RW"
     ],
     "owners": {
-      "Brian Duong": 2
+      "Brian Duong": 2,
+      "Maanik Bhandari": 1
     },
     "player_id": "8482093",
     "owner_years": {
       "Brian Duong": [
         "20242025",
         "20252026"
+      ],
+      "Maanik Bhandari": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -21694,13 +23029,18 @@
         "draft_number": 69,
         "round_number": 10,
         "team": "Car"
+      },
+      "20262027": {
+        "draft_number": 90,
+        "round_number": 13,
+        "team": "Car"
       }
     }
   },
   {
     "name": "Seth Jones",
     "image": "images/Seth_Jones_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 5,
     "team": "Fla",
     "position": [
@@ -21711,7 +23051,7 @@
       "Brian Duong": 1,
       "Ivan Chow": 1,
       "Maanik Bhandari": 1,
-      "Nam Le": 5
+      "Nam Le": 6
     },
     "player_id": "8477495",
     "championship_wins": 2,
@@ -21741,7 +23081,8 @@
         "20192020",
         "20202021",
         "20212022",
-        "20252026"
+        "20252026",
+        "20262027"
       ],
       "Brandon Nguyen": [
         "20172018"
@@ -21801,20 +23142,26 @@
         "draft_number": 124,
         "round_number": 18,
         "team": "Fla"
+      },
+      "20262027": {
+        "draft_number": 144,
+        "round_number": 21,
+        "team": "Fla"
       }
     }
   },
   {
     "name": "Shayne Gostisbehere",
     "image": "images/Shayne_Gostisbehere_ownership.png",
-    "total_drafts": 7,
-    "unique_owners": 4,
+    "total_drafts": 8,
+    "unique_owners": 5,
     "team": "Car",
     "position": [
       "D"
     ],
     "owners": {
       "Brandon Nguyen": 1,
+      "Brian Duong": 1,
       "Ivan Chow": 1,
       "Maanik Bhandari": 1,
       "Nam Le": 4
@@ -21856,6 +23203,9 @@
       ],
       "Ivan Chow": [
         "20222023"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -21893,13 +23243,18 @@
         "draft_number": 110,
         "round_number": 16,
         "team": "Car"
+      },
+      "20262027": {
+        "draft_number": 103,
+        "round_number": 15,
+        "team": "Car"
       }
     }
   },
   {
     "name": "Shea Theodore",
     "image": "images/Shea_Theodore_ownership.png",
-    "total_drafts": 9,
+    "total_drafts": 10,
     "unique_owners": 6,
     "team": "VGK",
     "position": [
@@ -21907,7 +23262,7 @@
     ],
     "owners": {
       "Brandon Nguyen": 1,
-      "Brian Duong": 1,
+      "Brian Duong": 2,
       "Maanik Bhandari": 3,
       "Nam Le": 1,
       "bryan lam": 2,
@@ -21916,7 +23271,8 @@
     "player_id": "8477447",
     "owner_years": {
       "Brian Duong": [
-        "20172018"
+        "20172018",
+        "20262027"
       ],
       "Maanik Bhandari": [
         "20182019",
@@ -21981,6 +23337,11 @@
       "20252026": {
         "draft_number": 68,
         "round_number": 10,
+        "team": "VGK"
+      },
+      "20262027": {
+        "draft_number": 117,
+        "round_number": 17,
         "team": "VGK"
       }
     }
@@ -22080,7 +23441,7 @@
   {
     "name": "Sidney Crosby",
     "image": "images/Sidney_Crosby_ownership.png",
-    "total_drafts": 12,
+    "total_drafts": 13,
     "unique_owners": 4,
     "team": "Pit",
     "position": [
@@ -22089,7 +23450,7 @@
     "owners": {
       "Brian Duong": 7,
       "Ivan Chow": 2,
-      "Maanik Bhandari": 2,
+      "Maanik Bhandari": 3,
       "vince tran": 1
     },
     "player_id": "8471675",
@@ -22121,7 +23482,8 @@
       ],
       "Maanik Bhandari": [
         "20162017",
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "vince tran": [
         "20172018"
@@ -22191,20 +23553,52 @@
         "draft_number": 13,
         "round_number": 2,
         "team": "Pit"
+      },
+      "20262027": {
+        "draft_number": 34,
+        "round_number": 5,
+        "team": "Pit"
+      }
+    }
+  },
+  {
+    "name": "Spencer Knight",
+    "image": "images/Spencer_Knight_ownership.png",
+    "total_drafts": 1,
+    "unique_owners": 1,
+    "team": "Chi",
+    "position": [
+      "G"
+    ],
+    "owners": {
+      "bryan lam": 1
+    },
+    "player_id": "8481519",
+    "owner_years": {
+      "bryan lam": [
+        "20262027"
+      ]
+    },
+    "draft_history": {
+      "20262027": {
+        "draft_number": 153,
+        "round_number": 22,
+        "team": "Chi"
       }
     }
   },
   {
     "name": "Steven Stamkos",
     "image": "images/Steven_Stamkos_ownership.png",
-    "total_drafts": 12,
-    "unique_owners": 1,
+    "total_drafts": 13,
+    "unique_owners": 2,
     "team": "Nsh",
     "position": [
       "C"
     ],
     "owners": {
-      "Brandon Nguyen": 12
+      "Brandon Nguyen": 12,
+      "bryan lam": 1
     },
     "player_id": "8474564",
     "championship_wins": 1,
@@ -22237,6 +23631,9 @@
         "20232024",
         "20242025",
         "20252026"
+      ],
+      "bryan lam": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -22299,22 +23696,27 @@
         "draft_number": 28,
         "round_number": 4,
         "team": "Nsh"
+      },
+      "20262027": {
+        "draft_number": 69,
+        "round_number": 10,
+        "team": "Nsh"
       }
     }
   },
   {
     "name": "Stuart Skinner",
     "image": "images/Stuart_Skinner_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 3,
-    "team": "Edm",
+    "team": "Wpg",
     "position": [
       "G"
     ],
     "owners": {
       "Maanik Bhandari": 1,
       "bryan lam": 1,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8479973",
     "owner_years": {
@@ -22325,7 +23727,8 @@
         "20242025"
       ],
       "vince tran": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -22343,6 +23746,11 @@
         "draft_number": 88,
         "round_number": 13,
         "team": "Edm"
+      },
+      "20262027": {
+        "draft_number": 148,
+        "round_number": 22,
+        "team": "Wpg"
       }
     }
   },
@@ -22467,13 +23875,14 @@
   {
     "name": "Tage Thompson",
     "image": "images/Tage_Thompson_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 2,
+    "total_drafts": 5,
+    "unique_owners": 3,
     "team": "Buf",
     "position": [
       "C"
     ],
     "owners": {
+      "Brian Duong": 1,
       "Maanik Bhandari": 3,
       "bryan lam": 1
     },
@@ -22507,6 +23916,9 @@
         "20232024",
         "20242025",
         "20252026"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -22528,6 +23940,11 @@
       "20252026": {
         "draft_number": 47,
         "round_number": 7,
+        "team": "Buf"
+      },
+      "20262027": {
+        "draft_number": 38,
+        "round_number": 6,
         "team": "Buf"
       }
     }
@@ -22779,7 +24196,7 @@
   {
     "name": "Thomas Chabot",
     "image": "images/Thomas_Chabot_ownership.png",
-    "total_drafts": 6,
+    "total_drafts": 7,
     "unique_owners": 4,
     "team": "Ott",
     "position": [
@@ -22787,7 +24204,7 @@
     ],
     "owners": {
       "Brandon Nguyen": 2,
-      "Ivan Chow": 2,
+      "Ivan Chow": 3,
       "Maanik Bhandari": 1,
       "Nam Le": 1
     },
@@ -22795,7 +24212,8 @@
     "owner_years": {
       "Ivan Chow": [
         "20192020",
-        "20252026"
+        "20252026",
+        "20262027"
       ],
       "Nam Le": [
         "20202021"
@@ -22838,20 +24256,26 @@
         "draft_number": 147,
         "round_number": 21,
         "team": "Ott"
+      },
+      "20262027": {
+        "draft_number": 138,
+        "round_number": 20,
+        "team": "Ott"
       }
     }
   },
   {
     "name": "Thomas Harley",
     "image": "images/Thomas_Harley_ownership.png",
-    "total_drafts": 2,
-    "unique_owners": 2,
+    "total_drafts": 3,
+    "unique_owners": 3,
     "team": "Dal",
     "position": [
       "D"
     ],
     "owners": {
       "Brian Duong": 1,
+      "Ivan Chow": 1,
       "bryan lam": 1
     },
     "player_id": "8481581",
@@ -22861,6 +24285,9 @@
       ],
       "Brian Duong": [
         "20252026"
+      ],
+      "Ivan Chow": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -22872,6 +24299,11 @@
       "20252026": {
         "draft_number": 72,
         "round_number": 11,
+        "team": "Dal"
+      },
+      "20262027": {
+        "draft_number": 110,
+        "round_number": 16,
         "team": "Dal"
       }
     }
@@ -22911,8 +24343,8 @@
   {
     "name": "Tim Stützle",
     "image": "images/Tim_Stützle_ownership.png",
-    "total_drafts": 4,
-    "unique_owners": 2,
+    "total_drafts": 5,
+    "unique_owners": 3,
     "team": "Ott",
     "position": [
       "C",
@@ -22920,6 +24352,7 @@
     ],
     "owners": {
       "Maanik Bhandari": 3,
+      "bryan lam": 1,
       "vince tran": 1
     },
     "player_id": "8482116",
@@ -22952,6 +24385,9 @@
       ],
       "vince tran": [
         "20242025"
+      ],
+      "bryan lam": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -22972,6 +24408,11 @@
       },
       "20252026": {
         "draft_number": 38,
+        "round_number": 6,
+        "team": "Ott"
+      },
+      "20262027": {
+        "draft_number": 41,
         "round_number": 6,
         "team": "Ott"
       }
@@ -23049,14 +24490,14 @@
   {
     "name": "Tom Wilson",
     "image": "images/Tom_Wilson_ownership.png",
-    "total_drafts": 3,
+    "total_drafts": 4,
     "unique_owners": 2,
     "team": "Wsh",
     "position": [
       "RW"
     ],
     "owners": {
-      "Brian Duong": 1,
+      "Brian Duong": 2,
       "bryan lam": 2
     },
     "player_id": "8476880",
@@ -23078,7 +24519,8 @@
     ],
     "owner_years": {
       "Brian Duong": [
-        "20192020"
+        "20192020",
+        "20262027"
       ],
       "bryan lam": [
         "20202021",
@@ -23100,13 +24542,18 @@
         "draft_number": 121,
         "round_number": 18,
         "team": "Wsh"
+      },
+      "20262027": {
+        "draft_number": 108,
+        "round_number": 16,
+        "team": "Wsh"
       }
     }
   },
   {
     "name": "Tomas Hertl",
     "image": "images/Tomas_Hertl_ownership.png",
-    "total_drafts": 8,
+    "total_drafts": 9,
     "unique_owners": 5,
     "team": "VGK",
     "position": [
@@ -23118,7 +24565,7 @@
       "Brian Duong": 4,
       "Ivan Chow": 1,
       "Maanik Bhandari": 1,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8476881",
     "owner_years": {
@@ -23138,7 +24585,8 @@
         "20222023"
       ],
       "vince tran": [
-        "20232024"
+        "20232024",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -23180,6 +24628,11 @@
       "20252026": {
         "draft_number": 114,
         "round_number": 17,
+        "team": "VGK"
+      },
+      "20262027": {
+        "draft_number": 133,
+        "round_number": 19,
         "team": "VGK"
       }
     }
@@ -23449,7 +24902,7 @@
   {
     "name": "Travis Konecny",
     "image": "images/Travis_Konecny_ownership.png",
-    "total_drafts": 5,
+    "total_drafts": 6,
     "unique_owners": 4,
     "team": "Phi",
     "position": [
@@ -23459,7 +24912,7 @@
       "Brandon Nguyen": 2,
       "Ivan Chow": 1,
       "bryan lam": 1,
-      "vince tran": 1
+      "vince tran": 2
     },
     "player_id": "8478439",
     "owner_years": {
@@ -23474,7 +24927,8 @@
         "20242025"
       ],
       "vince tran": [
-        "20252026"
+        "20252026",
+        "20262027"
       ]
     },
     "draft_history": {
@@ -23502,6 +24956,11 @@
         "draft_number": 60,
         "round_number": 9,
         "team": "Phi"
+      },
+      "20262027": {
+        "draft_number": 92,
+        "round_number": 14,
+        "team": "Phi"
       }
     },
     "championship_wins": 1,
@@ -23524,25 +24983,34 @@
   {
     "name": "Travis Sanheim",
     "image": "images/Travis_Sanheim_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "Phi",
     "position": [
       "D"
     ],
     "owners": {
-      "Ivan Chow": 1
+      "Ivan Chow": 1,
+      "bryan lam": 1
     },
     "player_id": "8477948",
     "owner_years": {
       "Ivan Chow": [
         "20242025"
+      ],
+      "bryan lam": [
+        "20262027"
       ]
     },
     "draft_history": {
       "20242025": {
         "draft_number": 155,
         "round_number": 23,
+        "team": "Phi"
+      },
+      "20262027": {
+        "draft_number": 139,
+        "round_number": 20,
         "team": "Phi"
       }
     }
@@ -23585,7 +25053,7 @@
   {
     "name": "Trevor Zegras",
     "image": "images/Trevor_Zegras_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 2,
     "team": "Phi",
     "position": [
@@ -23593,7 +25061,7 @@
     ],
     "owners": {
       "Brandon Nguyen": 1,
-      "Nam Le": 3
+      "Nam Le": 4
     },
     "player_id": "8481533",
     "championship_wins": 1,
@@ -23616,7 +25084,8 @@
       "Nam Le": [
         "20212022",
         "20222023",
-        "20252026"
+        "20252026",
+        "20262027"
       ],
       "Brandon Nguyen": [
         "20232024"
@@ -23642,21 +25111,27 @@
         "draft_number": 138,
         "round_number": 20,
         "team": "Phi"
+      },
+      "20262027": {
+        "draft_number": 123,
+        "round_number": 18,
+        "team": "Phi"
       }
     }
   },
   {
     "name": "Tristan Jarry",
     "image": "images/Tristan_Jarry_ownership.png",
-    "total_drafts": 5,
-    "unique_owners": 4,
-    "team": "Pit",
+    "total_drafts": 6,
+    "unique_owners": 5,
+    "team": "Edm",
     "position": [
       "G"
     ],
     "owners": {
       "Brandon Nguyen": 1,
       "Ivan Chow": 1,
+      "Maanik Bhandari": 1,
       "Nam Le": 1,
       "vince tran": 2
     },
@@ -23674,6 +25149,9 @@
       ],
       "Ivan Chow": [
         "20232024"
+      ],
+      "Maanik Bhandari": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -23701,6 +25179,11 @@
         "draft_number": 145,
         "round_number": 21,
         "team": "Pit"
+      },
+      "20262027": {
+        "draft_number": 149,
+        "round_number": 22,
+        "team": "Edm"
       }
     }
   },
@@ -24227,14 +25710,15 @@
   {
     "name": "Victor Hedman",
     "image": "images/Victor_Hedman_ownership.png",
-    "total_drafts": 12,
-    "unique_owners": 4,
+    "total_drafts": 13,
+    "unique_owners": 5,
     "team": "TBL",
     "position": [
       "D"
     ],
     "owners": {
       "Brandon Nguyen": 4,
+      "Brian Duong": 1,
       "Maanik Bhandari": 3,
       "Nam Le": 3,
       "bryan lam": 2
@@ -24276,6 +25760,9 @@
         "20212022",
         "20222023",
         "20232024"
+      ],
+      "Brian Duong": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -24337,6 +25824,11 @@
       "20252026": {
         "draft_number": 23,
         "round_number": 4,
+        "team": "TB"
+      },
+      "20262027": {
+        "draft_number": 75,
+        "round_number": 11,
         "team": "TB"
       }
     }
@@ -24437,14 +25929,14 @@
   {
     "name": "Vince Dunn",
     "image": "images/Vince_Dunn_ownership.png",
-    "total_drafts": 4,
+    "total_drafts": 5,
     "unique_owners": 3,
     "team": "Sea",
     "position": [
       "D"
     ],
     "owners": {
-      "Brian Duong": 2,
+      "Brian Duong": 3,
       "Maanik Bhandari": 1,
       "vince tran": 1
     },
@@ -24455,7 +25947,8 @@
       ],
       "Brian Duong": [
         "20232024",
-        "20242025"
+        "20242025",
+        "20262027"
       ],
       "vince tran": [
         "20252026"
@@ -24481,15 +25974,20 @@
         "draft_number": 158,
         "round_number": 23,
         "team": "Sea"
+      },
+      "20262027": {
+        "draft_number": 131,
+        "round_number": 19,
+        "team": "Sea"
       }
     }
   },
   {
     "name": "Vincent Trocheck",
     "image": "images/Vincent_Trocheck_ownership.png",
-    "total_drafts": 7,
+    "total_drafts": 8,
     "unique_owners": 5,
-    "team": "NYR",
+    "team": "UTA",
     "position": [
       "C"
     ],
@@ -24497,13 +25995,14 @@
       "Brandon Nguyen": 2,
       "Brian Duong": 2,
       "Ivan Chow": 1,
-      "bryan lam": 1,
+      "bryan lam": 2,
       "vince tran": 1
     },
     "player_id": "8476389",
     "owner_years": {
       "bryan lam": [
-        "20172018"
+        "20172018",
+        "20262027"
       ],
       "Brandon Nguyen": [
         "20182019",
@@ -24555,6 +26054,11 @@
         "draft_number": 92,
         "round_number": 14,
         "team": "NYR"
+      },
+      "20262027": {
+        "draft_number": 97,
+        "round_number": 14,
+        "team": "UTA"
       }
     }
   },
@@ -24826,25 +26330,34 @@
   {
     "name": "Will Smith",
     "image": "images/Will_Smith_ownership.png",
-    "total_drafts": 1,
-    "unique_owners": 1,
+    "total_drafts": 2,
+    "unique_owners": 2,
     "team": "SJS",
     "position": [
       "C"
     ],
     "owners": {
+      "Nam Le": 1,
       "bryan lam": 1
     },
     "player_id": "8484227",
     "owner_years": {
       "bryan lam": [
         "20252026"
+      ],
+      "Nam Le": [
+        "20262027"
       ]
     },
     "draft_history": {
       "20252026": {
         "draft_number": 132,
         "round_number": 19,
+        "team": "SJ"
+      },
+      "20262027": {
+        "draft_number": 88,
+        "round_number": 13,
         "team": "SJ"
       }
     }
@@ -24893,8 +26406,8 @@
   {
     "name": "William Nylander",
     "image": "images/William_Nylander_ownership.png",
-    "total_drafts": 9,
-    "unique_owners": 4,
+    "total_drafts": 10,
+    "unique_owners": 5,
     "team": "Tor",
     "position": [
       "RW"
@@ -24902,6 +26415,7 @@
     "owners": {
       "Brandon Nguyen": 1,
       "Brian Duong": 5,
+      "Ivan Chow": 1,
       "Maanik Bhandari": 2,
       "bryan lam": 1
     },
@@ -24944,6 +26458,9 @@
       ],
       "bryan lam": [
         "20222023"
+      ],
+      "Ivan Chow": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -24991,19 +26508,25 @@
         "draft_number": 19,
         "round_number": 3,
         "team": "Tor"
+      },
+      "20262027": {
+        "draft_number": 26,
+        "round_number": 4,
+        "team": "Tor"
       }
     }
   },
   {
     "name": "Wyatt Johnston",
     "image": "images/Wyatt_Johnston_ownership.png",
-    "total_drafts": 2,
-    "unique_owners": 1,
+    "total_drafts": 3,
+    "unique_owners": 2,
     "team": "Dal",
     "position": [
       "C"
     ],
     "owners": {
+      "Brandon Nguyen": 1,
       "Maanik Bhandari": 2
     },
     "player_id": "8482740",
@@ -25011,6 +26534,9 @@
       "Maanik Bhandari": [
         "20242025",
         "20252026"
+      ],
+      "Brandon Nguyen": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -25022,6 +26548,11 @@
       "20252026": {
         "draft_number": 66,
         "round_number": 10,
+        "team": "Dal"
+      },
+      "20262027": {
+        "draft_number": 29,
+        "round_number": 5,
         "team": "Dal"
       }
     },
@@ -25071,14 +26602,15 @@
   {
     "name": "Zach Hyman",
     "image": "images/Zach_Hyman_ownership.png",
-    "total_drafts": 5,
-    "unique_owners": 3,
+    "total_drafts": 6,
+    "unique_owners": 4,
     "team": "Edm",
     "position": [
       "LW",
       "RW"
     ],
     "owners": {
+      "Brandon Nguyen": 1,
       "Maanik Bhandari": 2,
       "bryan lam": 1,
       "vince tran": 2
@@ -25095,6 +26627,9 @@
       ],
       "bryan lam": [
         "20242025"
+      ],
+      "Brandon Nguyen": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -25121,6 +26656,11 @@
       "20252026": {
         "draft_number": 145,
         "round_number": 21,
+        "team": "Edm"
+      },
+      "20262027": {
+        "draft_number": 84,
+        "round_number": 12,
         "team": "Edm"
       }
     },
@@ -25185,8 +26725,8 @@
   {
     "name": "Zach Werenski",
     "image": "images/Zach_Werenski_ownership.png",
-    "total_drafts": 9,
-    "unique_owners": 4,
+    "total_drafts": 10,
+    "unique_owners": 5,
     "team": "CBJ",
     "position": [
       "D"
@@ -25195,7 +26735,8 @@
       "Brian Duong": 2,
       "Ivan Chow": 2,
       "Maanik Bhandari": 2,
-      "Nam Le": 3
+      "Nam Le": 3,
+      "bryan lam": 1
     },
     "player_id": "8478460",
     "championship_wins": 1,
@@ -25231,6 +26772,9 @@
       "Brian Duong": [
         "20242025",
         "20252026"
+      ],
+      "bryan lam": [
+        "20262027"
       ]
     },
     "draft_history": {
@@ -25277,6 +26821,11 @@
       "20252026": {
         "draft_number": 27,
         "round_number": 4,
+        "team": "CBJ"
+      },
+      "20262027": {
+        "draft_number": 13,
+        "round_number": 2,
         "team": "CBJ"
       }
     }
