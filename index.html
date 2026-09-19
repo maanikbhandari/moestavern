@@ -1744,7 +1744,8 @@
     let currentPickFilter = '';
     let currentSort = 'drafts';
 
-        // Normalize team abbreviations for NHL logo API
+        // players.json stores canonical NHL codes; these are the legacy spellings that
+        // fourteen seasons of scrapes left behind, kept so old data still resolves.
         const teamLogoMap = {
             'LA': 'LAK',
             'NJ': 'NJD',
@@ -1752,13 +1753,16 @@
             'TB': 'TBL',
             'Buf': 'BUF',
             'Chi': 'CHI',
+            'Cls': 'CBJ',
             'Det': 'DET',
             'Fla': 'FLA',
+            'Mon': 'MTL',
             'Nsh': 'NSH',
             'Pit': 'PIT',
             'Sea': 'SEA',
             'StL': 'STL',
             'Tor': 'TOR',
+            'Utah': 'UTA',
             'Van': 'VAN',
             'Vgs': 'VGK'
         };
